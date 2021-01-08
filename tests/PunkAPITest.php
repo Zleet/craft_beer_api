@@ -1,6 +1,6 @@
 <?php
 
-use Zleet\PunkAPI;
+use Zleet\PunkAPI\PunkAPI;
 
 class PunkAPITest extends \PHPUnit\Framework\TestCase
 {
@@ -10,12 +10,5 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf(PunkAPI::class, $punkAPI);
     }
-
-
-
-
-
-
-
 
 }
