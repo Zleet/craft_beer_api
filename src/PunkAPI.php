@@ -16,12 +16,12 @@ namespace Zleet\PunkAPI;
 // ============================================================================
 class PunkAPI
 {
-    private $ABVLowerBound;
-    private $ABVUpperBound;
-    private $IBULowerBound;
-    private $IBUUpperBound;
-    private $EBCLowerBound;
-    private $EBCUpperBound;
+    private $abvLowerBound;
+    private $abvUpperBound;
+    private $ibuLowerBound;
+    private $ibuUpperBound;
+    private $ebcLowerBound;
+    private $ebcUpperBound;
     private $beer;
     private $yeast;
     private $brewedBefore;
@@ -32,12 +32,12 @@ class PunkAPI
     private $ids;
 
     public function __construct(
-        $ABVLowerBound  = 0,
-        $ABVUpperBound  = 100,
-        $IBULowerBound  = 0,
-        $IBUUpperBound  = 100,
-        $EBCLowerBound  = 0,
-        $EBCUpperBound  = 100,
+        $abvLowerBound  = 0,
+        $abvUpperBound  = 100,
+        $ibuLowerBound  = 0,
+        $ibuUpperBound  = 100,
+        $ebcLowerBound  = 2,
+        $ebcUpperBound  = 27,
         $beer           = '',
         $yeast          = '',
         $brewedBefore   = '12-2100',    // mm-yyyy (e.g. '10-2011')
@@ -48,12 +48,12 @@ class PunkAPI
         $ids            = ''
     ) {
         // initialise all the properties for the new PunkAPI object
-        $this->ABVLowerBound    = $ABVLowerBound;
-        $this->ABVUpperBound    = $ABVUpperBound;
-        $this->IBULowerBound    = $IBULowerBound;
-        $this->IBUUpperBound    = $IBUUpperBound;
-        $this->EBCLowerBound    = $EBCLowerBound;
-        $this->EBCUpperBound    = $EBCUpperBound;
+        $this->abvLowerBound    = $abvLowerBound;
+        $this->abvUpperBound    = $abvUpperBound;
+        $this->ibuLowerBound    = $ibuLowerBound;
+        $this->ibuUpperBound    = $ibuUpperBound;
+        $this->ebcLowerBound    = $ebcLowerBound;
+        $this->ebcUpperBound    = $ebcUpperBound;
         $this->beer             = $beer;
         $this->yeast            = $yeast;
         $this->brewedBefore     = $brewedBefore;
@@ -64,7 +64,8 @@ class PunkAPI
         $this->ids              = $ids;
     }
 
-    public function setABVLowerBound($lowerBound)
+    // ABV can range from 0 to 100
+    public function setAbvLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
             return;
@@ -74,15 +75,15 @@ class PunkAPI
             return;
         }
 
-        $this->ABVLowerbound = $lowerBound;
+        $this->AbvLowerbound = $lowerBound;
     }
 
-    public function getABVLowerBound($lowerBound)
+    public function getAbvLowerBound()
     {
-        return $this->ABVLowerBound;
+        return $this->abvLowerBound;
     }
 
-    public function setABVUpperBound($upperBound)
+    public function setAbvUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
             return;
@@ -92,16 +93,16 @@ class PunkAPI
             return;
         }
 
-        $this->ABVUpperbound = $upperBound;
+        $this->abvUpperbound = $upperBound;
     }
 
-    public function getABVUpperBound($upperBound)
+    public function getAbvUpperBound()
     {
-        return $this->ABVUpperBound;
+        return $this->abvUpperBound;
     }
 
     // The IBU scale ranges from 1 to 100
-    public function setIBULowerBound($lowerBound)
+    public function setIbuLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
             return;
@@ -111,15 +112,15 @@ class PunkAPI
             return;
         }
 
-        $this->IBULowerbound = $lowerBound;
+        $this->ibuLowerbound = $lowerBound;
     }
 
-    public function getIBULowerBound($lowerBound)
+    public function getIbuLowerBound()
     {
-        return $this->IBULowerBound;
+        return $this->ibuLowerBound;
     }
 
-    public function setIBUUpperBound($upperBound)
+    public function setIbuUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
             return;
@@ -129,52 +130,52 @@ class PunkAPI
             return;
         }
 
-        $this->IBUUpperbound = $upperBound;
+        $this->ibuUpperbound = $upperBound;
     }
 
-    public function getIBUUpperBound($upperBound)
+    public function getIbuUpperBound()
     {
-        return $this->IBUUpperBound;
+        return $this->ibuUpperBound;
     }
 
     // The EBC scale ranges from 2 to 27
-    public function setEBCLowerBound($lowerBound)
+    public function setEbcLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
             return;
         }
 
-        if ($lowerBound < 2) {
+        if (($lowerBound < 2) || ($lowerBound > 27)) {
             return;
         }
 
-        $this->EBCLowerbound = $lowerBound;
+        $this->ebcLowerbound = $lowerBound;
     }
 
-    public function getEBCLowerBound($lowerBound)
+    public function getEbcLowerBound()
     {
-        return $this->EBCLowerBound;
+        return $this->ebcLowerBound;
     }
 
-    public function setEBCUpperBound($upperBound)
+    public function setEbcUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
             return;
         }
 
-        if ($upperBound > 27) {
+        if (($upperBound > 27) || ($upperBound < 2)) {
             return;
         }
 
-        $this->EBCUpperbound = $upperBound;
+        $this->ebcUpperbound = $upperBound;
     }
 
-    public function getEBCUpperBound($upperBound)
+    public function getEbcUpperBound()
     {
-        return $this->EBCUpperBound;
+        return $this->ebcUpperBound;
     }
 
-    public function setBeer($beer)
+    public function setBeer(string $beer)
     {
         if (!is_string($beer)) {
             return;
@@ -183,12 +184,12 @@ class PunkAPI
         $this->beer = $beer;
     }
 
-    public function getBeer($beer)
+    public function getBeer()
     {
         return $this->beer;
     }
 
-    public function setYeast($yeast)
+    public function setYeast(string $yeast)
     {
         if (!is_string($yeast)) {
             return;
@@ -197,16 +198,13 @@ class PunkAPI
         $this->yeast = $yeast;
     }
 
-    public function getYeast($yeast)
+    public function getYeast()
     {
         return $this->yeast;
     }
 
-    public function setBrewedBefore($brewedBefore)
+    public function setBrewedBefore(string $brewedBefore)
     {
-        // if (!isValidBrewDateBound($brewedBefore)) {
-        //     return;
-        // }
         $date = DateTime::createFromFormat('m-Y', $brewedBefore);
         if ($date === false) {
             return;
@@ -215,7 +213,7 @@ class PunkAPI
         $this->brewedBefore = $brewedBefore;
     }
 
-    public function getBrewedBefore($brewedBefore)
+    public function getBrewedBefore()
     {
         return $this->brewedBefore;
     }
@@ -230,7 +228,7 @@ class PunkAPI
         $this->brewedAfter = $brewedAfter;
     }
 
-    public function getBrewedAfter($brewedAfter)
+    public function getBrewedAfter()
     {
         return $this->brewedAfter;
     }
@@ -241,9 +239,9 @@ class PunkAPI
         // bookmark (8/1/21 at 1202)
     }
 
-    public function getHops($hops)
+    public function getHops()
     {
-        // code here
+        return $this->hops;
     }
 
     public function setMalt($malt)
@@ -251,9 +249,9 @@ class PunkAPI
         // code here    
     }
 
-    public function getMalt($malt)
+    public function getMalt()
     {
-        // code here
+        return $this->malt;
     }
 
     public function setFood($food)
@@ -261,9 +259,9 @@ class PunkAPI
         // code here    
     }
 
-    public function getFood($food)
+    public function getFood()
     {
-        // code here
+        return $this->food;
     }
 
     public function setIDs($ids)
@@ -271,9 +269,9 @@ class PunkAPI
         // code here    
     }
 
-    public function getIDs($ids)
+    public function getIDs()
     {
-        // code here
+        return $this->ids;
     }
 
     // Helper function to check that a string consists entirely of characters
