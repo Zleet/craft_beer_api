@@ -272,14 +272,19 @@ class PunkAPI
         return $this->food;
     }
 
-    public function setIDs($ids)
+    public function setIds($ids)
     {
-        if (preg_match('/[0123456789 |]*/', $ids)) {
+        // why is this regex not working???
+        // if (preg_match('/[0123456789 |]*/', $ids)) {
+        //     $this->ids = $ids;
+        // }
+
+        if ($this->containsOnlyWhitelistCharacters($ids, '0123456789 |')) {
             $this->ids = $ids;
         }
     }
 
-    public function getIDs()
+    public function getIds()
     {
         return $this->ids;
     }
@@ -346,6 +351,25 @@ class PunkAPI
         $singleBeerInfo = $singleBeerInfo[0];
 
         return $singleBeerInfo;
+    }
+
+    /**
+     * Check that $testString consists solely of characters that can be found in
+     * the string $whitelist. If this is so, return 1, otherwise return 0.
+     */
+    private function containsOnlyWhitelistCharacters($testString, $whitelist)
+    {
+        $totalCharacters = strlen($testString);
+        for ($i = 0; $i < $totalCharacters; ++$i) {
+            $currentCharacter = substr($testString, $i, 1);
+            if (strpos('_' . $whitelist, $currentCharacter) === false) {
+                return 0;
+            }
+        }
+
+        // if we've fallen through, all of the characters in $testString can be
+        // found in the string $whiteList
+        return 1;
     }
 
 }

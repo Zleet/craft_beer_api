@@ -36,7 +36,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         // check default beer
         $this->assertEquals("", $punkAPI->getBeer(),
-                'Default beer is not an empty string.');
+            'Default beer is not an empty string.');
 
         // check default yeast
         $this->assertEquals("", $punkAPI->getYeast(),
@@ -110,19 +110,19 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         // test a bunch of sample key/value pairs that should be returned with
         // the beer with ID 1
         $keysAndValuesToCheck = [
-            "name"              => "Buzz",
-            "tagline"           => "A Real Bitter Experience.",
-            "first_brewed"      => "09/2007",
-            "abv"               => 4.5,
-            "ibu"               => 60,
-            "target_fg"         => 1010,
-            "target_og"         => 1044,
-            "ebc"               => 20,
-            "srm"               => 10,
-            "ph"                => 4.4,
+            "name" => "Buzz",
+            "tagline" => "A Real Bitter Experience.",
+            "first_brewed" => "09/2007",
+            "abv" => 4.5,
+            "ibu" => 60,
+            "target_fg" => 1010,
+            "target_og" => 1044,
+            "ebc" => 20,
+            "srm" => 10,
+            "ph" => 4.4,
             "attenuation_level" => 75
         ];
-        foreach($keysAndValuesToCheck as $keyToCheck => $valueToCheck) {
+        foreach ($keysAndValuesToCheck as $keyToCheck => $valueToCheck) {
             $this->assertEquals($valueToCheck,
                 $singleBeerInfo[$keyToCheck],
                 "\nKey '" . $keyToCheck . "' should contain:\n"
@@ -139,20 +139,52 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         ];
         foreach ($keysThatShouldHaveArrayValues as $keyToCheckForArray) {
             $this->assertIsArray($singleBeerInfo[$keyToCheckForArray],
-            "Key '" . $keyToCheckForArray
+                "Key '" . $keyToCheckForArray
                 . "' does not have an array value.");
         }
     }
 
-    
+    /**
+     * Test setting the ids value using a bad id string. The ids value for a
+     * PunkAPI object should be a string that consists only of the characters in
+     * '0123456789| '.
+     */
+    public function testSettingABadId()
+    {
+        // create a new PunkAPI object with default properties
+        $punkApi = new PunkAPI();
 
-    // public function testSettingAndGettingIds()
-    // {
-        // test setting an ID with a good id string
+        // attempt to set the id property with a string containing bad
+        // characters
+        $punkApi->setIds('34r|3g|dsgsdg|45|23g|bb3|g');
 
-        // test setting an ID with a bad id string
+        // check that the bad value for id was not set and it is actually still
+        // the default value (i.e. an empty string)
+        $this->assertEquals('', $punkApi->getIds(),
+            'PunkAPI object allows setting of ID property with '
+            . 'invalid characters (i.e. characters not in "0123456789 |").');
+    }
 
-    // }
+    /**
+     * Test setting the ids value using a good id string. The ids value for a
+     * PunkAPI object should be a string that consists only of the characters in
+     * '0123456789| '.
+     */
+    public function testSettingAGoodId()
+    {
+        // create a new PunkAPI object with default properties
+        $punkApi = new PunkAPI();
+
+        // attempt to set the id property with a string containing all good
+        // characters
+        $punkApi->setIds('34|3|45|23|3');
+
+        // check that the good value for id was set
+        $this->assertEquals('34|3|45|23|3', $punkApi->getIds(),
+            "PunkAPI object won't allow an ids value with a valid "
+            . "id string to be set. (i.e. an id string containing only "
+            . 'the characters in "0123456789 |"');
+    }
 
     // more tests here
     // CODE HERE
