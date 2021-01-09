@@ -77,10 +77,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         // fetch the information for the beer with ID 1
         $singleBeerInfo = $punkAPI->single(1);
 
-        // test print
-        // echo "\nSingle Beer Info:\n";
-        // print_r($singleBeerInfo);
-
         // test that the single() method returns an array
         $this->assertIsArray($singleBeerInfo,
             "The single() method does not return an array.");
@@ -184,6 +180,17 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             "PunkAPI object won't allow an ids value with a valid "
             . "id string to be set. (i.e. an id string containing only "
             . 'the characters in "0123456789 |"');
+    }
+
+    // test getting a random beer
+    public function testGettingARandomBeer() {
+
+        $punkApi = new PunkApi();
+
+        $randomBeer = $punkApi->random();
+
+        $this->assertIsArray($randomBeer, 'The random() method does'
+            . " not return an array.");
     }
 
     // more tests here

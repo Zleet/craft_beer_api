@@ -304,6 +304,63 @@ class PunkAPI
     }
 
     /**
+     * Get a random beer.
+     */
+    public function random() {
+
+        // under the hood, this method simply calls the method
+        // fetchSingleBeerInfoFromPunkApi() with a parameter of 'random'
+        // instead of an integer beer id
+        $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi('random');
+
+        return $jsonResponse;
+    }
+
+    /**
+     * Get all the beers, using parameters set in the properties of the
+     * PunkAPI object
+     */
+    public function all() {
+
+        // build the parameter string, which will go at the end of the url
+        $params = '';
+
+        // loop through numeric properties and add them to the url parameters
+        $intPropertiesAndUrlParamNames = [
+            "abvLowerBound" => "abv_gt",
+            "abvUpperBound" => "abv_lt",
+            "ibuLowerBound" => "ibu_gt",
+            "ibuUpperBound" => "ibu_lt",
+            "ebcLowerBound" => "ebc_gt",
+            "ebcUpperBound" => "ebc_lt"
+        ];
+        foreach ($propertyNameAndUrlParamName as $propertyName => $urlParam) {
+            if (strlen($this->{$propertyName}) > 0) {
+                $params .= $urlParam . '=' . $this->{$propertyName};
+            }
+        }
+
+        // bookmark (9/1/21 at 1655)
+
+        // loop through string properties. Only add a string property to the
+        // url parameters if it's not an empty string
+        // CODE HERE
+
+
+
+        // prepend the url for the Punk API
+        $url = 'https://api.punkapi.com/v2/beers?' . $params;
+
+        // test print url
+
+        // get the data from the Punk API
+
+        // return the data to the client
+
+
+    }
+
+    /**
      * Testing helper function to save us from hitting an API endpoint every
      * time we want to test. It reads a sample JSON API response from a local
      * file, decodes it and returns it as an associative array.
@@ -371,5 +428,7 @@ class PunkAPI
         // found in the string $whiteList
         return 1;
     }
+
+    //
 
 }
