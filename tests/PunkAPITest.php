@@ -69,7 +69,8 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $punkAPI->getBrewedBefore());
     }
 
-    public function testGetOneBeer() {
+    public function testGetOneBeer()
+    {
 
         $punkAPI = new PunkAPI();
 
@@ -77,8 +78,8 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $singleBeerInfo = $punkAPI->single(1);
 
         // test print
-        echo "\nSingle Beer Info:\n";
-        print_r($singleBeerInfo);
+        // echo "\nSingle Beer Info:\n";
+        // print_r($singleBeerInfo);
 
         // test that the single() method returns an array
         $this->assertIsArray($singleBeerInfo,
@@ -141,12 +142,17 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             "Key '" . $keyToCheckForArray
                 . "' does not have an array value.");
         }
-
-        // more single beer info checks here
-        // CODE HERE
-
     }
 
+    
+
+    // public function testSettingAndGettingIds()
+    // {
+        // test setting an ID with a good id string
+
+        // test setting an ID with a bad id string
+
+    // }
 
     // more tests here
     // CODE HERE

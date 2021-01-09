@@ -21,6 +21,8 @@
 
 namespace Zleet\PunkAPI;
 
+use GuzzleHttp\Client;
+
 class PunkAPI
 {
     private $abvLowerBound;
@@ -212,12 +214,9 @@ class PunkAPI
 
     public function setBrewedBefore(string $brewedBefore)
     {
-        $date = DateTime::createFromFormat('m-Y', $brewedBefore);
-        if ($date === false) {
-            return;
+        if (preg_match('/[0-9]{2}-[0-9]{4}/', $brewedBefore)) {
+            $this->brewedBefore = $brewedBefore;
         }
-
-        $this->brewedBefore = $brewedBefore;
     }
 
     public function getBrewedBefore()
@@ -227,12 +226,9 @@ class PunkAPI
 
     public function setBrewedAfter($brewedAfter)
     {
-        $date = DateTime::createFromFormat('m-Y', $brewedAfter);
-        if ($date === false) {
-            return;
+        if (preg_match('/[0-9]{2}-[0-9]{4}/', $brewedAfter)) {
+            $this->brewedAfter = $brewedAfter;
         }
-
-        $this->brewedAfter = $brewedAfter;
     }
 
     public function getBrewedAfter()
@@ -254,7 +250,9 @@ class PunkAPI
 
     public function setMalt($malt)
     {
-        // code here    
+        if (is_string($malt)) {
+            $this->malt = $malt;
+        }
     }
 
     public function getMalt()
@@ -264,7 +262,9 @@ class PunkAPI
 
     public function setFood($food)
     {
-        // code here    
+        if (is_string($food)) {
+            $this->food = $food;
+        }
     }
 
     public function getFood()
@@ -274,7 +274,9 @@ class PunkAPI
 
     public function setIDs($ids)
     {
-        // code here    
+        if (preg_match('/[0123456789 |]*/', $ids)) {
+            $this->ids = $ids;
+        }
     }
 
     public function getIDs()
@@ -287,11 +289,11 @@ class PunkAPI
 
         // used for testing to avoid hitting API endpoint every time
         // (comment out when we switch to actually accessing the endpoint)
-        $jsonResponse = $this->readSingleBeerInfoFromLocalFile();
+        // $jsonResponse = $this->readSingleBeerInfoFromLocalFile();
 
         // code for actually retrieving the single beer information from
         // the endpoint goes here (call another helper function)
-        // CODE HERE
+        $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi($id);
 
         return $jsonResponse;
     }
@@ -321,6 +323,26 @@ class PunkAPI
 
         $singleBeerJSON = file_get_contents($jsonFilename);
         $singleBeerInfo = json_decode($singleBeerJSON, 1);
+        $singleBeerInfo = $singleBeerInfo[0];
+
+        return $singleBeerInfo;
+    }
+
+    /**
+     * Helper function to fetch the information for a single beer using the
+     * Punk API
+     */
+    private function fetchSingleBeerInfoFromPunkApi($id) {
+
+        $client = new Client();
+
+        // build the url for the request
+        $url = 'https://api.punkapi.com/v2/beers/' . $id;
+
+        // fetch the info for the beer with id $id
+        $response = $client->request('GET', $url);
+
+        $singleBeerInfo = json_decode($response->getBody(), true);
         $singleBeerInfo = $singleBeerInfo[0];
 
         return $singleBeerInfo;
