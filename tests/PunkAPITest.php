@@ -1,6 +1,7 @@
 <?php
 
 use Zleet\PunkAPI\PunkAPI;
+use GuzzleHttp\Client;
 
 class PunkAPITest extends \PHPUnit\Framework\TestCase
 {
@@ -72,13 +73,9 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         $punkAPI = new PunkAPI();
 
-        $beerInfo = $punkAPI->single(1);
+        $singleBeerInfo = $punkAPI->single(1);
 
-        // test print
-        echo "Single beer info retrieved:" . "\n" . $beerInfo;
-
-        // test the JSON
-
+        return $singleBeerInfo;
     }
 
 

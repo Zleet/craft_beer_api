@@ -5,13 +5,14 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Michael McLarnon",
-            "email": "michaelmclarnon@hotmail.co.uk"
+            "name"  : "Michael McLarnon",
+            "email" : "michaelmclarnon@hotmail.co.uk"
         }
     ],
     "minimum-stability": "dev",
     "require-dev": {
-        "phpunit/phpunit": "9.5.x-dev"
+        "phpunit/phpunit"   : "9.5.x-dev",
+        "guzzlehttp/guzzle" : "^7.0"
     },
     "autoload" : {
       "psr-4": {

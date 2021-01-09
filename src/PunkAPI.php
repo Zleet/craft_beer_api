@@ -283,16 +283,17 @@ class PunkAPI
         $jsonDemoReply = file_get_contents(
             "JSON_sample_reply_for_testing.json");
 
+        $jsonDemoReply = json_decode($jsonDemoReply, 1);
+
         return jsonDemoReply;
     }
 
     // get a single beer
     public function single($id) {
 
-        // use the test JSON rather than hit the API endpoint
-        $jsonReply = $this->readJSONSampleFromLocalFile();
+        $jsonResponse = $this->readJSONSampleFromLocalFile();
 
-        return $jsonReply;
+        return $jsonResponse;
     }
 
 
