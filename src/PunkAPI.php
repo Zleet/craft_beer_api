@@ -1,19 +1,26 @@
 <?php
-// ============================================================================
-// Punk API (Craft Beer API)
-// https://punkapi.com/documentation/v2
-//
-// Wikipedia article on beer measurement:
-// https://en.wikipedia.org/wiki/Beer_measurement
-// (Explains some of the terms used below (e.g. 'IBU', 'EBC' etc.))
-//
-// IBU - International Bitterness Units
-//       (used to quantify the bitterness of beer)
-// EBC - A measure of the colour of the beer, by comparing it to a series of
-//       amber to brown glass slides
-// ============================================================================
+
+/**
+ * A class for accessing the Punk API (Craft Beer API)
+ *
+ * Use this class to retrieve information from the Punk API by Brewdog
+ *
+ * Documentation here:
+ * https://punkapi.com/documentation/v2
+ *
+ * Wikipedia article on beer measurement:
+ * https://en.wikipedia.org/wiki/Beer_measurement
+ * (Explains some of the terms used below (e.g. 'IBU', 'EBC' etc.))
+ *
+ * Some (perhaps less well known) units used when accessing the Punk API:
+ * IBU - International Bitterness Units
+ *       (used to quantify the bitterness of beer)
+ * EBC - A measure of the colour of the beer, by comparing it to a series of
+ *       amber to brown glass slides
+ */
+
 namespace Zleet\PunkAPI;
-// ============================================================================
+
 class PunkAPI
 {
     private $abvLowerBound;
@@ -275,19 +282,6 @@ class PunkAPI
         return $this->ids;
     }
 
-    // Testing helper function to save us from hitting an API endpoint every
-    // time we want to test. It reads a sample JSON API response from a local
-    // file, decodes it and returns it as an associative array.
-    private function readJSONSampleFromLocalFile() {
-
-        $jsonDemoReply = file_get_contents(
-            "JSON_sample_reply_for_testing.json");
-
-        $jsonDemoReply = json_decode($jsonDemoReply, 1);
-
-        return jsonDemoReply;
-    }
-
     // get a single beer
     public function single($id) {
 
@@ -296,11 +290,33 @@ class PunkAPI
         return $jsonResponse;
     }
 
+    /**
+     * Testing helper function to save us from hitting an API endpoint every
+     * time we want to test. It reads a sample JSON API response from a local
+     * file, decodes it and returns it as an associative array.
+     */
+    private function readJSONSampleFromLocalFile() {
 
+        // get all the elements in the current directory
+        $dirElements = explode('/', __DIR__);
+
+        // remove the final directory from the list of folders and replace it
+        // with 'tests'
+        array_pop($dirElements);
+
+        // append the 'tests' directory to the list of folders
+        $dirElements[] = 'tests';
+
+        // implode the folders along slashes
+        $filePath = implode('/', $dirElements);
+
+        // append the name of the local JSON file
+        $jsonFilename = $filePath . "/JSON_sample_reply_for_testing.json";
+
+        $singleBeerJSON = file_get_contents($jsonFilename);
+        $singleBeerInfo = json_decode($singleBeerJSON, 1);
+
+        return $singleBeerInfo;
+    }
 
 }
-// ============================================================================
-// ============================================================================
-// ============================================================================
-// ============================================================================
-// ============================================================================

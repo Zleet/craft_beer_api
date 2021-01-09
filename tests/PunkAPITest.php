@@ -75,7 +75,9 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         $singleBeerInfo = $punkAPI->single(1);
 
-        return $singleBeerInfo;
+        // test print
+        echo "\nSingle Beer Info:\n";
+        print_r($singleBeerInfo);
     }
 
 
