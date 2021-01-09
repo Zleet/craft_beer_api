@@ -285,7 +285,13 @@ class PunkAPI
     // get a single beer
     public function single($id) {
 
-        $jsonResponse = $this->readJSONSampleFromLocalFile();
+        // used for testing to avoid hitting API endpoint every time
+        // (comment out when we switch to actually accessing the endpoint)
+        $jsonResponse = $this->readSingleBeerInfoFromLocalFile();
+
+        // code for actually retrieving the single beer information from
+        // the endpoint goes here (call another helper function)
+        // CODE HERE
 
         return $jsonResponse;
     }
@@ -295,7 +301,7 @@ class PunkAPI
      * time we want to test. It reads a sample JSON API response from a local
      * file, decodes it and returns it as an associative array.
      */
-    private function readJSONSampleFromLocalFile() {
+    private function readSingleBeerInfoFromLocalFile() {
 
         // get all the elements in the current directory
         $dirElements = explode('/', __DIR__);
@@ -315,6 +321,7 @@ class PunkAPI
 
         $singleBeerJSON = file_get_contents($jsonFilename);
         $singleBeerInfo = json_decode($singleBeerJSON, 1);
+        $singleBeerInfo = $singleBeerInfo[0];
 
         return $singleBeerInfo;
     }
