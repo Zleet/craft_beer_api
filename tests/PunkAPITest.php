@@ -68,10 +68,20 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $punkAPI->getBrewedBefore());
     }
 
+    public function testGetOneBeer() {
+
+        $punkAPI = new PunkAPI();
+
+        $beerInfo = $punkAPI->single(1);
+
+        // test print
+        echo "Single beer info retrieved:" . "\n" . $beerInfo;
+
+        // test the JSON
+
+    }
 
 
-
-    
     // more tests here
     // CODE HERE
 

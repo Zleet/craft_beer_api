@@ -235,8 +235,9 @@ class PunkAPI
 
     public function setHops($hops)
     {
-        // code here    
-        // bookmark (8/1/21 at 1202)
+        if (is_string($hops)) {
+            $this->hops = $hops;
+        }
     }
 
     public function getHops()
@@ -274,25 +275,27 @@ class PunkAPI
         return $this->ids;
     }
 
-    // Helper function to check that a string consists entirely of characters
-    // supplied in a whitelist string
-    private function stringContainsOnlyWhitelistCharacters(
-        $stringToCheck,
-        $whitelistString
-    ) {
-        // loop through all the characters in $stringToCheck and check that
-        // they're all in $whitelistString
-        $totalCharacters = strlen($stringToCheck);
-        for ($i = 0; $i < $totalCharacters; ++$i) {
-            $currentCharacter = substr($stringToCheck, $i, 1);
-            if (strpos($whitelistString, $currentCharacter) === false) {
-                return 0;
-            }
-        }
-        // if we've fallen through, all the characters in $stringToCheck have
-        // been found in $whitelistString
-        return 1;
+    // Testing helper function to save us from hitting an API endpoint every
+    // time we want to test. It reads a sample JSON API response from a local
+    // file, decodes it and returns it as an associative array.
+    private function readJSONSampleFromLocalFile() {
+
+        $jsonDemoReply = file_get_contents(
+            "JSON_sample_reply_for_testing.json");
+
+        return jsonDemoReply;
     }
+
+    // get a single beer
+    public function single($id) {
+
+        // use the test JSON rather than hit the API endpoint
+        $jsonReply = $this->readJSONSampleFromLocalFile();
+
+        return $jsonReply;
+    }
+
+
 
 }
 // ============================================================================
