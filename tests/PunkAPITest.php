@@ -204,19 +204,13 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $beers = $punkApi->all();
 
         // test print
-        // echo "\n\nBeers:\n";
-        // print_r($beers);
-        // echo "\n\n";
+        echo "\n\nBeers:\n";
+        print_r($beers);
+        echo "\n\n";
 
         // test that an array of beers have been returned
         $this->assertIsArray($beers, 'The all() method does not return'
             . ' an array.');
-
-
-
-
-
-
     }
 
     // more tests here
