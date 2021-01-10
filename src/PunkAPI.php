@@ -325,8 +325,18 @@ class PunkAPI
         // build the parameter string, which will go at the end of the url
         $params = '';
 
+        // we're going to build an array of strings, each one of which is
+        // is composed of a parameter and a value, joined by an equals sign
+        // e.g. 'abv-gt=6' etc.
+        // Later, we're going to implode these along ampersands to build the
+        // final url
+        $parameterAndValueStrings = [];
+
+        // get all the variables of the current object and test print them
+        $objectVariables = get_object_vars($this);
+
         // loop through numeric properties and add them to the url parameters
-        $intPropertiesAndUrlParamNames = [
+        $numericPropertiesAndUrlParams = [
             "abvLowerBound" => "abv_gt",
             "abvUpperBound" => "abv_lt",
             "ibuLowerBound" => "ibu_gt",
@@ -334,30 +344,45 @@ class PunkAPI
             "ebcLowerBound" => "ebc_gt",
             "ebcUpperBound" => "ebc_lt"
         ];
-        foreach ($propertyNameAndUrlParamName as $propertyName => $urlParam) {
-            if (strlen($this->{$propertyName}) > 0) {
-                $params .= $urlParam . '=' . $this->{$propertyName};
-            }
+        foreach ($numericPropertiesAndUrlParams as $propertyName => $urlParam) {
+            $parameterAndValue = $urlParam . '=';
+            $parameterAndValue .= $objectVariables[$propertyName];
+            $parameterAndValueStrings[] = $parameterAndValue;
         }
-
-        // bookmark (9/1/21 at 1655)
 
         // loop through string properties. Only add a string property to the
         // url parameters if it's not an empty string
-        // CODE HERE
-
-
+        $stringPropertiesAndUrlParams = [
+            "beer"  => "beer_name",
+            "yeast" => "yeast",
+            "hops"  => "hops",
+            "malt"  => "malt",
+            "food"  => "food",
+            "ids"   => "ids"
+        ];
+        foreach ($stringPropertiesAndUrlParams as $propertyName => $urlParam) {
+            if (strlen($objectVariables[$propertyName]) > 0) {
+                // get property value and replace spaces with underscores
+                $propertyValue = $objectVariables[$propertyName];
+                $propertyValue = str_replace(' ', '_',
+                    $propertyValue);
+                $parameterAndValue = $urlParam . '=';
+                $parameterAndValue .= $propertyValue;
+                $parameterAndValueStrings[] = $parameterAndValue;
+            }
+        }
 
         // prepend the url for the Punk API
-        $url = 'https://api.punkapi.com/v2/beers?' . $params;
-
-        // test print url
+        $url = 'https://api.punkapi.com/v2/beers?';
+        $url .= implode('&', $parameterAndValueStrings);
 
         // get the data from the Punk API
+        $client = new Client();
+        $response = $client->request('GET', $url);
 
-        // return the data to the client
+        $beerInfo = json_decode($response->getBody(), true);
 
-
+        return $beerInfo;
     }
 
     /**

@@ -191,6 +191,32 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         $this->assertIsArray($randomBeer, 'The random() method does'
             . " not return an array.");
+
+        // test print
+        $punkApi->all();
+    }
+
+    // test the all() method for retrieving all beers
+    public function testGettingAllBeers() {
+
+        $punkApi = new PunkApi();
+
+        $beers = $punkApi->all();
+
+        // test print
+        // echo "\n\nBeers:\n";
+        // print_r($beers);
+        // echo "\n\n";
+
+        // test that an array of beers have been returned
+        $this->assertIsArray($beers, 'The all() method does not return'
+            . ' an array.');
+
+
+
+
+
+
     }
 
     // more tests here
