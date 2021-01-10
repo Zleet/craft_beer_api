@@ -298,9 +298,23 @@ class PunkAPI
 
         // code for actually retrieving the single beer information from
         // the endpoint goes here (call another helper function)
-        $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi($id);
+        // $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi($id);
 
-        return $jsonResponse;
+        // we need to return a single beer object rather than json
+        // Let's create a new Beer object
+        $beer = new Beer();
+
+        // read the info for a single beer object from a json file in the
+        // tests subfolder
+        $jsonText = file_get_contents('tests/single_beer_json.json');
+        $beerInfo = json_decode($jsonText, 0);
+
+        // use BeerHydrator::hydrate($beer, $beerInfo) to fill the beer object
+        // with information
+        $beer = BeerHydrator::hydrate($beer, $beerInfo);
+
+        // return the hydrated beer object
+        return $beer;
     }
 
     /**

@@ -32,7 +32,7 @@ class Beer
     private $brewersTips;
     private $contributedBy;
 
-    public __construct() {
+    public function __construct() {
         // code here
     }
 
