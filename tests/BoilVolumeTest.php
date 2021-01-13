@@ -15,15 +15,13 @@ class BoilVolumeTest extends \PHPUnit\Framework\TestCase
 
         $boilVolume = new BoilVolume(99, "millilitres");
 
-        $this->assertEquals(99, $boilVolume->getValue(),
-            "Value returned from BoilVolume object was incorrect.");
+        $this->assertEquals(99, $boilVolume->getValue(), "Value returned from BoilVolume object was incorrect.");
     }
 
     public function testGetUnit() {
 
         $boilVolume = new BoilVolume(82, "litres");
-        $this->assertEquals('litres', $boilVolume->getUnit(),
-            "Unit returned from BoilVolume object was incorrect.");
+        $this->assertEquals('litres', $boilVolume->getUnit(), "Unit returned from BoilVolume object was incorrect.");
     }
 
     public function testConvertBoilVolumeToArray() {
@@ -33,16 +31,13 @@ class BoilVolumeTest extends \PHPUnit\Framework\TestCase
         $arrayBoilVolume = $boilVolume->toArray();
 
         // check that arrayBoilVolume is an array
-        $this->assertIsArray($arrayBoilVolume,
-            "BoilVolume->toArray() does not return an array.");
+        $this->assertIsArray($arrayBoilVolume, "BoilVolume->toArray() does not return an array.");
 
         // check that arrayBoilVolume["value"] is 34
-        $this->assertEquals(34, $arrayBoilVolume["value"],
-            "Value in array representation of BoilVolume object is incorrect.");
+        $this->assertEquals(34, $arrayBoilVolume["value"], "Value in array representation of BoilVolume object is incorrect.");
 
         // check that arrayBoilVolume["unit"] is "litres"
-        $this->assertEquals("litres", $arrayBoilVolume["unit"],
-            "Unit in array representation of BoilVolume object is incorrect.");
+        $this->assertEquals("litres", $arrayBoilVolume["unit"], "Unit in array representation of BoilVolume object is incorrect.");
     }
 
 }
