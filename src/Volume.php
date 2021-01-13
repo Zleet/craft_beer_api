@@ -10,7 +10,7 @@ namespace Zleet\PunkAPI;
 
 use http\Exception\InvalidArgumentException;
 
-Class Volume
+class Volume
 {
     private $value;
     private $unit;
@@ -59,6 +59,14 @@ Class Volume
     public function getUnit() {
 
         return $this->unit;
+    }
+
+    public function toArray()
+    {
+        return [
+            'value' => $this->value,
+            'unit'  => $this->unit
+        ];
     }
 
 }

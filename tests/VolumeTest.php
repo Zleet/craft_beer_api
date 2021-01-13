@@ -26,4 +26,24 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('litres', $volume->getUnit(),
             "Unit returned from volume object was incorrect.");
     }
+
+    public function testConvertVolumeToArray() {
+
+        $volume = new Volume(34, "litres");
+
+        $arrayVolume = $volume->toArray();
+
+        // check that arrayVolume is an array
+        $this->assertIsArray($arrayVolume,
+            "volume->toArray() does not return an array.");
+
+        // check that arrayVolume["value"] is 34
+        $this->assertEquals(34, $arrayVolume["value"],
+            "Value in array representation of Volume object is incorrect.");
+
+        // check that arrayVolume["unit"] is "litres"
+        $this->assertEquals("litres", $arrayVolume["unit"],
+    "Unit in array representation of Volume object is incorrect.");
+    }
+
 }
