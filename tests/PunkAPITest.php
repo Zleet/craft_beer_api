@@ -69,45 +69,45 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $punkAPI->getBrewedBefore());
     }
 
-    public function testGetOneBeer()
-    {
-
-        $punkAPI = new PunkAPI();
-
-        // fetch the information for the beer with ID 1 in object form
-        $beer = $punkAPI->single(1);
-
-        // test print the Beer object
-        echo "\nbeer:\n";
-        print_r($beer);
-
-        // test that the single() method returns an object
-        $this->assertIsObject($beer,
-            "The single() method does not return an object.");
-
-        // test that the tagline returned for the beer with ID 1 is
-        // 'A Real Bitter Experience'
-        $this->assertEquals("A Real Bitter Experience.",
-            $beer->getTagline());
-
-        // check that the API has returned an object containing all the right
-        // properties
-        $propertiesToCheck = [
-            "id", "name", "tagline", "first_brewed", "description", "image_url",
-            "abv", "ibu", "target_fg", "target_og", "ebc", "srm", "ph",
-            "attenuation_level", "volume", "boil_volume", "method",
-            "ingredients", "food_pairing", "brewers_tips",
-            "contributed_by"
-        ];
-        $propertiesAndValues = get_object_vars($beer);
-        $beerProperties = array_keys($propertiesAndValues);
-        foreach ($beerProperties as $currentProperty) {
-            $this->assertArrayHasKey($currentProperty, $beerProperties,
-                "Key '" . $currentProperty
-                . " not present in single beer API response.");
-        }
-
-    }
+//    public function testGetOneBeer()
+//    {
+//
+//        $punkAPI = new PunkAPI();
+//
+//        // fetch the information for the beer with ID 1 in object form
+//        $beer = $punkAPI->single(1);
+//
+//        // test print the Beer object
+//        echo "\nbeer:\n";
+//        print_r($beer);
+//
+//        // test that the single() method returns an object
+//        $this->assertIsObject($beer,
+//            "The single() method does not return an object.");
+//
+//        // test that the tagline returned for the beer with ID 1 is
+//        // 'A Real Bitter Experience'
+//        $this->assertEquals("A Real Bitter Experience.",
+//            $beer->getTagline());
+//
+//        // check that the API has returned an object containing all the right
+//        // properties
+//        $propertiesToCheck = [
+//            "id", "name", "tagline", "first_brewed", "description", "image_url",
+//            "abv", "ibu", "target_fg", "target_og", "ebc", "srm", "ph",
+//            "attenuation_level", "volume", "boil_volume", "method",
+//            "ingredients", "food_pairing", "brewers_tips",
+//            "contributed_by"
+//        ];
+//        $propertiesAndValues = get_object_vars($beer);
+//        $beerProperties = array_keys($propertiesAndValues);
+//        foreach ($beerProperties as $currentProperty) {
+//            $this->assertArrayHasKey($currentProperty, $beerProperties,
+//                "Key '" . $currentProperty
+//                . " not present in single beer API response.");
+//        }
+//
+//    }
 
     /**
      * Helper function for testGetOneBeer.
