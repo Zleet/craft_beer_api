@@ -74,59 +74,77 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         $punkAPI = new PunkAPI();
 
-        // fetch the information for the beer with ID 1
-        $singleBeerInfo = $punkAPI->single(1);
+        // fetch the information for the beer with ID 1 in object form
+        $beer = $punkAPI->single(1);
+
+        // test print the Beer object
+        echo "\nbeer:\n";
+        print_r($beer);
 
         // test that the single() method returns an object
-        $this->assertIsObject($singleBeerInfo,
+        $this->assertIsObject($beer,
             "The single() method does not return an object.");
 
-//        /*// test that the tagline returned for the beer with ID 1 is
-//        // 'A Real Bitter Experience'
-//        $this->assertEquals("A Real Bitter Experience.",
-//            $singleBeerInfo["tagline"]);
-//
-//        // check that the "id" key is present in the response
-//        $this->assertArrayHasKey("id", $singleBeerInfo,
-//            "Key 'id' is not present in the API response.");
-//
-//        // check that the API has returned all the proper keys in its response
-//        $keysToCheck = [
-//            "id", "name", "tagline", "first_brewed", "description", "image_url",
-//            "abv", "ibu", "target_fg", "target_og", "ebc", "srm", "ph",
-//            "attenuation_level", "volume", "boil_volume", "method",
-//            "ingredients", "food_pairing", "brewers_tips",
-//            "contributed_by"
-//        ];
-//        foreach ($keysToCheck as $currentKey) {
-//            $this->assertArrayHasKey($currentKey, $singleBeerInfo,
-//                "Key '" . $currentKey . " not present in single beer API response.");
-//        }
-//
-//        // test a bunch of sample key/value pairs that should be returned with
-//        // the beer with ID 1
-//        $keysAndValuesToCheck = [
-//            "name" => "Buzz",
-//            "tagline" => "A Real Bitter Experience.",
-//            "first_brewed" => "09/2007",
-//            "abv" => 4.5,
-//            "ibu" => 60,
-//            "target_fg" => 1010,
-//            "target_og" => 1044,
-//            "ebc" => 20,
-//            "srm" => 10,
-//            "ph" => 4.4,
-//            "attenuation_level" => 75
-//        ];
-//        foreach ($keysAndValuesToCheck as $keyToCheck => $valueToCheck) {
-//            $this->assertEquals($valueToCheck,
-//                $singleBeerInfo[$keyToCheck],
-//                "\nKey '" . $keyToCheck . "' should contain:\n"
-//                . $valueToCheck . "\nbut it actually contains:\n"
-//                . $singleBeerInfo[$keyToCheck]
-//            );
-//        }
-//
+        // test that the tagline returned for the beer with ID 1 is
+        // 'A Real Bitter Experience'
+        $this->assertEquals("A Real Bitter Experience.",
+            $beer->getTagline());
+
+        // check that the API has returned an object containing all the right
+        // properties
+        $propertiesToCheck = [
+            "id", "name", "tagline", "first_brewed", "description", "image_url",
+            "abv", "ibu", "target_fg", "target_og", "ebc", "srm", "ph",
+            "attenuation_level", "volume", "boil_volume", "method",
+            "ingredients", "food_pairing", "brewers_tips",
+            "contributed_by"
+        ];
+        $propertiesAndValues = get_object_vars($beer);
+        $beerProperties = array_keys($propertiesAndValues);
+        foreach ($beerProperties as $currentProperty) {
+            $this->assertArrayHasKey($currentProperty, $beerProperties,
+                "Key '" . $currentProperty
+                . " not present in single beer API response.");
+        }
+
+        // test a bunch of sample key/value pairs that should be returned with
+        // the beer with ID 1
+        $keysAndValuesToCheck = [
+            "name" => "Buzz",
+            "tagline" => "A Real Bitter Experience.",
+            "first_brewed" => "09/2007",
+            "abv" => 4.5,
+            "ibu" => 60,
+            "target_fg" => 1010,
+            "target_og" => 1044,
+            "ebc" => 20,
+            "srm" => 10,
+            "ph" => 4.4,
+            "attenuation_level" => 75
+        ];
+        foreach ($keysAndValuesToCheck as $keyToCheck => $valueToCheck) {
+            // convert json style key to getter method name
+            $getterMethodName = $this->convertJsonKeyToGetterMethodName(
+                $keyToCheck
+            );
+            // check json value equals beer object property
+            $objectPropertyName = $this->convertJsonKeyToObjectProperty(
+                $keyToCheck
+            );
+            $this->assertEquals($valueToCheck,
+                $beer->$$getterMethodName,
+                "\nJSON value doesn't match beer object property."
+                . "\nJSON key/value: "
+                . "\nkey - " . $keyToCheck
+                . "\nvalue - " . $valueToCheck
+                . "\nbeer object property/value: "
+                . "\nproperty - " . $objectPropertyName
+                . "\nvalue - " . $beer->$objectPropertyName
+            );
+        }
+
+        // bookmark
+
 //        // check that all the keys which should have arrays as values actually
 //        // do
 //        $keysThatShouldHaveArrayValues = [
@@ -139,6 +157,69 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 //                . "' does not have an array value.");
 //        }
     }
+
+    /**
+     * Helper function for testGetOneBeer.
+     * Converts a json key in the format 'attenuation_level' to a getter method
+     * name in the format 'getAttenuationLevel'
+     */
+    private function convertJsonKeyToGetterMethodName($jsonKey)
+    {
+        // split json key into words
+        $words = explode('_', $jsonKey);
+        // build getter method name
+        $getterMethodName = 'get';
+        // loop through words and append them all with each first letter
+        // capitalised
+        $totalWords = count($words);
+        for ($i = 0; $i < $totalWords; ++$i) {
+            $word = $words[$i];
+            $firstLetter = substr($word, 0, 1);
+            $getterMethodName .= strtoupper($firstLetter);
+            if (strlen($word) > 1) {
+                $restOfWord = substr($word, 1);
+                $getterMethodName .= $restOfWord;
+            }
+        }
+
+        return $getterMethodName;
+    }
+
+    /**
+     * Helper function for testGetOneBeer.
+     * Converts a json key in the format 'attenuation_level' to a property name
+     * in the format 'attenuationLevel'
+     */
+    private function convertJsonKeyToObjectProperty($jsonKey) {
+
+        // split $jsonKey along underscores
+        $words = explode('_', $jsonKey);
+
+        // build property name
+        $propertyName = $words[0];
+
+        $totalWords = count($words);
+        if ($totalWords == 1) {
+            return $propertyName;
+        }
+
+        for ($i = 1; $i < $totalWords; ++$i) {
+            $word = $words[$i];
+            // add first letter, capitalised
+            $firstLetter = substr($word, 0, 1);
+            $propertyName .= strtoupper($firstLetter);
+            // add rest of word
+            if (strlen($word) > 1) {
+                $restOfWord = substr($word, 1);
+                $propertyName .= $restOfWord;
+            }
+        }
+
+        return $propertyName;
+    }
+
+
+
 
     /**
      * Test setting the ids value using a bad id string. The ids value for a

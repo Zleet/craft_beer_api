@@ -307,7 +307,7 @@ class PunkAPI
         // read the info for a single beer object from a json file in the
         // tests subfolder
         $jsonText = file_get_contents('tests/single_beer_json.json');
-        $beerInfo = json_decode($jsonText, 0);
+        $beerInfo = json_decode($jsonText, 1);
 
         // use BeerHydrator::hydrate($beer, $beerInfo) to fill the beer object
         // with information
