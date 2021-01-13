@@ -107,55 +107,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
                 . " not present in single beer API response.");
         }
 
-        // test a bunch of sample key/value pairs that should be returned with
-        // the beer with ID 1
-        $keysAndValuesToCheck = [
-            "name" => "Buzz",
-            "tagline" => "A Real Bitter Experience.",
-            "first_brewed" => "09/2007",
-            "abv" => 4.5,
-            "ibu" => 60,
-            "target_fg" => 1010,
-            "target_og" => 1044,
-            "ebc" => 20,
-            "srm" => 10,
-            "ph" => 4.4,
-            "attenuation_level" => 75
-        ];
-        foreach ($keysAndValuesToCheck as $keyToCheck => $valueToCheck) {
-            // convert json style key to getter method name
-            $getterMethodName = $this->convertJsonKeyToGetterMethodName(
-                $keyToCheck
-            );
-            // check json value equals beer object property
-            $objectPropertyName = $this->convertJsonKeyToObjectProperty(
-                $keyToCheck
-            );
-            $this->assertEquals($valueToCheck,
-                $beer->$$getterMethodName,
-                "\nJSON value doesn't match beer object property."
-                . "\nJSON key/value: "
-                . "\nkey - " . $keyToCheck
-                . "\nvalue - " . $valueToCheck
-                . "\nbeer object property/value: "
-                . "\nproperty - " . $objectPropertyName
-                . "\nvalue - " . $beer->$objectPropertyName
-            );
-        }
-
-        // bookmark
-
-//        // check that all the keys which should have arrays as values actually
-//        // do
-//        $keysThatShouldHaveArrayValues = [
-//            "volume", "boil_volume", "method", "ingredients",
-//            "food_pairing"
-//        ];
-//        foreach ($keysThatShouldHaveArrayValues as $keyToCheckForArray) {
-//            $this->assertIsArray($singleBeerInfo[$keyToCheckForArray],
-//                "Key '" . $keyToCheckForArray
-//                . "' does not have an array value.");
-//        }
     }
 
     /**
