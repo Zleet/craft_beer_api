@@ -15,7 +15,7 @@ class Volume
     private $value;
     private $unit;
 
-    public function __construct($value, $unit) {
+    public function __construct($value, string $unit) {
 
         // test for non-numeric $value
         if (
