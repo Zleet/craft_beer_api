@@ -4,6 +4,9 @@ use Zleet\PunkAPI\Volume;
 
 class VolumeTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Test creating a class
+     */
     public function testClassCreation() {
 
         $volume = new Volume(15, "litres");
@@ -11,6 +14,9 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Volume::class, $volume);
     }
 
+    /**
+     * Test getting the value property
+     */
     public function testGetValue() {
 
         $volume = new Volume(99, "millilitres");
@@ -19,6 +25,9 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
             "Value returned from volume object was incorrect.");
     }
 
+    /**
+     * Test getting the unit property
+     */
     public function testGetUnit() {
 
         $volume = new Volume(82, "litres");
@@ -27,6 +36,9 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
             "Unit returned from volume object was incorrect.");
     }
 
+    /**
+     * Test outputting a Volume object as an array
+     */
     public function testConvertVolumeToArray() {
 
         $volume = new Volume(34, "litres");

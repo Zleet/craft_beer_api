@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A class for creating Volume value objects.
+ * A class for creating BoilVolume value objects.
  * @var integer/float $value - the amount of stuff to include
  * @var string $unit - the units in which $value is mesaured
  */
@@ -9,7 +9,7 @@
 namespace Zleet\PunkAPI;
 use http\Exception\InvalidArgumentException;
 
-class Volume
+class BoilVolume
 {
     private $value;
     private $unit;
