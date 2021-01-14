@@ -15,7 +15,7 @@ class Amount
     private $unit;
 
     /**
-     * Volume constructor.
+     * Amount constructor
      * @param numeric $value    - the amount
      * @param string $unit      - the unit the value is measured in
      */
