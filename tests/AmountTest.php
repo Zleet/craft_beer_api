@@ -7,7 +7,8 @@ class AmountTest extends \PHPUnit\Framework\TestCase
     /**
      * Test creating a class
      */
-    public function testClassCreation() {
+    public function testClassCreation()
+    {
 
         $amount = new Amount(15, "litres");
 
@@ -17,7 +18,8 @@ class AmountTest extends \PHPUnit\Framework\TestCase
     /**
      * Test getting the value property
      */
-    public function testGetValue() {
+    public function testGetValue()
+    {
 
         $amount = new Amount(99, "millilitres");
 
@@ -27,7 +29,8 @@ class AmountTest extends \PHPUnit\Framework\TestCase
     /**
      * Test getting the unit property
      */
-    public function testGetUnit() {
+    public function testGetUnit()
+    {
 
         $amount = new Amount(82, "litres");
 
@@ -37,7 +40,8 @@ class AmountTest extends \PHPUnit\Framework\TestCase
     /**
      * Test outputting an Amount object as an array
      */
-    public function testConvertAmountToArray() {
+    public function testConvertAmountToArray()
+    {
 
         $amount = new Amount(34, "kilograms");
 
