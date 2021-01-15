@@ -26,7 +26,10 @@ class Method
         $this->twist = $this->validateTwist($twist);
     }
 
-    // twist can be null or a string
+    /**
+     * @param string $twist - The twist that goes with the beer
+     * @return string
+     */
     private function validateTwist($twist)
     {
         if (!is_string($twist)) {
@@ -35,24 +38,34 @@ class Method
         return $twist;
     }
 
-    // get mashTemperature
+    /**
+     * @return MashTemperature - the mash temperature
+     */
     public function getMashTemperature()
     {
         return $this->mashTemperature;
     }
 
-    // get fermentation
+    /**
+     * @return Fermentation - the fermentation temperature
+     */
     public function getFermentation()
     {
         return $this->fermentation;
     }
     // get twist
+
+    /**
+     * @return string - the twist that goes with the beer
+     */
     public function getTwist()
     {
         return $this->twist;
     }
 
-    // return the Method object as an array
+    /**
+     * @return array - an array representation of the Method object
+     */
     public function toArray()
     {
         return [

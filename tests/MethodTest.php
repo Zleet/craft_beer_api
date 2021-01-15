@@ -5,8 +5,14 @@ use Zleet\PunkAPI\MashTemperature;
 use Zleet\PunkAPI\Fermentation;
 use Zleet\PunkAPI\Method;
 
+/**
+ * Class MethodTest - tests for the Method class
+ */
 class MethodTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Test creating a Method class
+     */
     public function testClassCreation()
     {
         $temperature = new Temperature('45', 'celcius');
@@ -17,7 +23,10 @@ class MethodTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Method::class, $method);
     }
 
-    // test getting MashTemperature
+    /**
+     * Test creating a Method object and subsequently retrieving
+     * its MashTemperature property
+     */
     public function testGetMashTemperature()
     {
         $temperature = new Temperature('45', 'celcius');
@@ -30,6 +39,11 @@ class MethodTest extends \PHPUnit\Framework\TestCase
     }
 
     // test getting Fermentation
+
+    /**
+     * Test creating a Method object then retrieving the Fermentation
+     * property from it
+     */
     public function testGettingFermentation()
     {
         $temperature = new Temperature('45', 'celcius');
@@ -42,7 +56,9 @@ class MethodTest extends \PHPUnit\Framework\TestCase
 
     }
 
-    // test getting twist
+    /**
+     * Test getting the twist property from a Method object
+     */
     public function testGettingTwist()
     {
         $temperature = new Temperature('45', 'celcius');
@@ -54,6 +70,10 @@ class MethodTest extends \PHPUnit\Framework\TestCase
     }
 
     // test getting the Method object as an array
+
+    /**
+     * Test generating an array representation of a Method object
+     */
     public function testGettingMethodAsAnArray()
     {
         $temperature = new Temperature('45', 'celcius');
