@@ -3,6 +3,9 @@
 use Zleet\PunkAPI\Temperature;
 use Zleet\PunkAPI\Fermentation;
 
+/**
+ * Class FermentationTest
+ */
 class FermentationTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -17,6 +20,10 @@ class FermentationTest extends \PHPUnit\Framework\TestCase
     }
 
     // test getting Temperature
+
+    /**
+     * Test getting the Temperature object from a FermentationTest object
+     */
     public function testGettingTemperature()
     {
         $temperature = new Temperature('39', 'fahrenheit');
@@ -25,7 +32,9 @@ class FermentationTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Temperature::class, $fermentation->getTemperature(), 'Fermentation->getTemperature does not return a Temperature object.');
     }
 
-    // test getting Fermentation object as array
+    /**
+     * Test getting Fermentation object as array
+     */
     public function testGettingFermentationObjectAsArray()
     {
         $temperature = new Temperature('39', 'fahrenheit');
