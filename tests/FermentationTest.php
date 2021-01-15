@@ -22,11 +22,15 @@ class FermentationTest extends \PHPUnit\Framework\TestCase
         $temperature = new Temperature('39', 'fahrenheit');
         $fermentation = new Fermentation($temperature);
 
-        // $this->assertInstanceOf('', '', '');
-        // bookmark (14/1/21 at 1651)
+        $this->assertInstanceOf(Temperature::class, $fermentation->getTemperature(), 'Fermentation->getTemperature does not return a Temperature object.');
     }
 
     // test getting Fermentation object as array
-    // CODE HERE
+    public function testGettingFermentationObjectAsArray()
+    {
+        $temperature = new Temperature('39', 'fahrenheit');
+        $fermentation = new Fermentation($temperature);
 
+        $this->assertIsArray($fermentation->toArray(), "fermentation->toArray() does not return an array.");
+    }
 }

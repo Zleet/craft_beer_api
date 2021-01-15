@@ -28,9 +28,17 @@ class Fermentation
     }
 
     // get temperature
-
+    public function getTemperature()
+    {
+        return $this->temperature;
+    }
 
     // return Fermentation object as array
-    // CODE HERE
+    public function toArray()
+    {
+        return [
+            "temperature" => $this->temperature->toArray()
+        ];
+    }
 
 }

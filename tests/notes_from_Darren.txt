@@ -1,0 +1,106 @@
+Good stuff. Mocking is an important part of testing, so it'll be good for you to get an understanding of that
+
+Michael McLarnon  10:49 AM
+When writing a mock, can I read the JSON response from a local file in the tests folder?
+
+Darren Craig  10:49 AM
+Yep
+
+
+Darren Craig  10:53 AM
+There are two 'types' of tests you need to think about
+
+Michael McLarnon  10:53 AM
+Unit and integration?
+
+
+Message Darren Craig
+
+
+So Unit testing - shouldn't really touch the API. Let's assume the API returns the results you're looking for. So, what you're testing are the methods on your class. If I set something, was it set correctly. If I call a method, does it do what was expected.
+
+Michael McLarnon  10:55 AM
+Hokey doke
+
+Darren Craig  10:55 AM
+So that's where mocking comes in
+
+Michael McLarnon  10:55 AM
+aha
+
+Darren Craig  10:56 AM
+You can mock a response, and test that your methods to get the response return the right things
+
+Michael McLarnon  10:56 AM
+ok
+
+Darren Craig  10:57 AM
+You shouldn't/don't need to test someone else's work. You don't need to test that the API is working properly.
+
+Michael McLarnon  10:57 AM
+ah. ok
+
+Darren Craig  10:57 AM
+If the API breaks or changes, that will soon become apparant
+
+Michael McLarnon  10:57 AM
+ok
+11:00
+Should I write one file for unit testing and a second test file for integration tests?
+11:01
+I suppose if I write them all in one file for now then that makes it simpler to run the tests from the command line
+11:01
+One command line command instead of two
+
+Darren Craig  11:02 AM
+Forget the integration tests for now
+
+Michael McLarnon  11:02 AM
+Unless I write a bash script to execute the two commands
+11:02
+ok
+
+Darren Craig  11:02 AM
+Just get the unit tests working
+
+Michael McLarnon  11:02 AM
+ok. Will do
+
+Darren Craig  11:03 AM
+Don't forget to consider your return types from your methods. What did the instructions ask for?
+
+Michael McLarnon  11:04 AM
+Having a look…
+11:06
+ah, the spec requires a collection of beer objects to be returned?
+11:06
+And I’m returning JSON data
+11:06
+So I need to fix that?
+
+Darren Craig  11:07 AM
+Yeah, so what do you think you should do there?
+
+Michael McLarnon  11:08 AM
+Either write a function that builds beer objects from the json or implement one of the collection objects mentioned in the Collection object article online?
+
+Darren Craig  11:09 AM
+Well, the instructions for single() and random() don't require a collection, but you will need a collection object.
+11:09
+But you'll also need a Beer object.
+11:10
+There's more detail on the Beer opject in the instructions
+11:12
+It can be tempting to get stuck into the code immediately, but it's important to make sure you have a full understanding of all of the expected inputs and outputs of the system before you start.
+
+Michael McLarnon  11:12 AM
+yep
+
+Darren Craig  11:12 AM
+One of the benefits of testing is that it forces you to think about how the package will be used, how it will be interacted wit, what should be returned, what methods are needed, etc.
+
+Michael McLarnon  11:13 AM
+Ok, will get writing the Beer object
+
+Darren Craig  11:13 AM
+For any package, obviously it has to meet the requirements, so always make sure you spend some time really digging into a spec.
