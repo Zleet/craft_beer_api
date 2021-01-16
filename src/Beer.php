@@ -229,18 +229,12 @@ class Beer
         }
         return $contributedBy;
     }
-    
+
     /**
      * =======================
      * BUNCH OF GETTER METHODS
      * =======================
      */
-//    public function setId($id)
-//    {
-//        if (is_integer($id)) {
-//            $this->id = $id;
-//        }
-//    }
 //
 //    public function getId()
 //    {

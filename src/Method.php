@@ -5,6 +5,7 @@
  * A Method value object consists of:
  * @var array $mashTemperatures - an array of MashTemperature objects
  * @var Fermentation $fermentation - the fermentation temperature
+ * @var (string|array) $twist - the twist
  */
 
 namespace Zleet\PunkAPI;
@@ -19,7 +20,7 @@ class Method
     public function __construct(
         array $mashTemperatures,
         Fermentation $fermentation,
-        string $twist
+        $twist
     ) {
         $this->mashTemperatures = $this->validateMashTemperatures(
             $mashTemperatures);
@@ -48,8 +49,9 @@ class Method
      */
     private function validateTwist($twist)
     {
-        if (!is_string($twist)) {
-            throw new \InvalidArgumentException("The twist parameter passed to the Method constructor should be a string.");}
+        if ((!is_string($twist)) && (!is_null($twist))) {
+            throw new \InvalidArgumentException("The twist parameter passed to the Method constructor should be either a string or null.");
+        }
 
         return $twist;
     }
