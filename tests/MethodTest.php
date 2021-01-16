@@ -10,8 +10,7 @@ use Zleet\PunkAPI\Method;
  */
 class MethodTest extends \PHPUnit\Framework\TestCase
 {
-    // private property to hold the Method object that is constructed by
-    // _ before testing
+    // private property to hold the Method object created for testing
     private $methodObject;
 
     // set up a Method object for use in testing
@@ -19,8 +18,9 @@ class MethodTest extends \PHPUnit\Framework\TestCase
     {
         $temperature = new Temperature('45', 'celcius');
         $mashTemperature = new MashTemperature($temperature, 99);
+        $mashTemperatures = [$mashTemperature];
         $fermentation = new Fermentation($temperature);
-        $this->methodObject = new Method($mashTemperature, $fermentation, 'A tasty lemon.');
+        $this->methodObject = new Method($mashTemperatures, $fermentation, 'A tasty lemon.');
     }
 
     /**
@@ -35,10 +35,20 @@ class MethodTest extends \PHPUnit\Framework\TestCase
      * Test creating a Method object and subsequently retrieving
      * its MashTemperature property
      */
-    public function testGetMashTemperature()
+    public function testGetMashTemperatures()
     {
-        $this->assertInstanceOf(MashTemperature::class,
-            $this->methodObject->getMashTemperature());
+        // check that Method->getMashTemperatures() returns an array
+        $this->assertIsArray($this->methodObject->getMashTemperatures(), 'Method->getMashTemperatures() does not return an array.');
+
+        // check that all the elements in the $mashTemperatures array are
+        // MashTemperature objects
+        foreach ($this->methodObject->getMashTemperatures() as $mashTemperature) {
+            $this->assertInstanceOf(
+                MashTemperature::class,
+                $mashTemperature,
+                'Not every element in the array returned by Method->getMashTemperatures is a MashTemperature object.'
+            );
+        }
     }
 
     /**

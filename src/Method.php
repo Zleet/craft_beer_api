@@ -3,7 +3,7 @@
 /**
  * A class for creating Method value objects.
  * A Method value object consists of:
- * @var MashTemperature $mashTemperature - the mash temperature
+ * @var array $mashTemperatures - an array of MashTemperature objects
  * @var Fermentation $fermentation - the fermentation temperature
  */
 
@@ -12,18 +12,34 @@ use http\Exception\InvalidArgumentException;
 
 class Method
 {
-    private $mashTemperature;
+    private $mashTemperatures;
     private $fermentation;
     private $twist;
 
     public function __construct(
-        MashTemperature $mashTemperature,
+        array $mashTemperatures,
         Fermentation $fermentation,
         string $twist
     ) {
-        $this->mashTemperature = $mashTemperature;
+        $this->mashTemperatures = $this->validateMashTemperatures(
+            $mashTemperatures);
         $this->fermentation = $fermentation;
         $this->twist = $this->validateTwist($twist);
+    }
+
+    /**
+     * Check that every element in the $mashTemperatures array is a
+     * MashTemperature value object
+     */
+    private function validateMashTemperatures($mashTemperatures)
+    {
+        foreach($mashTemperatures as $mashTemperature) {
+            if (get_class($mashTemperature) != 'Zleet\PunkAPI\MashTemperature') {
+                throw new \InvalidArgumentException("Not every element in the mashTemperatures array is a MashTemperature object");
+            }
+        }
+
+        return $mashTemperatures;
     }
 
     /**
@@ -33,17 +49,17 @@ class Method
     private function validateTwist($twist)
     {
         if (!is_string($twist)) {
-            throw new InvalidArgumentException("The twist parameter passed to the Method constructor should be a string.");}
+            throw new \InvalidArgumentException("The twist parameter passed to the Method constructor should be a string.");}
 
         return $twist;
     }
 
     /**
-     * @return MashTemperature - the mash temperature
+     * @return array MashTemperatures - an array of mash temperatures
      */
-    public function getMashTemperature()
+    public function getMashTemperatures()
     {
-        return $this->mashTemperature;
+        return $this->mashTemperatures;
     }
 
     /**
@@ -68,8 +84,16 @@ class Method
      */
     public function toArray()
     {
+        // build an array containing all the MashTemperature objects in
+        // $this->mashTemperatures;
+        $arrayOfMashTemperatureArrays = [];
+        foreach ($this->mashTemperatures as $mashTemperature) {
+            $mashTemperatureAsArray = $mashTemperature->toArray();
+            $arrayOfMashTemperatureArrays[] = $mashTemperatureAsArray;
+        }
+
         return [
-            "mash_temperature"  => $this->mashTemperature->toArray(),
+            "mash_temperature"  => $arrayOfMashTemperatureArrays,
             "fermentation"      => $this->fermentation->toArray(),
             "twist"             => $this->twist
         ];

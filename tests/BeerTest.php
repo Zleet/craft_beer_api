@@ -1,9 +1,10 @@
 <?php
 
-// use Zleet\PunkAPI\Temperature;
-// use Zleet\PunkAPI\MashTemperature;
-// use Zleet\PunkAPI\Fermentation;
-// use Zleet\PunkAPI\Method;
+use Zleet\PunkAPI\Volume;
+use Zleet\PunkAPI\BoilVolume;
+use Zleet\PunkAPI\Temperature;
+use Zleet\PunkAPI\MashTemperature;
+
 
 /**
  * Class BeerTest - tests for the Beer class
@@ -43,8 +44,31 @@ class BeerTest extends \PHPUnit\Framework\TestCase
         // set up all the value objects that are used to build a Beer Object
         // =================================================================
         // build a Volume value object
+        $volume = new Volume(
+            $beerInfo["volume"]["value"],
+            $beerInfo["volume"]["unit"],
+        );
 
         // build a BoilVolume value object
+        $beerVolume = new BoilVolume(
+            $beerInfo["boil_volume"]["value"],
+            $beerInfo["boil_volume"]["unit"],
+        );
+
+        // build a Temperature value object to place inside the MashTemperature
+        // value object
+        // bookmark ()
+        // $temperature1 = new Temperature(
+        //     64, //
+        //     "celsius"
+        // );
+        // build a MashTemperature value object
+        $mashTemperature = new MashTemperature($temperature1, '65');
+
+        // build a Temperature value object to place inside the Fermentation
+        // value object
+
+        // build a Fermentation value object
 
         // build a Method value object
 
