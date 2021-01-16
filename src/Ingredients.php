@@ -10,7 +10,6 @@
  */
 
 namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
 
 class Ingredients
 {
@@ -90,7 +89,7 @@ class Ingredients
     {
         return $this->yeast;
     }
-    
+
     /**
      * @return array
      */

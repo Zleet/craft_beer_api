@@ -99,10 +99,6 @@ class IngredientsTest extends \PHPUnit\Framework\TestCase
         // check that the array returned is not empty
         $this->assertNotEmpty($this->ingredientsObject->toArray(), "Ingredients->toArray() returns an empty array.");
 
-        // test print
-        echo "\nIngredients:\n";
-        print_r($this->ingredientsObject->toArray());
-        echo "\n";
     }
 
 }
