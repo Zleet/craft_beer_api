@@ -7,7 +7,6 @@
  */
 
 namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
 
 class MashTemperature
 {
@@ -16,19 +15,8 @@ class MashTemperature
 
     public function __construct(Temperature $temperature, int $duration)
     {
-        $this->temperature = $this->validateTemperature($temperature);
+        $this->temperature = $temperature;
         $this->duration = $this->validateDuration($duration);
-    }
-
-    /**
-     * @param Temperature $temperature - a temperature object
-     * Check that $temperature is a Temperature object
-     */
-    private function validateTemperature($temperature)
-    {
-        if (get_class($temperature) != "Zleet\PunkAPI\Temperature") throw new \InvalidArgumentException("Temperature passed to MashTemperature constructor must be a temperature object.");
-
-        return $temperature;
     }
 
     /**
@@ -36,7 +24,6 @@ class MashTemperature
      */
     private function validateDuration($duration)
     {
-        if (!is_integer($duration)) throw new \InvalidArgumentException("Duration must be an integer");
         if ($duration <= 0) throw new \InvalidArgumentException("Duration must be greater than zero.");
 
         return $duration;

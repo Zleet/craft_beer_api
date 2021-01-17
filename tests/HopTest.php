@@ -16,8 +16,7 @@ class HopTest extends \PHPUnit\Framework\TestCase
     public function testClassCreation()
     {
         $amount = new Amount(14, "grams");
-        $hop = new Hop("Zleet's Tasty Hop", $amount, "start",
-            "bitter");
+        $hop = new Hop("Zleet's Tasty Hop", $amount, "start", "bitter");
 
         $this->assertInstanceOf(Hop::class, $hop);
     }

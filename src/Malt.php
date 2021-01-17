@@ -20,7 +20,7 @@ class Malt
      * @param string $name   - the name of the malt
      * @param Amount $amount - the amount of the malt
      */
-    public function __construct($name, $amount)
+    public function __construct(string $name, Amount $amount)
     {
         $this->name = $this->validateName($name);
         $this->amount = $amount;
@@ -32,8 +32,8 @@ class Malt
      */
     private function validateName($name)
     {
-        if (!is_string($name)) throw new InvalidArgumentException("Name must be a string.");
-        if (strlen($name) === 0) throw new InvalidArgumentException("Name must not be an empty string.");
+        if (!is_string($name)) throw new \InvalidArgumentException("Name must be a string.");
+        if (strlen($name) === 0) throw new \InvalidArgumentException("Name must not be an empty string.");
 
         return $name;
     }

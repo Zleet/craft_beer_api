@@ -45,8 +45,7 @@ class Hop
      */
     private function validateName($name)
     {
-        if (!is_string($name)) throw new InvalidArgumentException("Name must be a string.");
-        if (strlen($name) === 0) throw new InvalidArgumentException("Name must be a non-empty string.");
+        if (strlen($name) === 0) throw new \InvalidArgumentException("Name must be a non-empty string.");
 
         return $name;
     }
@@ -56,8 +55,7 @@ class Hop
      */
     private function validateAdd($add)
     {
-        if (!is_string($add)) throw new InvalidArgumentException("Add must be a string.");
-        if (strlen($add) === 0) throw new InvalidArgumentException("Add must be a non-empty string.");
+        if (strlen($add) === 0) throw new \InvalidArgumentException("Add must be a non-empty string.");
 
         return $add;
     }
@@ -67,8 +65,7 @@ class Hop
      */
     private function validateAttribute($attribute)
     {
-        if (!is_string($attribute)) throw new InvalidArgumentException("Attribute must be a string.");
-        if (strlen($attribute) === 0) throw new InvalidArgumentException("Attribute must be a non-empty string.");
+        if (strlen($attribute) === 0) throw new \InvalidArgumentException("Attribute must be a non-empty string.");
 
         return $attribute;
     }

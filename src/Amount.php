@@ -47,8 +47,8 @@ class Amount
      */
     private function validateValue($value)
     {
-        if (!is_numeric($value)) throw new InvalidArgumentException("Value must be numeric (integer or float)");
-        if ($value < 0) throw new InvalidArgumentException("Value must be zero or greater.");
+        if (!is_numeric($value)) throw new \InvalidArgumentException("Value must be numeric (integer or float)");
+        if ($value < 0) throw new \InvalidArgumentException("Value must be zero or greater.");
 
         return $value;
     }
@@ -59,8 +59,7 @@ class Amount
      */
     private function validateUnit($unit)
     {
-        if (!is_string($unit)) throw new InvalidArgumentException("Unit must be a string.");
-        if (strlen($unit) === 0) throw new InvalidArgumentException("Unit must be non-empty string.");
+        if (strlen($unit) === 0) throw new \InvalidArgumentException("Unit must be non-empty string.");
 
         return $unit;
     }

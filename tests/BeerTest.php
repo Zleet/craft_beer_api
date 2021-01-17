@@ -294,18 +294,6 @@ class BeerTest extends \PHPUnit\Framework\TestCase
             Volume::class,
             $this->beerObject->getVolume(),
             "Beer->getVolume() doesn't return a Volume object.");
-        // check that Volume->getValue() returns the correct value
-        $this->assertEquals(
-            20,
-            $this->beerObject->getVolume()->getValue(),
-            "The Volume object returned by Beer->getVolume() doesn't have a value value of 20."
-        );
-        // check that Volume->getUnit() returns the correct value
-        $this->assertEquals(
-            'litres',
-            $this->beerObject->getVolume()->getUnit(),
-            "The Volume object returned by Beer->getVolume() doesn't have a unit value of 'litres'."
-        );
     }
 
     // test getting boilVolume
@@ -316,21 +304,9 @@ class BeerTest extends \PHPUnit\Framework\TestCase
             BoilVolume::class,
             $this->beerObject->getBoilVolume(),
             "Beer->getBoilVolume() doesn't return a BoilVolume object.");
-        // check that BoilVolume->getValue() returns the correct value
-        $this->assertEquals(
-            25,
-            $this->beerObject->getBoilVolume()->getValue(),
-            "The BoilVolume object returned by Beer->getBoilVolume() doesn't have a value value of 25."
-        );
-        // check that BoilVolume->getUnit() returns the correct value
-        $this->assertEquals(
-            'litres',
-            $this->beerObject->getBoilVolume()->getUnit(),
-            "The BoilVolume object returned by Beer->getBoilVolume() doesn't have a unit value of 'litres'."
-        );
     }
 
-    // test getting method and all of the properties within it
+    // test getting Method property
     public function testGettingMethod()
     {
         // check that getMethod() returns a Method object
@@ -338,35 +314,6 @@ class BeerTest extends \PHPUnit\Framework\TestCase
             Method::class,
             $this->beerObject->getMethod(),
             "Beer->getMethod doesn't return a Method object."
-        );
-        // check that Beer->getMethod()->getMashTemperatures()
-        // returns an array
-        $this->assertIsArray(
-            $this->beerObject->getMethod()->getMashTemperatures(),
-            "Beer->getMethod->getMashTemperatures() doesn't return an array."
-        );
-        // check that all of the elements in the array returned by
-        // Beer->getMethod()->getMashTemperatures()
-        // are MashTemperature objects
-        $mashTemperaturesArray = $this->beerObject->getMethod()->getMashTemperatures();
-        foreach ($mashTemperaturesArray as $arrayElement) {
-            $this->assertInstanceOf(
-                MashTemperature::class,
-                $arrayElement,
-                'Not all of the elements in the array returned by Beer->getMethod()->getMashTemperatures() are MashTemperature objects.'
-            );
-        }
-        // check that Beer->getMethod()->getFermentation()
-        // returns a Fermentation object
-        $this->assertInstanceOf(
-            Fermentation::class,
-            $this->beerObject->getMethod()->getFermentation(),
-            "Beer->getFermentation() does not return a Fermentation object."
-        );
-        // check that Beer->getMethod()->getTwist() returns a null
-        $this->assertNull(
-            $this->beerObject->getMethod()->getTwist(),
-            'beerObject->getMethod()->getTwist() does not return a null.'
         );
     }
 
@@ -378,43 +325,6 @@ class BeerTest extends \PHPUnit\Framework\TestCase
             Ingredients::class,
             $this->beerObject->getIngredients(),
             "beerObject->getIngredients() doesn't return an Ingredients object."
-        );
-        // check that Beer->getIngredients()->getMalts() returns an array
-        $this->assertIsArray(
-            $this->beerObject->getIngredients()->getMalts(),
-            'Beer->getIngredients()->getMalts() does not return an array'
-        );
-        // check that all of the elements in the array returned by
-        // Beer->getIngredients()->getMalts() are Malt objects
-        $maltsArray = $this->beerObject->getIngredients()->getMalts();
-        foreach ($maltsArray as $arrayElement) {
-            $this->assertInstanceOf(
-                Malt::class,
-                $arrayElement,
-                'Not all elements in the array returned by Beer->getIngredients()->getMalts() are Malt objects.'
-            );
-        }
-        // check that Beer->getIngredients()->getHops() returns an array
-        $this->assertIsArray(
-            $this->beerObject->getIngredients()->getHops(),
-            'Beer->gerIngredients()->getHops() does not return an array.'
-        );
-        // check that all of the elements in the array returned by
-        // Beer->getIngredients()->getHops() are Hop objects
-        $hopsArray = $this->beerObject->getIngredients()->getHops();
-        foreach ($hopsArray as $arrayElement) {
-            $this->assertInstanceOf(
-                Hop::class,
-                $arrayElement,
-                "Not all elements in the array returned by Beer->getIngredients()->getHops() are Hop objects."
-            );
-        }
-        // check that Beer->getIngredients->getYeast() returns the correct
-        // string
-        $this->assertEquals(
-            "Wyeast 1056 - American Ale\u{2122}",
-            $this->beerObject->getIngredients()->getYeast(),
-            'Beer->->getIngredients()->getYeast() does not return the correct string.'
         );
     }
 

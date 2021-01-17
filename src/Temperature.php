@@ -16,10 +16,10 @@ class Temperature
 
     /**
      * Temperature constructor
-     * @param numeric $value    - the amount
-     * @param string $unit      - the unit the value is measured in
+     * @param int $value    - the amount
+     * @param string $unit  - the unit the value is measured in
      */
-    public function __construct($value, string $unit)
+    public function __construct(int $value, string $unit)
     {
         $this->value = $this->validateValue($value);
         $this->unit = $this->validateUnit($unit);
@@ -31,7 +31,6 @@ class Temperature
      */
     private function validateValue($value)
     {
-        if (!is_numeric($value)) throw new \InvalidArgumentException("Value must be numeric (integer or float)");
         if ($value < 0) throw new \InvalidArgumentException("Value must be zero or greater.");
 
         return $value;
@@ -43,7 +42,6 @@ class Temperature
      */
     private function validateUnit($unit)
     {
-        if (!is_string($unit)) throw new \InvalidArgumentException("Unit must be a string.");
         if (strlen($unit) === 0) throw new \InvalidArgumentException("Unit must be non-empty string.");
 
         return $unit;

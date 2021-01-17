@@ -33,6 +33,30 @@ class Beer
     private $brewersTips;
     private $contributedBy;
 
+    /**
+     * Beer constructor.
+     * @param int $id
+     * @param string $name
+     * @param string $tagline
+     * @param string $firstBrewed
+     * @param string $description
+     * @param string $imageUrl
+     * @param float $abv
+     * @param int $ibu
+     * @param int $targetFg
+     * @param int $targetOg
+     * @param int $ebc
+     * @param int $srm
+     * @param float $ph
+     * @param int $attenuationLevel
+     * @param Volume $volume
+     * @param BoilVolume $boilVolume
+     * @param Method $method
+     * @param Ingredients $ingredients
+     * @param array $foodPairing
+     * @param string $brewersTips
+     * @param string $contributedBy
+     */
     public function __construct(
         int $id,
         string $name,
@@ -56,155 +80,36 @@ class Beer
         string $brewersTips,
         string $contributedBy
     ) {
-        $this->id = $this->validateId($id);
-        $this->name = $this->validateName($name);
-        $this->tagline = $this->validateTagline($tagline);
-        $this->firstBrewed = $this->validateFirstBrewed($firstBrewed);
-        $this->description = $this->validateDescription($description);
-        $this->imageUrl = $this->validateImageUrl($imageUrl);
-        $this->abv = $this->validateAbv($abv);
-        $this->ibu = $this->validateIbu($ibu);
-        $this->targetFg = $this->validateTargetFg($targetFg);
-        $this->targetOg = $this->validateTargetOg($targetOg);
-        $this->ebc = $this->validateEbc($ebc);
-        $this->srm = $this->validateSrm($srm);
-        $this->ph = $this->validatePh($ph);
-        $this->attenuationLevel = $this->validateAttenuationLevel($attenuationLevel);
+        $this->id = $id;
+        $this->name = $name;
+        $this->tagline = $tagline;
+        $this->firstBrewed = $firstBrewed;
+        $this->description = $description;
+        $this->imageUrl = $imageUrl;
+        $this->abv = $abv;
+        $this->ibu = $ibu;
+        $this->targetFg = $targetFg;
+        $this->targetOg = $targetOg;
+        $this->ebc = $ebc;
+        $this->srm = $srm;
+        $this->ph = $ph;
+        $this->attenuationLevel = $attenuationLevel;
         $this->volume = $volume;
         $this->boilVolume = $boilVolume;
         $this->method = $method;
         $this->ingredients = $ingredients;
         $this->foodPairing = $this->validateFoodPairing($foodPairing);
-        $this->brewersTips = $this->validateBrewersTips($brewersTips);
-        $this->contributedBy = $this->validateContributedBy($contributedBy);
+        $this->brewersTips = $brewersTips;
+        $this->contributedBy = $contributedBy;
     }
 
     /**
-     * =============================================
-     * BUNCH OF VALIDATION FUNCTIONS FOR THE VARIOUS
-     * PARAMETERS PASSED INTO THE BEER CONSTRUCTOR
-     * =============================================
+     * @param array $foodPairing
+     * @return array
+     * Check that all the elements in the array $foodPairing are strings
      */
-    private function validateId($id)
-    {
-        if (!is_integer($id)) {
-            throw new \InvalidArgumentException("id is not an integer.");
-        }
-        return $id;
-    }
-
-    private function validateName($name)
-    {
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException("name is not a string.");
-        }
-        return $name;
-    }
-
-    private function validateTagline($tagline)
-    {
-        if (!is_string($tagline)) {
-            throw new \InvalidArgumentException("tagline is not a string.");
-        }
-        return $tagline;
-    }
-
-    private function validateFirstBrewed($firstBrewed)
-    {
-        if (!is_string($firstBrewed)) {
-            throw new \InvalidArgumentException("firstBrewed is not a string.");
-        }
-        return $firstBrewed;
-    }
-
-    private function validateDescription($description)
-    {
-        if (!is_string($description)) {
-            throw new \InvalidArgumentException("description is not a string.");
-        }
-        return $description;
-    }
-
-    private function validateImageUrl($imageUrl)
-    {
-        if (!is_string($imageUrl)) {
-            throw new \InvalidArgumentException("imageUrl is not a string.");
-        }
-        return $imageUrl;
-    }
-
-    private function validateAbv($abv)
-    {
-        if (!is_float($abv)) {
-            throw new \InvalidArgumentException("abv is not a float.");
-        }
-        return $abv;
-    }
-
-    private function validateIbu($ibu)
-    {
-        if (!is_integer($ibu)) {
-            throw new \InvalidArgumentException("ibu is not an integer.");
-        }
-        return $ibu;
-    }
-
-    private function validateTargetFg($targetFg)
-    {
-        if (!is_integer($targetFg)) {
-            throw new \InvalidArgumentException("targetFg is not an integer.");
-        }
-        return $targetFg;
-    }
-
-    private function validateTargetOg($targetOg)
-    {
-        if (!is_integer($targetOg)) {
-            throw new \InvalidArgumentException("targetOg is not an integer.");
-        }
-        return $targetOg;
-    }
-
-    private function validateEbc($abc)
-    {
-        if (!is_integer($abc)) {
-            throw new \InvalidArgumentException("abc is not an integer.");
-        }
-        return $abc;
-    }
-
-    private function validateSrm($srm)
-    {
-        if (!is_integer($srm)) {
-            throw new \InvalidArgumentException("srm is not an integer.");
-        }
-        return $srm;
-    }
-
-    private function validatePh($ph)
-    {
-        if (!is_float($ph)) {
-            throw new \InvalidArgumentException("ph is not a float.");
-        }
-        return $ph;
-    }
-
-    private function validateAttenuationLevel($attenuationLevel)
-    {
-        if (!is_integer($attenuationLevel)) {
-            throw new \InvalidArgumentException("attenuationLevel is not an integer.");
-        }
-        return $attenuationLevel;
-    }
-
     private function validateFoodPairing($foodPairing)
     {
-        // check that $foodPairing is an array
-        if (!is_array($foodPairing)) {
-            throw new \InvalidArgumentException("foodPairing is not an array.");
-        }
-
-        // check that all the elements in the array $foodPairing are strings
         foreach ($foodPairing as $foodPairingItem) {
             if (!is_string($foodPairingItem)) {
                 throw new \InvalidArgumentException("Not all elements in the foodPairing array are strings.");
@@ -212,22 +117,6 @@ class Beer
         }
 
         return $foodPairing;
-    }
-
-    private function validateBrewersTips($brewersTips)
-    {
-        if (!is_string($brewersTips)) {
-            throw new \InvalidArgumentException("brewersTips is not a string.");
-        }
-        return $brewersTips;
-    }
-
-    private function validateContributedBy($contributedBy)
-    {
-        if (!is_string($contributedBy)) {
-            throw new \InvalidArgumentException("contributedBy is not a string.");
-        }
-        return $contributedBy;
     }
 
     /**
@@ -241,100 +130,161 @@ class Beer
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getTagline()
     {
         return $this->tagline;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstBrewed()
     {
         return $this->firstBrewed;
     }
 
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
     public function getImageUrl()
     {
         return $this->imageUrl;
     }
 
+    /**
+     * @return float
+     */
     public function getAbv()
     {
         return $this->abv;
     }
 
+    /**
+     * @return int
+     */
     public function getIbu()
     {
         return $this->ibu;
     }
 
+    /**
+     * @return int
+     */
     public function getTargetFg()
     {
         return $this->targetFg;
     }
 
+    /**
+     * @return int
+     */
     public function getTargetOg()
     {
         return $this->targetOg;
     }
 
+    /**
+     * @return int
+     */
     public function getEbc()
     {
         return $this->ebc;
     }
 
+    /**
+     * @return int
+     */
     public function getSrm()
     {
         return $this->srm;
     }
 
+    /**
+     * @return float
+     */
     public function getPh()
     {
         return $this->ph;
     }
 
+    /**
+     * @return int
+     */
     public function getAttenuationLevel()
     {
         return $this->attenuationLevel;
     }
 
+    /**
+     * @return Volume
+     */
     public function getVolume()
     {
         return $this->volume;
     }
 
+    /**
+     * @return BoilVolume
+     */
     public function getBoilVolume()
     {
         return $this->boilVolume;
     }
 
+    /**
+     * @return Method
+     */
     public function getMethod()
     {
         return $this->method;
     }
 
+    /**
+     * @return Ingredients
+     */
     public function getIngredients()
     {
         return $this->ingredients;
     }
 
+    /**
+     * @return array
+     */
     public function getFoodPairing()
     {
         return $this->foodPairing;
     }
+
+    /**
+     * @return string
+     */
     public function getBrewersTips()
     {
         return $this->brewersTips;
     }
 
+    /**
+     * @return string
+     */
     public function getContributedBy()
     {
         return $this->contributedBy;
