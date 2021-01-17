@@ -41,11 +41,6 @@ class BeerTest extends \PHPUnit\Framework\TestCase
         $beerJson = file_get_contents('tests/single_beer_json.json');
         $beerInfo = json_decode($beerJson, 1);
 
-        // test print
-        echo "\n\nbeerInfo:\n";
-        print_r($beerInfo);
-        echo "\n";
-
         // =================================================================
         // set up all the value objects that are used to build a Beer Object
         // =================================================================
@@ -174,47 +169,295 @@ class BeerTest extends \PHPUnit\Framework\TestCase
     // test all the getter methods
     // ===========================
     // test getting id
-    // (bookmark 16/1/21 at 1658)
+    public function testGettingAnId()
+    {
+        $this->assertEquals(1, $this->beerObject->getId(),
+            'Beer->getId() does not return 1');
+    }
 
     // test getting name
+    public function testGettingTheName()
+    {
+        $this->assertEquals('Buzz', $this->beerObject->getName(),
+            "Beer->getName() doesn't return 'Buzz'");
+    }
 
     // test getting tagline
+    public function testGettingTheTagline()
+    {
+        $this->assertEquals(
+            'A Real Bitter Experience.',
+            $this->beerObject->getTagline(),
+            "Beer->getTagline() doesn't return 'A Real Bitter Experience.'"
+        );
+
+    }
 
     // test getting firstBrewed
+    public function testGettingFirstBrewed()
+    {
+        $this->assertEquals("09/2007",
+            $this->beerObject->getFirstBrewed(),
+            "Beer->getFirstBrewed() doesn't return '09/2007'"
+        );
+    }
 
     // test getting description
+    public function testGettingDescription()
+    {
+        $this->assertEquals("A light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once.",
+            $this->beerObject->getDescription(),
+            "Beer->getDescription() doesn't return:\nA light, crisp and bitter IPA brewed with English and American hops. A small batch brewed only once."
+        );
+    }
 
     // test getting imageUrl
+    public function testGettingImageUrl()
+    {
+        $this->assertEquals("https://images.punkapi.com/v2/keg.png",
+            $this->beerObject->getImageUrl(),
+            "Beer->getImageUrl() doesn't return https://images.punkapi.com/v2/keg.png"
+        );
+    }
 
     // test getting abv
+    public function testGettingAbv()
+    {
+        $this->assertEquals(4.5,  $this->beerObject->getAbv(),
+            "Beer->getAbv() doesn't return 4.5"
+        );
+    }
 
     // test getting ibu
+    public function testGettingIbu()
+    {
+        $this->assertEquals(60,  $this->beerObject->getIbu(),
+            "Beer->getIbu() doesn't return 60"
+        );
+    }
 
     // test getting targetFg
+    public function testGettingTargetFg()
+    {
+        $this->assertEquals(1010,  $this->beerObject->getTargetFg(),
+            "Beer->getTargetFg() doesn't return 1010"
+        );
+    }
 
     // test getting targetOg
+    public function testGettingTargetOg()
+    {
+        $this->assertEquals(1044,  $this->beerObject->getTargetOg(),
+            "Beer->getTargetOg() doesn't return 1044"
+        );
+    }
 
     // test getting ebc
+    public function testGettingEbc()
+    {
+        $this->assertEquals(20,  $this->beerObject->getEbc(),
+            "Beer->getEbc() doesn't return 20"
+        );
+    }
 
     // test getting srm
+    public function testGettingSrm()
+    {
+        $this->assertEquals(10,  $this->beerObject->getSrm(),
+            "Beer->getSrm() doesn't return 10"
+        );
+    }
 
     // test getting ph
+    public function testGettingPh()
+    {
+        $this->assertEquals(4.4,  $this->beerObject->getPh(),
+            "Beer->getPh() doesn't return 4.4"
+        );
+    }
 
     // test getting attenuationLevel
+    public function testGettingAttenuationLevel()
+    {
+        $this->assertEquals(
+            75,
+            $this->beerObject->getAttenuationLevel(),
+            "Beer->getAttenuationLevel() doesn't return 75"
+        );
+    }
 
     // test getting volume
+    public function testGettingVolume()
+    {
+        // check that getVolume() returns a Volume object
+        $this->assertInstanceOf(
+            Volume::class,
+            $this->beerObject->getVolume(),
+            "Beer->getVolume() doesn't return a Volume object.");
+        // check that Volume->getValue() returns the correct value
+        $this->assertEquals(
+            20,
+            $this->beerObject->getVolume()->getValue(),
+            "The Volume object returned by Beer->getVolume() doesn't have a value value of 20."
+        );
+        // check that Volume->getUnit() returns the correct value
+        $this->assertEquals(
+            'litres',
+            $this->beerObject->getVolume()->getUnit(),
+            "The Volume object returned by Beer->getVolume() doesn't have a unit value of 'litres'."
+        );
+    }
 
     // test getting boilVolume
+    public function testGettingBoilVolume()
+    {
+        // check that getBoilVolume() returns a BoilVolume object
+        $this->assertInstanceOf(
+            BoilVolume::class,
+            $this->beerObject->getBoilVolume(),
+            "Beer->getBoilVolume() doesn't return a BoilVolume object.");
+        // check that BoilVolume->getValue() returns the correct value
+        $this->assertEquals(
+            25,
+            $this->beerObject->getBoilVolume()->getValue(),
+            "The BoilVolume object returned by Beer->getBoilVolume() doesn't have a value value of 25."
+        );
+        // check that BoilVolume->getUnit() returns the correct value
+        $this->assertEquals(
+            'litres',
+            $this->beerObject->getBoilVolume()->getUnit(),
+            "The BoilVolume object returned by Beer->getBoilVolume() doesn't have a unit value of 'litres'."
+        );
+    }
 
-    // test getting method
+    // test getting method and all of the properties within it
+    public function testGettingMethod()
+    {
+        // check that getMethod() returns a Method object
+        $this->assertInstanceOf(
+            Method::class,
+            $this->beerObject->getMethod(),
+            "Beer->getMethod doesn't return a Method object."
+        );
+        // check that Beer->getMethod()->getMashTemperatures()
+        // returns an array
+        $this->assertIsArray(
+            $this->beerObject->getMethod()->getMashTemperatures(),
+            "Beer->getMethod->getMashTemperatures() doesn't return an array."
+        );
+        // check that all of the elements in the array returned by
+        // Beer->getMethod()->getMashTemperatures()
+        // are MashTemperature objects
+        $mashTemperaturesArray = $this->beerObject->getMethod()->getMashTemperatures();
+        foreach ($mashTemperaturesArray as $arrayElement) {
+            $this->assertInstanceOf(
+                MashTemperature::class,
+                $arrayElement,
+                'Not all of the elements in the array returned by Beer->getMethod()->getMashTemperatures() are MashTemperature objects.'
+            );
+        }
+        // check that Beer->getMethod()->getFermentation()
+        // returns a Fermentation object
+        $this->assertInstanceOf(
+            Fermentation::class,
+            $this->beerObject->getMethod()->getFermentation(),
+            "Beer->getFermentation() does not return a Fermentation object."
+        );
+        // check that Beer->getMethod()->getTwist() returns a null
+        $this->assertNull(
+            $this->beerObject->getMethod()->getTwist(),
+            'beerObject->getMethod()->getTwist() does not return a null.'
+        );
+    }
 
     // test getting ingredients
+    public function testGettingIngredients()
+    {
+        // check that Beer->getIngredients() returns an Ingredients object
+        $this->assertInstanceOf(
+            Ingredients::class,
+            $this->beerObject->getIngredients(),
+            "beerObject->getIngredients() doesn't return an Ingredients object."
+        );
+        // check that Beer->getIngredients()->getMalts() returns an array
+        $this->assertIsArray(
+            $this->beerObject->getIngredients()->getMalts(),
+            'Beer->getIngredients()->getMalts() does not return an array'
+        );
+        // check that all of the elements in the array returned by
+        // Beer->getIngredients()->getMalts() are Malt objects
+        $maltsArray = $this->beerObject->getIngredients()->getMalts();
+        foreach ($maltsArray as $arrayElement) {
+            $this->assertInstanceOf(
+                Malt::class,
+                $arrayElement,
+                'Not all elements in the array returned by Beer->getIngredients()->getMalts() are Malt objects.'
+            );
+        }
+        // check that Beer->getIngredients()->getHops() returns an array
+        $this->assertIsArray(
+            $this->beerObject->getIngredients()->getHops(),
+            'Beer->gerIngredients()->getHops() does not return an array.'
+        );
+        // check that all of the elements in the array returned by
+        // Beer->getIngredients()->getHops() are Hop objects
+        $hopsArray = $this->beerObject->getIngredients()->getHops();
+        foreach ($hopsArray as $arrayElement) {
+            $this->assertInstanceOf(
+                Hop::class,
+                $arrayElement,
+                "Not all elements in the array returned by Beer->getIngredients()->getHops() are Hop objects."
+            );
+        }
+        // check that Beer->getIngredients->getYeast() returns the correct
+        // string
+        $this->assertEquals(
+            "Wyeast 1056 - American Ale\u{2122}",
+            $this->beerObject->getIngredients()->getYeast(),
+            'Beer->->getIngredients()->getYeast() does not return the correct string.'
+        );
+    }
 
     // test getting foodPairing
+    public function testGettingFoodPairing()
+    {
+        // check that Beer->getFoodPairing() returns an array
+        $this->assertIsArray(
+            $this->beerObject->getFoodPairing(),
+            'Beer->getFoodPairing() does not return an array.'
+        );
+        // check that all of the elements in the array returned by
+        // Beer->getFoodPairing() are strings
+        $foodPairingArray = $this->beerObject->getFoodPairing();
+        foreach ($foodPairingArray as $foodPairingElement) {
+            $this->assertIsString(
+                $foodPairingElement,
+                "Not every element in the array returned by Beer->getFoodPairing() is a string."
+            );
+        }
+    }
 
     // test getting brewersTips
+    public function testGettingBrewersTips()
+    {
+        // check that Beer->getBrewersTips() returns the correct string
+        $this->assertEquals(
+            'The earthy and floral aromas from the hops can be overpowering. Drop a little Cascade in at the end of the boil to lift the profile with a bit of citrus.',
+            $this->beerObject->getBrewersTips(),
+            "Beer->getBrewersTips() does not return the correct string."
+        );
+    }
 
     // test getting contributedBy
+    public function testGettingContributedBy()
+    {
+        // check that Beer->getContributedBy() returns the correct string
+        $this->assertEquals(
+            'Sam Mason <samjbmason>',
+            $this->beerObject->getContributedBy(),
+            'Beer->getContributedBy() does not return "Sam Mason <samjbmason>"'
+        );
+    }
 
     // test getting an array version of the Beer class
 
