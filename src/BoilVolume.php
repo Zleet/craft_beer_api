@@ -1,5 +1,7 @@
 <?php
 
+namespace Zleet\PunkAPI;
+
 /**
  * BoilVolume.php
  *
@@ -15,15 +17,6 @@
  * @link     https://www.usedcarsni.com
  */
 
-namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
-
-/**
- * A class for creating BoilVolume objects.
- *
- * @var integer $value - the amount of stuff to include
- * @var string $unit - the units in which $value is measured
- */
 class BoilVolume
 {
     private $value;

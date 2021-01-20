@@ -1,5 +1,7 @@
 <?php
 
+namespace Zleet\PunkAPI;
+
 /**
  * Beer.php
  *
@@ -15,22 +17,6 @@
  * @version  GIT: @0.1
  * @link     https://www.usedcarsni.com
  */
-
-namespace Zleet\PunkAPI;
-
-/**
- * Class Beer
- *
- * A class for creating Beer objects.
- *
- * @category Components
- * @package  Zleet\PunkAPI
- * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
- * @license  MIT License
- * @version  GIT: @0.1
- * @link     https://www.usedcarsni.com
- */
-
 class Beer
 {
     private $id;
