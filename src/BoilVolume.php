@@ -1,14 +1,29 @@
 <?php
 
 /**
+ * BoilVolume.php
+ *
  * A class for creating BoilVolume value objects.
- * @var integer/float $value - the amount of stuff to include
- * @var string $unit - the units in which $value is mesaured
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
  */
 
 namespace Zleet\PunkAPI;
 use http\Exception\InvalidArgumentException;
 
+/**
+ * A class for creating BoilVolume objects.
+ *
+ * @var integer $value - the amount of stuff to include
+ * @var string $unit - the units in which $value is measured
+ */
 class BoilVolume
 {
     private $value;
@@ -16,7 +31,8 @@ class BoilVolume
 
     /**
      * Volume constructor.
-     * @param int $value    - the amount
+     *
+     * @param int    $value - the amount
      * @param string $unit  - the unit the value is measured in
      */
     public function __construct(int $value, string $unit)
@@ -26,6 +42,8 @@ class BoilVolume
     }
 
     /**
+     * Get the value.
+     *
      * @return int
      */
     public function getValue()
@@ -34,6 +52,8 @@ class BoilVolume
     }
 
     /**
+     * Get the unit.
+     *
      * @return string
      */
     public function getUnit()
@@ -42,28 +62,40 @@ class BoilVolume
     }
 
     /**
-     * @param $value
+     * Validate a value. If invalid, throw an exception.
+     *
+     * @param $value - the amount of stuff to include
+     *
      * @return int
      */
     private function validateValue($value)
     {
-        if ($value < 0) throw new \InvalidArgumentException("Value must be zero or greater.");
+        if ($value < 0) {
+            throw new \InvalidArgumentException("Value must be zero or greater.");
+        }
 
         return $value;
     }
 
     /**
-     * @param $unit
+     * Validate a unit. If the unit is invalid, throw an exception.
+     *
+     * @param $unit - the unit
+     *
      * @return string
      */
     private function validateUnit($unit)
     {
-        if (strlen($unit) === 0) throw new \InvalidArgumentException("Unit must be non-empty string.");
+        if (strlen($unit) === 0) {
+            throw new \InvalidArgumentException("Unit must be non-empty string.");
+        }
 
         return $unit;
     }
 
     /**
+     * Get an array representation of a BoilVolume object
+     *
      * @return array
      */
     public function toArray()

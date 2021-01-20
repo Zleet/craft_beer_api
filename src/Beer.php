@@ -1,13 +1,35 @@
 <?php
 
 /**
+ * Beer.php
+ *
  * A class for use with the Punk API for accessing beer information.
  * A Beer object represents a single beer.
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
  */
+
 namespace Zleet\PunkAPI;
 
-use GuzzleHttp\Client;
-use http\Exception\InvalidArgumentException;
+/**
+ * Class Beer
+ *
+ * A class for creating Beer objects.
+ *
+ * @category Components
+ * @package  Zleet\PunkAPI
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 
 class Beer
 {
@@ -35,27 +57,32 @@ class Beer
 
     /**
      * Beer constructor.
-     * @param int $id
-     * @param string $name
-     * @param string $tagline
-     * @param string $firstBrewed
-     * @param string $description
-     * @param string $imageUrl
-     * @param float $abv
-     * @param int $ibu
-     * @param int $targetFg
-     * @param int $targetOg
-     * @param int $ebc
-     * @param int $srm
-     * @param float $ph
-     * @param int $attenuationLevel
-     * @param Volume $volume
-     * @param BoilVolume $boilVolume
-     * @param Method $method
-     * @param Ingredients $ingredients
-     * @param array $foodPairing
-     * @param string $brewersTips
-     * @param string $contributedBy
+     *
+     * @param int         $id               unique beer ID number
+     * @param string      $name             the name of the beer
+     * @param string      $tagline          the beer tagline
+     * @param string      $firstBrewed      date when beer was first brewed
+     * @param string      $description      a short description of the beer
+     * @param string      $imageUrl         the url of a photo of the beer
+     * @param float       $abv              alcoholic strength of the beer
+     * @param int         $ibu              beer ibu
+     * @param int         $targetFg         beer target FG
+     * @param int         $targetOg         beer target OG
+     * @param int         $ebc              beer ebc
+     * @param int         $srm              beer srm
+     * @param float       $ph               beer ph
+     * @param int         $attenuationLevel beer attenuation level
+     * @param Volume      $volume           beer volume
+     * @param BoilVolume  $boilVolume       boil volume
+     * @param Method      $method           description of the beer brewing
+     *                                      method
+     * @param Ingredients $ingredients      list of ingredients used to brew
+     *                                      the beer
+     * @param array       $foodPairing      list of foods to enjoy with the
+     *                                      beer
+     * @param string      $brewersTips      tips for brewers
+     * @param string      $contributedBy    contributor who submitted the beer
+     *                                      information
      */
     public function __construct(
         int $id,
@@ -104,15 +131,20 @@ class Beer
     }
 
     /**
-     * @param array $foodPairing
-     * @return array
      * Check that all the elements in the array $foodPairing are strings
+     *
+     * @param array $foodPairing a list of foods that can be enjoyed with
+     *                           the beer
+     *
+     * @return array
      */
     private function validateFoodPairing($foodPairing)
     {
         foreach ($foodPairing as $foodPairingItem) {
             if (!is_string($foodPairingItem)) {
-                throw new \InvalidArgumentException("Not all elements in the foodPairing array are strings.");
+                throw new \InvalidArgumentException(
+                    "Not all elements in the foodPairing array are strings."
+                );
             }
         }
 
@@ -120,17 +152,18 @@ class Beer
     }
 
     /**
-     * =======================
-     * BUNCH OF GETTER METHODS
-     * =======================
+     * Get the ID.
+     *
+     * @return int
      */
-
     public function getId()
     {
         return $this->id;
     }
 
     /**
+     * Get the name.
+     *
      * @return string
      */
     public function getName()
@@ -139,6 +172,8 @@ class Beer
     }
 
     /**
+     * Get the tagline.
+     *
      * @return string
      */
     public function getTagline()
@@ -147,6 +182,8 @@ class Beer
     }
 
     /**
+     * Get the date when the beer was first brewed.
+     *
      * @return string
      */
     public function getFirstBrewed()
@@ -155,6 +192,8 @@ class Beer
     }
 
     /**
+     * Get the beer description.
+     *
      * @return string
      */
     public function getDescription()
@@ -163,6 +202,8 @@ class Beer
     }
 
     /**
+     * Get the url for the photo of the beer.
+     *
      * @return string
      */
     public function getImageUrl()
@@ -171,6 +212,8 @@ class Beer
     }
 
     /**
+     * Get the beer ABV.
+     *
      * @return float
      */
     public function getAbv()
@@ -179,6 +222,8 @@ class Beer
     }
 
     /**
+     * Get the beer IBU.
+     *
      * @return int
      */
     public function getIbu()
@@ -187,6 +232,8 @@ class Beer
     }
 
     /**
+     * Get the beer target FG
+     *
      * @return int
      */
     public function getTargetFg()
@@ -195,6 +242,8 @@ class Beer
     }
 
     /**
+     * Get the beet target OG
+     *
      * @return int
      */
     public function getTargetOg()
@@ -203,6 +252,8 @@ class Beer
     }
 
     /**
+     * Get the beer EBC
+     *
      * @return int
      */
     public function getEbc()
@@ -211,6 +262,8 @@ class Beer
     }
 
     /**
+     * Get the beer SRM
+     *
      * @return int
      */
     public function getSrm()
@@ -219,6 +272,8 @@ class Beer
     }
 
     /**
+     * Get the beer PH
+     *
      * @return float
      */
     public function getPh()
@@ -227,6 +282,8 @@ class Beer
     }
 
     /**
+     * Get the beer attenuation level
+     *
      * @return int
      */
     public function getAttenuationLevel()
@@ -235,6 +292,8 @@ class Beer
     }
 
     /**
+     * Get the beer volume
+     *
      * @return Volume
      */
     public function getVolume()
@@ -243,6 +302,8 @@ class Beer
     }
 
     /**
+     * Get the boil volume for brewing the beer
+     *
      * @return BoilVolume
      */
     public function getBoilVolume()
@@ -251,6 +312,8 @@ class Beer
     }
 
     /**
+     * Get the beer brewing method
+     *
      * @return Method
      */
     public function getMethod()
@@ -259,6 +322,8 @@ class Beer
     }
 
     /**
+     * Get an array containing the beer ingredients
+     *
      * @return Ingredients
      */
     public function getIngredients()
@@ -267,6 +332,9 @@ class Beer
     }
 
     /**
+     * Get an array containing a list of foods that can be enjoyed with the
+     * beer.
+     *
      * @return array
      */
     public function getFoodPairing()
@@ -275,6 +343,8 @@ class Beer
     }
 
     /**
+     * Get the brewers tips.
+     *
      * @return string
      */
     public function getBrewersTips()
@@ -283,6 +353,8 @@ class Beer
     }
 
     /**
+     * Get information about the person who contributed the beer information.
+     *
      * @return string
      */
     public function getContributedBy()
