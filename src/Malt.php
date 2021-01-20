@@ -1,15 +1,21 @@
 <?php
 
-/**
- * A class for creating Malt value objects.
- * @var string $name - the name of the malt
- * @var Amount $amount - an amount object representing the amount of the
- *                       malt to be included as an ingredient
- */
-
 namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
 
+/**
+ * Malt.php
+ *
+ * A class for creating Malt value objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class Malt
 {
     private $name;
@@ -17,8 +23,10 @@ class Malt
 
     /**
      * Malt constructor.
-     * @param string $name   - the name of the malt
-     * @param Amount $amount - the amount of the malt
+     *
+     * @param string $name   the name of the malt
+     * @param Amount $amount the amount of the malt to be included when
+     *                       brewing the beer
      */
     public function __construct(string $name, Amount $amount)
     {
@@ -27,19 +35,30 @@ class Malt
     }
 
     /**
-     * @param $name  - malt name to validate
+     * Validate the name.
+     *
+     * @param string $name malt name to validate
+     *
      * @return string
      */
     private function validateName($name)
     {
-        if (!is_string($name)) throw new \InvalidArgumentException("Name must be a string.");
-        if (strlen($name) === 0) throw new \InvalidArgumentException("Name must not be an empty string.");
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException("Name must be a string.");
+        }
+        if (strlen($name) === 0) {
+            throw new \InvalidArgumentException(
+                "Name must not be an empty string."
+            );
+        }
 
         return $name;
     }
 
     /**
-     * @return string - the name of the malt
+     * Get the name of the malt.
+     *
+     * @return string the name of the malt
      */
 
     public function getName()
@@ -48,6 +67,8 @@ class Malt
     }
 
     /**
+     * Get the amount of the malt.
+     *
      * @return Amount - the amount of the Malt
      */
     public function getAmount()
@@ -56,6 +77,8 @@ class Malt
     }
 
     /**
+     * Get an array representation of the Malt object.
+     *
      * @return array
      */
     public function toArray()
@@ -65,5 +88,4 @@ class Malt
             'amount'    => $this->amount
         ];
     }
-
 }

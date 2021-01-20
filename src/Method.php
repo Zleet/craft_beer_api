@@ -1,42 +1,61 @@
 <?php
 
-/**
- * A class for creating Method value objects.
- * A Method value object consists of:
- * @var array $mashTemperatures - an array of MashTemperature objects
- * @var Fermentation $fermentation - the fermentation temperature
- * @var (string|array) $twist - the twist
- */
-
 namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
 
+/**
+ * Method.php
+ *
+ * A class for creating Method value objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class Method
 {
     private $mashTemperatures;
     private $fermentation;
     private $twist;
 
+    /**
+     * Method constructor.
+     *
+     * @param array $mashTemperatures    an array of MashTemperature objects
+     * @param Fermentation $fermentation fermentation information
+     * @param null|string $twist         the twist that is used while brewing
+     *                                   the beer
+     */
     public function __construct(
         array $mashTemperatures,
         Fermentation $fermentation,
         $twist
     ) {
-        $this->mashTemperatures = $this->validateMashTemperatures(
-            $mashTemperatures);
+        $this->mashTemperatures = $this->validateMashTemperatures($mashTemperatures);
         $this->fermentation = $fermentation;
         $this->twist = $this->validateTwist($twist);
     }
 
     /**
      * Check that every element in the $mashTemperatures array is a
-     * MashTemperature value object
+     * MashTemperature value object.
+     *
+     * @param MashTemperature a mash temperature used for brewing the beer
+     *
+     * @return MashTemperature
      */
     private function validateMashTemperatures($mashTemperatures)
     {
-        foreach($mashTemperatures as $mashTemperature) {
+        foreach ($mashTemperatures as $mashTemperature) {
             if (get_class($mashTemperature) != 'Zleet\PunkAPI\MashTemperature') {
-                throw new \InvalidArgumentException("Not every element in the mashTemperatures array is a MashTemperature object");
+                throw new \InvalidArgumentException(
+                    "Not every element in the mashTemperatures array"
+                    . " is a MashTemperature object"
+                );
             }
         }
 
@@ -44,20 +63,28 @@ class Method
     }
 
     /**
-     * @param string $twist - The twist that goes with the beer
-     * @return string
+     * Validate the twist.
+     *
+     * @param string|null $twist - The twist that goes with the beer
+     *
+     * @return string|null
      */
     private function validateTwist($twist)
     {
         if ((!is_string($twist)) && (!is_null($twist))) {
-            throw new \InvalidArgumentException("The twist parameter passed to the Method constructor should be either a string or null.");
+            throw new \InvalidArgumentException(
+                "The twist parameter passed to the Method constructor"
+                        . " should be either a string or null."
+            );
         }
 
         return $twist;
     }
 
     /**
-     * @return array MashTemperatures - an array of mash temperatures
+     * Get the mash temperatures.
+     *
+     * @return array MashTemperatures - the mash temperatures
      */
     public function getMashTemperatures()
     {
@@ -65,16 +92,19 @@ class Method
     }
 
     /**
+     * Get the fermentation temperature.
+     *
      * @return Fermentation - the fermentation temperature
      */
     public function getFermentation()
     {
         return $this->fermentation;
     }
-    // get twist
 
     /**
-     * @return string - the twist that goes with the beer
+     * Get the twist used for brewing the beer.
+     *
+     * @return string - the twist used to brew the beer
      */
     public function getTwist()
     {
@@ -82,6 +112,8 @@ class Method
     }
 
     /**
+     * Return an array representation of the Method object.
+     *
      * @return array - an array representation of the Method object
      */
     public function toArray()
@@ -100,5 +132,4 @@ class Method
             "twist"             => $this->twist
         ];
     }
-
 }

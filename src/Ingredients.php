@@ -2,10 +2,20 @@
 
 namespace Zleet\PunkAPI;
 
-// bookmark
-
-
-
+/**
+ * Ingredients.php
+ *
+ * A class for creating Ingredients objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class Ingredients
 {
     private $listOfMalts;
@@ -32,8 +42,10 @@ class Ingredients
     /**
      * Check that the $malts parameter passed to the Ingredients constructor
      * is an array of Malt objects
-     * @param $malts
-     * @return mixed
+     *
+     * @param array $malts
+     *
+     * @return array
      */
     private function validateMalts($malts)
     {
@@ -49,8 +61,10 @@ class Ingredients
     /**
      * Check that the $hops parameter passed to the Ingredients constructor
      * is an array of Hop objects
-     * @param $hops
-     * @return mixed
+     *
+     * @param array $hops
+     *
+     * @return array
      */
     private function validateHops($hops)
     {
@@ -64,6 +78,8 @@ class Ingredients
     }
 
     /**
+     * Get the malts used to brew the beer.
+     *
      * @return array - an array of Malt objects
      */
     public function getMalts()
@@ -72,7 +88,9 @@ class Ingredients
     }
 
     /**
-     * @return array - an arrya of Hop objects
+     * Get the hops used to brew the beer.
+     *
+     * @return array - an array of Hop objects
      */
     public function getHops()
     {
@@ -80,6 +98,8 @@ class Ingredients
     }
 
     /**
+     * Get the yeast used to brew the beer.
+     *
      * @return string
      */
     public function getYeast()
@@ -88,6 +108,8 @@ class Ingredients
     }
 
     /**
+     * Get an array representation of the ingredients used to brew the beer.
+     *
      * @return array
      */
     public function toArray()

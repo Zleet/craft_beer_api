@@ -1,14 +1,21 @@
 <?php
 
-/**
- * A class for creating Volume value objects.
- * @var integer/float $value - the amount of stuff to include
- * @var string $unit - the units in which $value is measured
- */
-
 namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
 
+/**
+ * Volume.php
+ *
+ * A class for creating Volume objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class Volume
 {
     private $value;
@@ -16,8 +23,9 @@ class Volume
 
     /**
      * Volume constructor.
-     * @param int $value    - the amount
-     * @param string $unit      - the unit the value is measured in
+     *
+     * @param int    $value the amount
+     * @param string $unit  the unit the value is measured in
      */
     public function __construct(int $value, string $unit)
     {
@@ -26,6 +34,8 @@ class Volume
     }
 
     /**
+     * Get the value.
+     *
      * @return int
      */
     public function getValue()
@@ -34,6 +44,8 @@ class Volume
     }
 
     /**
+     * Get the unit.
+     *
      * @return string
      */
     public function getUnit()
@@ -42,28 +54,44 @@ class Volume
     }
 
     /**
-     * @param $value
+     * Validate the value.
+     *
+     * @param int $value the value
+     *
      * @return int
      */
     private function validateValue($value)
     {
-        if ($value < 0) throw new \InvalidArgumentException("Value must be zero or greater.");
+        if ($value < 0) {
+            throw new \InvalidArgumentException(
+                "Value must be zero or greater."
+            );
+        }
 
         return $value;
     }
 
     /**
-     * @param $unit
+     * Validate the unit.
+     *
+     * @param string $unit the unit
+     *
      * @return string
      */
     private function validateUnit($unit)
     {
-        if (strlen($unit) === 0) throw new \InvalidArgumentException("Unit must be non-empty string.");
+        if (strlen($unit) === 0) {
+            throw new \InvalidArgumentException(
+                "Unit must be non-empty string."
+            );
+        }
 
         return $unit;
     }
 
     /**
+     * Get an array representation of the Volume object.
+     *
      * @return array
      */
     public function toArray()
@@ -73,5 +101,4 @@ class Volume
             'unit'  => $this->unit
         ];
     }
-
 }

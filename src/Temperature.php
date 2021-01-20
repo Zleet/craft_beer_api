@@ -1,14 +1,21 @@
 <?php
 
-/**
- * A class for creating Temperature value objects.
- * @var integer/float $value - the amount of heat
- * @var string $unit - the units in which the temperature is measured
- */
-
 namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
 
+/**
+ * Temperature.php
+ *
+ * A class for creating Temperature value objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class Temperature
 {
     private $value;
@@ -16,8 +23,9 @@ class Temperature
 
     /**
      * Temperature constructor
-     * @param int $value    - the amount
-     * @param string $unit  - the unit the value is measured in
+     *
+     * @param int $value   the amount
+     * @param string $unit the unit the value is measured in
      */
     public function __construct(int $value, string $unit)
     {
@@ -26,44 +34,66 @@ class Temperature
     }
 
     /**
-     * @param $value
-     * @return int|string
+     * Validate the date. If it's invalid, throw an exception.
+     *
+     * @param int $value
+     *
+     * @return int
      */
     private function validateValue($value)
     {
-        if ($value < 0) throw new \InvalidArgumentException("Value must be zero or greater.");
+        if ($value < 0) {
+            throw new \InvalidArgumentException(
+                "Value must be zero or greater."
+            );
+        }
 
         return $value;
     }
 
     /**
+     * Validate the unit. If it's an empty string, throw an exception.
+     *
      * @param $unit
+     *
      * @return string
      */
     private function validateUnit($unit)
     {
-        if (strlen($unit) === 0) throw new \InvalidArgumentException("Unit must be non-empty string.");
+        if (strlen($unit) === 0) {
+            throw new \InvalidArgumentException(
+                "Unit must be non-empty string."
+            );
+        }
 
         return $unit;
     }
 
     /**
+     * Get the value.
+     *
      * @return int
      */
-    public function getValue() {
+    public function getValue()
+    {
 
         return $this->value;
     }
 
     /**
+     * Get the unit.
+     *
      * @return string
      */
-    public function getUnit() {
+    public function getUnit()
+    {
 
         return $this->unit;
     }
 
     /**
+     * Get an array representation of the Temperature object.
+     *
      * @return array
      */
     public function toArray()
@@ -73,5 +103,4 @@ class Temperature
             "unit"  => $this->unit
         ];
     }
-
 }
