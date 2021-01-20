@@ -1,10 +1,20 @@
 <?php
 
-use Zleet\PunkAPI\Temperature;
-use Zleet\PunkAPI\Fermentation;
+namespace Zleet\PunkAPI;
 
 /**
- * Class FermentationTest
+ *  FermentationTest.php
+ *
+ * A class for testing Fermentation value objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Tests
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
  */
 class FermentationTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,7 +39,12 @@ class FermentationTest extends \PHPUnit\Framework\TestCase
         $temperature = new Temperature('39', 'fahrenheit');
         $fermentation = new Fermentation($temperature);
 
-        $this->assertInstanceOf(Temperature::class, $fermentation->getTemperature(), 'Fermentation->getTemperature does not return a Temperature object.');
+        $this->assertInstanceOf(
+            Temperature::class,
+            $fermentation->getTemperature(),
+            'Fermentation->getTemperature does not return a"
+            . " Temperature object.'
+        );
     }
 
     /**
@@ -41,5 +56,25 @@ class FermentationTest extends \PHPUnit\Framework\TestCase
         $fermentation = new Fermentation($temperature);
 
         $this->assertIsArray($fermentation->toArray(), "fermentation->toArray() does not return an array.");
+    }
+
+    /**
+     * Test creating a Fermentation object from a temperature array
+     */
+    public function testBuildingAFermentationFromATemperatureArray()
+    {
+        $temperatureArray = [
+            "value" => 54,
+            "unit"  => "celsius"
+        ];
+
+        $fermentationObject = Fermentation::fromArray($temperatureArray);
+
+        $this->assertInstanceOf(
+            Fermentation::class,
+            $fermentationObject,
+            "Fermentation::fromArray() doesn't return a"
+            . " Fermentation object."
+        );
     }
 }

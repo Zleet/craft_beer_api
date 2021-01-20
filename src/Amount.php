@@ -24,10 +24,10 @@ class Amount
     /**
      * Amount constructor
      *
-     * @param numeric $value - the amount
-     * @param string  $unit  - the unit the value is measured in
+     * @param float  $value the quantity
+     * @param string $unit  the unit the value is measured in
      */
-    public function __construct($value, string $unit)
+    public function __construct(float $value, string $unit)
     {
         $this->value = $this->validateValue($value);
         $this->unit = $this->validateUnit($unit);
@@ -36,7 +36,7 @@ class Amount
     /**
      * Get the value.
      *
-     * @return int|string
+     * @return float
      */
     public function getValue()
     {
@@ -56,9 +56,9 @@ class Amount
     /**
      * Validate the value. If invalid, throw an exception.
      *
-     * @param $value - the number of units present in the Amount
+     * @param float $value the number of units present in the Amount
      *
-     * @return int|string
+     * @return float
      */
     private function validateValue($value)
     {
@@ -103,5 +103,21 @@ class Amount
             'value' => $this->value,
             'unit'  => $this->unit
         ];
+    }
+
+    /**
+     * Create an Amount object from an array in the form:
+     * [
+     *  "value" => 0.2,
+     *  "unit"  => "kilograms"
+     * ]
+     *
+     * @param $amountArray
+     *
+     * @return Amount
+     */
+    public static function fromArray($amountArray)
+    {
+        return new Amount($amountArray["value"], $amountArray["unit"]);
     }
 }

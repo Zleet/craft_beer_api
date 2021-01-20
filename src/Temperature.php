@@ -103,4 +103,23 @@ class Temperature
             "unit"  => $this->unit
         ];
     }
+
+    /**
+     * Build a Temperature object from an array in the format:
+     * [
+     *  "value" => 19,
+     *  "unit"  => "celsius"
+     * ]
+     *
+     * @param $temperatureArray
+     *
+     * @return Temperature
+     */
+    public static function fromArray($temperatureArray)
+    {
+        return new Temperature(
+            $temperatureArray["value"],
+            $temperatureArray["unit"]
+        );
+    }
 }

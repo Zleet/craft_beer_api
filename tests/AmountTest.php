@@ -1,7 +1,21 @@
 <?php
 
-use Zleet\PunkAPI\Amount;
+namespace Zleet\PunkAPI;
 
+/**
+ * AmountTest.php
+ *
+ * A class for testing the Amount class.
+ *
+ * PHP version 7.3
+ *
+ * @category Tests
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class AmountTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -9,7 +23,6 @@ class AmountTest extends \PHPUnit\Framework\TestCase
      */
     public function testClassCreation()
     {
-
         $amount = new Amount(15, "litres");
 
         $this->assertInstanceOf(Amount::class, $amount);
@@ -20,7 +33,6 @@ class AmountTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetValue()
     {
-
         $amount = new Amount(99, "millilitres");
 
         $this->assertEquals(99, $amount->getValue(), "Value returned from Amount object was incorrect.");
@@ -31,7 +43,6 @@ class AmountTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetUnit()
     {
-
         $amount = new Amount(82, "litres");
 
         $this->assertEquals('litres', $amount->getUnit(), "Unit returned from Amount object was incorrect.");
@@ -42,7 +53,6 @@ class AmountTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertAmountToArray()
     {
-
         $amount = new Amount(34, "kilograms");
 
         $arrayAmount = $amount->toArray();
@@ -54,7 +64,29 @@ class AmountTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(34, $arrayAmount["value"], "Value in array representation of Amount object is incorrect.");
 
         // check that arrayAmount["unit"] is "kilograms"
-        $this->assertEquals("kilograms", $arrayAmount["unit"], "Unit in array representation of Amount object is incorrect.");
+        $this->assertEquals(
+            "kilograms",
+            $arrayAmount["unit"],
+            "Unit in array representation of Amount object is incorrect."
+        );
     }
 
+    /**
+     * Test creating a new Amount object from an array
+     */
+    public function testCreatingAmountFromArray()
+    {
+        $amountArray = [
+            "value" => 67.45,
+            "unit"  => "kilograms"
+        ];
+
+        $amountObject = Amount::fromArray($amountArray);
+
+        $this->assertInstanceOf(
+            Amount::class,
+            $amountObject,
+            "Amount::fromArray() doesn't return an Amount object."
+        );
+    }
 }

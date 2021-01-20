@@ -1,6 +1,6 @@
 <?php
 
-use Zleet\PunkAPI\Temperature;
+namespace Zleet\PunkAPI;
 
 class TemperatureTest extends \PHPUnit\Framework\TestCase
 {
@@ -45,4 +45,23 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertIsArray($temperature->toArray());
     }
 
+    /**
+     * Test creating a Temperature object from an array.
+     */
+    public function testCreatingTemperatureFromArray()
+    {
+        $temperatureArray = [
+            "value" => 31,
+            "unit"  => "celsius"
+        ];
+
+        $temperatureObject = Temperature::fromArray($temperatureArray);
+
+        $this->assertInstanceOf(
+            Temperature::class,
+            $temperatureObject,
+            "Temperature::fromArray() doesn't return a Temperature"
+            . " object."
+        );
+    }
 }

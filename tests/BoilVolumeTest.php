@@ -1,30 +1,60 @@
 <?php
 
-use Zleet\PunkAPI\BoilVolume;
+namespace Zleet\PunkAPI;
 
+/**
+ * BoilVolumeTest.php
+ *
+ * A class for testing BoilVolume value objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Tests
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class BoilVolumeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testClassCreation() {
+    /**
+     * Test creating a BoilVolume object.
+     */
+    public function testClassCreation()
+    {
 
         $boilVolume = new BoilVolume(15, "litres");
 
         $this->assertInstanceOf(BoilVolume::class, $boilVolume);
     }
 
-    public function testGetValue() {
+    /**
+     * Test getting the value from a BoilVolume object
+     */
+    public function testGetValue()
+    {
 
         $boilVolume = new BoilVolume(99, "millilitres");
 
         $this->assertEquals(99, $boilVolume->getValue(), "Value returned from BoilVolume object was incorrect.");
     }
 
-    public function testGetUnit() {
+    /**
+     * Test getting the unit from a BoilVolume object
+     */
+    public function testGetUnit()
+    {
 
         $boilVolume = new BoilVolume(82, "litres");
         $this->assertEquals('litres', $boilVolume->getUnit(), "Unit returned from BoilVolume object was incorrect.");
     }
 
-    public function testConvertBoilVolumeToArray() {
+    /**
+     * Test getting an array representation of a BoilVolume object.
+     */
+    public function testConvertBoilVolumeToArray()
+    {
 
         $boilVolume = new BoilVolume(34, "litres");
 
@@ -34,10 +64,39 @@ class BoilVolumeTest extends \PHPUnit\Framework\TestCase
         $this->assertIsArray($arrayBoilVolume, "BoilVolume->toArray() does not return an array.");
 
         // check that arrayBoilVolume["value"] is 34
-        $this->assertEquals(34, $arrayBoilVolume["value"], "Value in array representation of BoilVolume object is incorrect.");
+        $this->assertEquals(
+            34,
+            $arrayBoilVolume["value"],
+            "Value in array representation of BoilVolume object is"
+            . " incorrect."
+        );
 
         // check that arrayBoilVolume["unit"] is "litres"
-        $this->assertEquals("litres", $arrayBoilVolume["unit"], "Unit in array representation of BoilVolume object is incorrect.");
+        $this->assertEquals(
+            "litres",
+            $arrayBoilVolume["unit"],
+            "Unit in array representation of BoilVolume object is"
+            . " incorrect."
+        );
     }
 
+    /**
+     * Test creating a BoilVolume object from an array.
+     *
+     */
+    public function testCreatingABoilVolumeFromAnArray()
+    {
+        $boilVolumeArray = [
+            "value" => 25,
+            "unit"  => "litres"
+        ];
+
+        $boilVolumeObject = BoilVolume::fromArray($boilVolumeArray);
+
+        $this->assertInstanceOf(
+            BoilVolume::class,
+            $boilVolumeObject,
+            "BoilVolume::fromArray() does not return a BoilVolume object."
+        );
+    }
 }

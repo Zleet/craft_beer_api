@@ -16,7 +16,6 @@ namespace Zleet\PunkAPI;
  * @version  GIT: @0.1
  * @link     https://www.usedcarsni.com
  */
-
 class BoilVolume
 {
     private $value;
@@ -97,5 +96,26 @@ class BoilVolume
             'value' => $this->value,
             'unit'  => $this->unit
         ];
+    }
+
+    /**
+     * Build a BoilVolume object from an array in the form:
+     * [
+     *  "value" => 25,
+     *  "unit"  => "litres"
+     * ]
+     *
+     * @param array $boilVolumeArray the array containing all the information
+     *                               for the BoilVolume object we're going to
+     *                               build
+     *
+     * @return BoilVolume
+     */
+    public static function fromArray(array $boilVolumeArray)
+    {
+        return new BoilVolume(
+            $boilVolumeArray["value"],
+            $boilVolumeArray["unit"]
+        );
     }
 }

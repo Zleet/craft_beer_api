@@ -51,4 +51,24 @@ class Fermentation
             "temperature" => $this->temperature->toArray()
         ];
     }
+
+    /**
+     * Build a Fermentation object from a temperature array in the format:
+     * [
+     *  "value" => 19,
+     *  "unit"  => "celsius"
+     * ]
+     *
+     * @param $temperatureArray
+     *
+     * @return Fermentation
+     */
+    public static function fromArray($temperatureArray)
+    {
+        // build a Temperature object from $temperatureArray
+        $temperatureObject = Temperature::fromArray($temperatureArray);
+
+        // use the Temperature object to build a new Fermentation object
+        return new Fermentation($temperatureObject);
+    }
 }
