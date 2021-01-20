@@ -1,17 +1,28 @@
 <?php
 
-/**
- * A class for creating Fermentation objects
- * @var Temperature $temperature - the fermentation temperature
- */
 namespace Zleet\PunkAPI;
 
+/**
+ *  Fermentation.php
+ *
+ * A class for creating Fermentation value objects.
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 class Fermentation
 {
     private $temperature;
 
     /**
      * Fermentation constructor
+     *
      * @param Temperature $temperature - a temperature object
      */
     public function __construct(Temperature $temperature)
@@ -20,8 +31,9 @@ class Fermentation
     }
 
     /**
-     * @return Temperature
-     * get the temperature
+     * Get the temperature
+     *
+     * @return \Temperature
      */
     public function getTemperature()
     {
@@ -29,8 +41,9 @@ class Fermentation
     }
 
     /**
+     * Return the Fermentation object as an array.
+     *
      * @return array - a Temperature object converted to an array
-     * return the Fermentation object as an array
      */
     public function toArray()
     {
@@ -38,5 +51,4 @@ class Fermentation
             "temperature" => $this->temperature->toArray()
         ];
     }
-
 }

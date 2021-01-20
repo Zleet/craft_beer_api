@@ -1,15 +1,10 @@
 <?php
 
-/**
- * A class for creating an Ingredients value object, which consists of:
- * @var array $listOfMalts - an array containing all the malts used in brewing
- * the beer (each malt is represented by a Malt object)
- * @var array $listOfHops - an array containing all the hops used in brewing the
- * beer (each hop is represented by a Hop object)
- * @var string $yeast - the yeast used in brewing the beer
- */
-
 namespace Zleet\PunkAPI;
+
+// bookmark
+
+
 
 class Ingredients
 {
@@ -19,9 +14,11 @@ class Ingredients
 
     /**
      * Ingredients constructor.
-     * @param array $malts
-     * @param array $hops
-     * @param string $yeast
+     * @param array  $malts an array containing all the malts used in brewing
+     *                      the beer (each malt is represented by a Malt object)
+     * @param array  $hops  an array containing all the hops used in brewing the
+     *                      beer (each hop is represented by a Hop object)
+     * @param string $yeast the yeast used in brewing the beer
      */
     public function __construct(array $malts, array $hops, string $yeast)
     {
@@ -101,5 +98,4 @@ class Ingredients
             "yeast" => $this->yeast
         ];
     }
-
 }

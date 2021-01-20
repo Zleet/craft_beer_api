@@ -98,5 +98,4 @@ class BoilVolume
             'unit'  => $this->unit
         ];
     }
-
 }

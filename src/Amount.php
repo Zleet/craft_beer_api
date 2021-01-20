@@ -104,5 +104,4 @@ class Amount
             'unit'  => $this->unit
         ];
     }
-
 }

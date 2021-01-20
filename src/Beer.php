@@ -351,5 +351,4 @@ class Beer
     //static function fromArray(array $beerInfo) {
 
     // }
-
 }

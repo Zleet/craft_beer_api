@@ -1,16 +1,21 @@
 <?php
 
-/**
- * A class for creating Hop value objects.
- * @var string $name      - the name of the hop
- * @var Amount $amount    - the amount of the hop
- * @var string $add       - the point at which the hop is added in the brewing
- *                          process
- * @var string $attribute - flavour attribute of the hop
- */
-
 namespace Zleet\PunkAPI;
-use http\Exception\InvalidArgumentException;
+
+/**
+ * Hop.php
+ *
+ * A class for creating Hop value objects
+ *
+ * PHP version 7.3
+ *
+ * @category Components
+ * @package  Punk_API
+ * @author   Michael McLarnon <michaelmclarnon@hotmail.co.uk>
+ * @license  MIT License
+ * @version  GIT: @0.1
+ * @link     https://www.usedcarsni.com
+ */
 
 class Hop
 {
@@ -21,6 +26,7 @@ class Hop
 
     /**
      * Hop constructor.
+     *
      * @param string $name      - the name of the Hop
      * @param Amount $amount    - the amount of the hop to use
      * @param string $add       - when to add the hop in the brewing process
@@ -41,44 +47,72 @@ class Hop
     }
 
     /**
-     * @param $name
+     * Validate the name. If invalid, throw an exception.
+     *
+     * @param string $name the name of the hop
+     *
+     * @return string
      */
     private function validateName($name)
     {
-        if (strlen($name) === 0) throw new \InvalidArgumentException("Name must be a non-empty string.");
-
+        if (strlen($name) === 0) {
+            throw new \InvalidArgumentException(
+                "Name must be a non-empty string."
+            );
+        }
         return $name;
     }
 
     /**
-     * @param $add
+     * Validate the add. If invalid, throw an exception.
+     *
+     * @param string $add The add to be used in brewing the beer
+     *
+     * @return string
      */
     private function validateAdd($add)
     {
-        if (strlen($add) === 0) throw new \InvalidArgumentException("Add must be a non-empty string.");
+        if (strlen($add) === 0) {
+            throw new \InvalidArgumentException(
+                "Add must be a non-empty string."
+            );
+        }
 
         return $add;
     }
 
     /**
-     * @param $attribute
+     * Get the attribute.
+     *
+     * @param string $attribute
+     *
+     * @return string
      */
     private function validateAttribute($attribute)
     {
-        if (strlen($attribute) === 0) throw new \InvalidArgumentException("Attribute must be a non-empty string.");
+        if (strlen($attribute) === 0) {
+            throw new \InvalidArgumentException(
+                "Attribute must be a non-empty string."
+            );
+        }
 
         return $attribute;
     }
 
     /**
+     * Get the name of the hop.
+     *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
 
         return $this->name;
     }
 
     /**
+     * Get the amount of the hop.
+     *
      * @return Amount
      */
     public function getAmount()
@@ -87,6 +121,8 @@ class Hop
     }
 
     /**
+     * Get the add.
+     *
      * @return string
      */
     public function getAdd()
@@ -95,6 +131,8 @@ class Hop
     }
 
     /**
+     * Get the attribute.
+     *
      * @return string
      */
     public function getAttribute()
@@ -103,6 +141,8 @@ class Hop
     }
 
     /**
+     * Get an array representation of the Hop value object.
+     *
      * @return array
      */
     public function toArray()
@@ -114,5 +154,4 @@ class Hop
             'attribute' => $this->attribute
         ];
     }
-
 }
