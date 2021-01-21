@@ -101,4 +101,17 @@ class Volume
             'unit'  => $this->unit
         ];
     }
+
+    /**
+     * Build a new Volume object from an array.
+     *
+     * @param array $volumeInfo The information required for building a new
+     *                          Volume object
+     *
+     * @return Volume
+     */
+    public static function fromArray($volumeInfo)
+    {
+        return new Volume($volumeInfo["value"], $volumeInfo["unit"]);
+    }
 }
