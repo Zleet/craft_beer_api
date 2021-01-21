@@ -348,7 +348,59 @@ class Beer
         return $this->contributedBy;
     }
 
-    //static function fromArray(array $beerInfo) {
+    /**
+     * Build a Beer object from an array.
+     *
+     * @param array $beerInfo All of the information required to build a
+     *                        Beer object
+     *
+     * @return Beer
+     */
+    public static function fromArray(array $beerInfo) {
 
-    // }
+        // get Volume info and build a Volume object
+        $volumeInfo = $beerInfo["volume"];
+        $volumeObject = Volume::fromArray($volumeInfo);
+
+        // get BoilVolume info and build a BoilVolume object
+        $boilVolumeInfo = $beerInfo["boil_volume"];
+        $boilVolumeObject = BoilVolume::fromArray($boilVolumeInfo);
+
+        // get Method info and build a Method object
+        $methodInfo = $beerInfo["method"];
+        $methodObject = Method::fromArray($methodInfo);
+
+        // get Ingredients info and build an Ingredients object
+        $ingredientsInfo = $beerInfo["ingredients"];
+        $ingredientsObject = Ingredients::fromArray($ingredientsInfo);
+
+        // build a new Beer object using the two objects built above,
+        // plus other information passed in in the BeerInfo array
+        $beer = new Beer(
+            $beerInfo["id"],
+            $beerInfo["name"],
+            $beerInfo["tagline"],
+            $beerInfo["first_brewed"],
+            $beerInfo["description"],
+            $beerInfo["image_url"],
+            $beerInfo["abv"],
+            $beerInfo["ibu"],
+            $beerInfo["target_fg"],
+            $beerInfo["target_og"],
+            $beerInfo["ebc"],
+            $beerInfo["srm"],
+            $beerInfo["ph"],
+            $beerInfo["attenuation_level"],
+            $volumeObject,
+            $boilVolumeObject,
+            $methodObject,
+            $ingredientsObject,
+            $beerInfo["food_pairing"],
+            $beerInfo["brewers_tips"],
+            $beerInfo["contributed_by"]
+        );
+
+        // return the new Beer object
+        return $beer;
+    }
 }

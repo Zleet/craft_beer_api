@@ -369,10 +369,27 @@ class BeerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    // test getting an array version of the Beer class
+    /**
+     * Test building a new Beer object from an array.
+     */
+    public function testBuildingABeerObjectFromAnArray()
+    {
+        // read Beer information from local file
+        $singleBeerInfo = file_get_contents('tests/single_beer_json.json');
+        $singleBeerInfo = json_decode($singleBeerInfo, 1);
+
+        // test print
+        echo "\nsingleBeerInfo:\n";
+        print_r($singleBeerInfo);
+
+        $beer = Beer::fromArray($singleBeerInfo);
+
+        $this->assertInstanceOf(Beer::class, $beer);
+    }
+
+    // test getting an array representation of a Beer object
 
     // test all of the methods required in the spec
     // (i.e. fetch a single beer, fetch a random beer, fetch all the beers etc.)
-
 
 }
