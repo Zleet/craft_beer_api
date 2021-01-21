@@ -132,4 +132,40 @@ class Method
             "twist"             => $this->twist
         ];
     }
+
+
+    /**
+     * Build a Method object from an array.
+     *
+     * @param $methodArray
+     *
+     * @return Method
+     */
+    public static function fromArray($methodArray)
+    {
+        // build an array of MashTemperature objects from the subarray
+        $mashTemperaturesInfoArray = $methodArray["mash_temp"];
+        $mashTemperatureObjects = [];
+        foreach ($mashTemperaturesInfoArray as $singleMashTemperatureInfo) {
+            // build a MashTemperature object from the subarray and store it
+            $mashTemperatureObject = MashTemperature::fromArray(
+                $singleMashTemperatureInfo
+            );
+            $mashTemperatureObjects[] = $mashTemperatureObject;
+        }
+
+        // build a Fermentation object from the subarray
+        $temperatureInfo = $methodArray["fermentation"]["temp"];
+        $fermentationObject = Fermentation::fromArray($temperatureInfo);
+
+        // get the twist
+        $twist = $methodArray["twist"];
+
+        // build and return a Method object
+        return new Method(
+            $mashTemperatureObjects,
+            $fermentationObject,
+            $twist
+        );
+    }
 }

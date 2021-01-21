@@ -33,7 +33,7 @@ class Fermentation
     /**
      * Get the temperature
      *
-     * @return \Temperature
+     * @return Temperature
      */
     public function getTemperature()
     {

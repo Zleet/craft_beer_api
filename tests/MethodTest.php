@@ -78,4 +78,18 @@ class MethodTest extends \PHPUnit\Framework\TestCase
         $this->assertIsArray($this->methodObject->toArray(), "method->toArray() does not return an array");
     }
 
+    /**
+     * Test building a Method object from an array
+     */
+    public function testBuildingAMethodObjectFromAnArray()
+    {
+        $singleBeerJson = file_get_contents(
+            "tests/single_beer_json.json");
+        $singleBeerInfo = json_decode($singleBeerJson, 1);
+        $methodInfo = $singleBeerInfo["method"];
+
+        $methodObject = Method::fromArray($methodInfo);
+
+        $this->assertInstanceOf(Method::class, $methodObject);
+    }
 }
