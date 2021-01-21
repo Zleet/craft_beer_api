@@ -292,28 +292,43 @@ class PunkAPI
     // get a single beer
     public function single($id) {
 
-        // used for testing to avoid hitting API endpoint every time
-        // (comment out when we switch to actually accessing the endpoint)
-        // $jsonResponse = $this->readSingleBeerInfoFromLocalFile();
+//        // used for testing to avoid hitting API endpoint every time
+//        // (comment out when we switch to actually accessing the endpoint)
+//        // $jsonResponse = $this->readSingleBeerInfoFromLocalFile();
+//
+//        // code for actually retrieving the single beer information from
+//        // the endpoint goes here (call another helper function)
+//        // $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi($id);
+//
+//        // we need to return a single beer object rather than json
+//        // Let's create a new Beer object
+//        $beer = new Beer();
+//
+//        // read the info for a single beer object from a json file in the
+//        // tests subfolder
+//        $jsonText = file_get_contents('tests/single_beer_json.json');
+//        $beerInfo = json_decode($jsonText, 1);
+//
+//        // use BeerHydrator::hydrate($beer, $beerInfo) to fill the beer object
+//        // with information
+//        $beer = BeerHydrator::hydrate($beer, $beerInfo);
+//
+//        // return the hydrated beer object
 
-        // code for actually retrieving the single beer information from
-        // the endpoint goes here (call another helper function)
-        // $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi($id);
+        // read the JSON for a single beer response from a local file
+        $singleBeerJson = file_get_contents("tests/stubs/200.json");
+        $singleBeerInfo = json_decode($singleBeerJson);
 
-        // we need to return a single beer object rather than json
-        // Let's create a new Beer object
-        $beer = new Beer();
+        // test print
+        echo "\nsingleBeerInfo:\n";
+        print_r($singleBeerInfo);
 
-        // read the info for a single beer object from a json file in the
-        // tests subfolder
-        $jsonText = file_get_contents('tests/single_beer_json.json');
-        $beerInfo = json_decode($jsonText, 1);
+        // use a Guzzle mock to send a reply
+        // bookmark (21/1/2021 at 1702)
 
-        // use BeerHydrator::hydrate($beer, $beerInfo) to fill the beer object
-        // with information
-        $beer = BeerHydrator::hydrate($beer, $beerInfo);
+        // build a Beer object from the Guzzle mock reply
 
-        // return the hydrated beer object
+
         return $beer;
     }
 
