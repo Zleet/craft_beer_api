@@ -121,19 +121,35 @@ class Ingredients
         ];
     }
 
-//    /**
-//     * Build a new Ingredients object from an array.
-//     *
-//     * @param array $ingredientsArray
-//     *
-//     * @return Ingredients
-//     */
-//    public static function fromArray($ingredientsArray)
-//    {
-//        return new Ingredients(
-//            $ingredientsArray["malt"],
-//            $ingredientsArray["hops"],
-//            $ingredientsArray["yeast"]
-//        );
-//    }
+    /**
+     * Build a new Ingredients object from an array.
+     *
+     * @param array $ingredientsArray
+     *
+     * @return Ingredients
+     */
+    public static function fromArray($ingredientsArray)
+    {
+        // build an array of Malt objects from the subarray
+        $maltsSubarray = $ingredientsArray["malt"];
+        $maltObjects = [];
+        foreach ($maltsSubarray as $singleMaltInfo) {
+            $malt = Malt::fromArray($singleMaltInfo);
+            $maltObjects[] = $malt;
+        }
+
+        // build an array of Hop objects from the subarray
+        $hopsSubarray = $ingredientsArray["hops"];
+        $hopObjects = [];
+        foreach ($hopsSubarray as $singleHopInfo) {
+            $hop = Hop::fromArray($singleHopInfo);
+            $hopObjects[] = $hop;
+        }
+
+        return new Ingredients(
+            $maltObjects,
+            $hopObjects,
+            $ingredientsArray["yeast"]
+        );
+    }
 }

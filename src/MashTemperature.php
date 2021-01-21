@@ -86,4 +86,31 @@ class MashTemperature
             "duration"      => $this->duration
         ];
     }
+
+    /**
+     * Build a new MashTemperature object from an array in the format:
+     * [
+     *    "temp" => [
+     *         "value" => 64,
+     *         "unit"  => "celsius"
+     *    ],
+     *    "duration" => 75
+     * ]
+     *
+     * @param $mashTemperatureInfo
+     *
+     * @return MashTemperature
+     */
+    public static function fromArray($mashTemperatureInfo)
+    {
+        // build a Temperature object from the subarray
+        $temperatureInfo = $mashTemperatureInfo["temp"];
+        $temperatureObject = Temperature::fromArray($temperatureInfo);
+
+        // build and return a new MashTemperature object
+        return new MashTemperature(
+            $temperatureObject,
+            $mashTemperatureInfo["duration"]
+        );
+    }
 }

@@ -53,4 +53,23 @@ class MashTemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertIsArray($mashTemperature->toArray());
     }
 
+    /**
+     * Test building a MashTemperature object from an array
+     */
+    public function testBuildingAMashTemperatureFromAnArray()
+    {
+        $mashTemperatureInfo = [
+            "temp" => [
+                "value"=> 64,
+                "unit" => "celsius"
+            ],
+            "duration" => 75
+        ];
+
+        $mashTemperatureObject = MashTemperature::fromArray($mashTemperatureInfo);
+
+        $this->assertInstanceOf(
+            MashTemperature::class,
+            $mashTemperatureObject);
+    }
 }
