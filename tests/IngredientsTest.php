@@ -101,4 +101,23 @@ class IngredientsTest extends \PHPUnit\Framework\TestCase
 
     }
 
+//    public function testBuildingAnIngredientsObjectFromAnArray()
+//    {
+//        // read the ingredients information from local file
+//        $beerJson = file_get_contents('tests/single_beer_json.json');
+//        $beerInfo = json_decode($beerJson, 1);
+//
+//        // bookmark
+//
+//
+//
+//        $ingredientsInfo = $beerInfo["ingredients"];
+//
+//        $ingredientsObject = Ingredients::fromArray($ingredientsInfo);
+//
+//        $this->assertInstanceOf(
+//            Ingredients::class,
+//            $ingredientsObject
+//        );
+//    }
 }

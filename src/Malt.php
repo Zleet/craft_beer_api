@@ -88,4 +88,28 @@ class Malt
             'amount'    => $this->amount
         ];
     }
+
+    /**
+     * Build a Malt object from an array in the format:
+     * [
+     *  "name"   => "Maris Otter Extra Pale",
+     *      "amount" => [
+     *          "value" => 3.3,
+     *          "unit"  => "kilograms"
+     *      ]
+     * ]
+     *
+     * @param array $maltInfo All the information required to build a new
+     *                        Malt object
+     *
+     * @return Malt
+     */
+    public static function fromArray($maltInfo)
+    {
+        // build a new Amount object from the subarray
+        $amountObject = Amount::fromArray($maltInfo["amount"]);
+
+        // build and return a new Malt object
+        return new Malt($maltInfo["name"], $amountObject);
+    }
 }

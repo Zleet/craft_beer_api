@@ -120,4 +120,20 @@ class Ingredients
             "yeast" => $this->yeast
         ];
     }
+
+//    /**
+//     * Build a new Ingredients object from an array.
+//     *
+//     * @param array $ingredientsArray
+//     *
+//     * @return Ingredients
+//     */
+//    public static function fromArray($ingredientsArray)
+//    {
+//        return new Ingredients(
+//            $ingredientsArray["malt"],
+//            $ingredientsArray["hops"],
+//            $ingredientsArray["yeast"]
+//        );
+//    }
 }

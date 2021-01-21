@@ -16,7 +16,6 @@ namespace Zleet\PunkAPI;
  * @version  GIT: @0.1
  * @link     https://www.usedcarsni.com
  */
-
 class Hop
 {
     private $name;
@@ -153,5 +152,34 @@ class Hop
             'add'       => $this->add,
             'attribute' => $this->attribute
         ];
+    }
+
+    /**
+     * Build a Hop object from an array in the form:
+     * [
+     *  "name"      => "Fuggles",
+     *  "amount"    => [
+     *      "value" => 25,
+     *      "unit"  => "grams"
+     *   ],
+     *  "add"       => "start",
+     *  "attribute" => "bitter"
+     * ]
+     *
+     * @param $hopInfo
+     *
+     * @return Hop
+     */
+    public static function fromArray($hopInfo)
+    {
+        // build an Amount object from the subarray in $hopInfo
+        $amountObject = Amount::fromArray($hopInfo["amount"]);
+        // build a Hop object and return it
+        return new Hop(
+            $hopInfo["name"],
+            $amountObject,
+            $hopInfo["add"],
+            $hopInfo["attribute"]
+        );
     }
 }

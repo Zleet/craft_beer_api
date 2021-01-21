@@ -27,10 +27,18 @@ class HopTest extends \PHPUnit\Framework\TestCase
     public function testGettingTheName()
     {
         $amount = new Amount(14, "grams");
-        $hop = new Hop("Zleet's Tasty Hop", $amount, "start",
-            "bitter");
+        $hop = new Hop(
+            "Zleet's Tasty Hop",
+            $amount,
+            "start",
+            "bitter"
+        );
 
-        $this->assertEquals("Zleet's Tasty Hop", $hop->getName(), 'getName() does not return correct hop name.');
+        $this->assertEquals(
+            "Zleet's Tasty Hop",
+            $hop->getName(),
+            'getName() does not return correct hop name.'
+        );
     }
 
     /**
@@ -39,14 +47,30 @@ class HopTest extends \PHPUnit\Framework\TestCase
     public function testGettingTheAmount()
     {
         $amount = new Amount(14, "grams");
-        $hop = new Hop("Zleet's Tasty Hop", $amount, "start",
-            "bitter");
+        $hop = new Hop(
+            "Zleet's Tasty Hop",
+            $amount,
+            "start",
+            "bitter"
+        );
 
         // test that the amount returned is an Amount object
-        $this->assertInstanceOf(Amount::class, $hop->getAmount(),'hop->getAmount() does not return an Amount object.');
+        $this->assertInstanceOf(
+            Amount::class,
+            $hop->getAmount(),
+            'hop->getAmount() does not return an Amount object.'
+        );
         // test that the two values in the amount returned are correct
-        $this->assertEquals(14, $hop->getAmount()->getValue(), 'The value value returned by hop->getAmount() is incorrect.');
-        $this->assertEquals("grams", $hop->getAmount()->getUnit(), 'The unit value returned by hop->getAmount is incorrect.');
+        $this->assertEquals(
+            14,
+            $hop->getAmount()->getValue(),
+            'The value value returned by hop->getAmount() is incorrect.'
+        );
+        $this->assertEquals(
+            "grams",
+            $hop->getAmount()->getUnit(),
+            'The unit value returned by hop->getAmount is incorrect.'
+        );
     }
 
     /**
@@ -55,10 +79,18 @@ class HopTest extends \PHPUnit\Framework\TestCase
     public function testGettingTheAdd()
     {
         $amount = new Amount(14, "grams");
-        $hop = new Hop("Zleet's Tasty Hop", $amount, "start",
-            "bitter");
+        $hop = new Hop(
+            "Zleet's Tasty Hop",
+            $amount,
+            "start",
+            "bitter"
+        );
 
-        $this->assertEquals("start", $hop->getAdd(), "The add returned from the hop is incorrect.");
+        $this->assertEquals(
+            "start",
+            $hop->getAdd(),
+            "The add returned from the hop is incorrect."
+        );
     }
 
     /**
@@ -67,10 +99,18 @@ class HopTest extends \PHPUnit\Framework\TestCase
     public function testGettingTheAttribute()
     {
         $amount = new Amount(14, "grams");
-        $hop = new Hop("Zleet's Tasty Hop", $amount, "start",
-            "bitter");
+        $hop = new Hop(
+            "Zleet's Tasty Hop",
+            $amount,
+            "start",
+            "bitter"
+        );
 
-        $this->assertEquals("bitter", $hop->getAttribute(), "The attribute returned from the hop is incorrect.");
+        $this->assertEquals(
+            "bitter",
+            $hop->getAttribute(),
+            "The attribute returned from the hop is incorrect."
+        );
     }
 
     /**
@@ -79,10 +119,36 @@ class HopTest extends \PHPUnit\Framework\TestCase
     public function testGettingHopAsArray()
     {
         $amount = new Amount(14, "grams");
-        $hop = new Hop("Zleet's Tasty Hop", $amount, "start",
-            "bitter");
+        $hop = new Hop(
+            "Zleet's Tasty Hop",
+            $amount,
+            "start",
+            "bitter"
+        );
 
-        $this->assertIsArray($hop->toArray(), 'Hop->toArray() does not return an array.');
+        $this->assertIsArray(
+            $hop->toArray(),
+            'Hop->toArray() does not return an array.'
+        );
     }
 
+    /**
+     * Test building a Hop object from an array.
+     */
+    public function testBuildingAHopFromAnArray()
+    {
+        $hopArray = [
+            "name"      => "Fuggles",
+            "amount"    => [
+                "value" => 25,
+                "unit"  => "grams"
+            ],
+            "add"       => "start",
+            "attribute" => "bitter"
+        ];
+
+        $hop = Hop::fromArray($hopArray);
+
+        $this->assertInstanceOf(Hop::class, $hop);
+    }
 }

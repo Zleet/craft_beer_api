@@ -18,7 +18,11 @@ class MaltTest extends \PHPUnit\Framework\TestCase
         $amount = new Amount(15, "grams");
         $malt = new Malt("Zleet's Tasty Malt", $amount);
 
-        $this->assertEquals("Zleet's Tasty Malt", $malt->getName(), "Name returned from Malt is incorrect.");
+        $this->assertEquals(
+            "Zleet's Tasty Malt",
+            $malt->getName(),
+            "Name returned from Malt is incorrect."
+        );
     }
 
     public function testGetAmount()
@@ -26,7 +30,11 @@ class MaltTest extends \PHPUnit\Framework\TestCase
         $amount = new Amount(15, "grams");
         $malt = new Malt("Zleet's Tasty Malt", $amount);
 
-        $this->assertInstanceOf(Amount::class, $malt->getAmount(), "getAmount() does not return an Amount object from the Malt object.");
+        $this->assertInstanceOf(
+            Amount::class,
+            $malt->getAmount(),
+            "getAmount() does not return an Amount object from the Malt object."
+        );
     }
 
     public function testConvertMaltToArray()
@@ -37,7 +45,24 @@ class MaltTest extends \PHPUnit\Framework\TestCase
         $arrayMalt = $malt->toArray();
 
         // check that $arrayMalt is an array
-        $this->assertIsArray($arrayMalt, "malt->toArray() does not return an array.");
+        $this->assertIsArray($arrayMalt,
+            "malt->toArray() does not return an array."
+        );
     }
-    
+
+    public function testBuildingAMaltFromAnArray()
+    {
+        $maltArray = [
+            "name"   => "Maris Otter Extra Pale",
+            "amount" => [
+                "value" => 3.3,
+                "unit"  => "kilograms"
+            ]
+        ];
+
+        $maltObject = Malt::fromArray($maltArray);
+
+        $this->assertInstanceOf(
+            Malt::class, $maltObject);
+    }
 }
