@@ -3,9 +3,24 @@
 use Zleet\PunkAPI\PunkAPI;
 use Zleet\PunkAPI\Beer;
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\RequestException;
 
 class PunkAPITest extends \PHPUnit\Framework\TestCase
 {
+//    private $client;
+//
+//    public function setup(): void
+//    {
+//        // Set up new Guzzle client
+//        $this->client = new Client();
+//
+//        // TODO: additional configuration of Guzzle client here
+//    }
+
     /**
      * Test creating a PunkAPI object
      */
@@ -77,11 +92,44 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     {
         $punkAPI = new PunkAPI();
 
-        // fetch the information for the beer with ID 1 in object form
-        $beer = $punkAPI->single(1);
+        // read the json for a single beer response from the local file
+        $singleBeerJson = file_get_contents('tests/single_beer_json.json');
 
-        // check that a Beer object has been returned
-        $this->assertInstanceOf(Beer::class, $beer);
+        // create a mock and queue a single response
+        $mock = new MockHandler(
+            [
+                new Response(200, [], $singleBeerJson)
+            ]
+        );
+        $handlerStack = HandlerStack::create($mock);
+
+        // create a new Guzzle\Http client, configured to use the custom handler
+        // stack we've just created
+        $client = new Client(['handler' => $handlerStack]);
+
+        // fetch the information for the beer with ID 1 in object form
+        $response = $client->request(
+            'GET',
+            'https://api.punkapi.com/v2/beers/1 '
+        );
+
+        // check that we got a 200 OK response back
+        $this->assertEquals(
+            200,
+            $response->getStatusCode(),
+            '200 OK response has not been received when attempting'
+            . ' to retrieve single beer information.'
+        );
+
+        // check that the body of the response contains data that can be
+        // parsed as a JSON array
+        $this->assertIsArray(
+            json_decode($response->getBody(),
+                1
+            ),
+            "JSON array data hasn't been returned when attempting to "
+            . "retrieve single beer information."
+        );
     }
 
     /**
