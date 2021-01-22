@@ -130,6 +130,20 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             "JSON array data hasn't been returned when attempting to "
             . "retrieve single beer information."
         );
+
+        // parse the JSON response as an associative array
+        $singleBeerInfo = json_decode($response->getBody(), 1);
+
+        // build a beer object from the single beer info
+        $beer = Beer::fromArray($singleBeerInfo);
+
+        // check that we've been able to build a beer object from the
+        // information returned in the response
+        $this->assertInstanceOf(
+            Beer::class,
+            $beer,
+            "Unable to build a Beer object from the response body."
+        );
     }
 
     /**
