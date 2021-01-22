@@ -91,7 +91,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     /**
      * Test retrieving the information for a single beer with a valid id
      */
-    public function testGetOneBeerSuccessfully()
+    public function testGetOneBeerWithAValidId()
     {
         // read the json for a single beer response from the local file
         $singleBeerJson = file_get_contents('tests/single_beer_json.json');
@@ -162,6 +162,73 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         // attempt to retrieve the information for the beer with id 99500
         // (should return a Beer object)
         $beer = $punkAPI->single('https://api.punkapi.com/v2/beers/' . strval(99500));
+    }
+
+    /**
+     * Test getting the information for a single beer using the actual Punk API
+     */
+//    public function testGettingSingleBeerInformationUsingActualAPI()
+//    {
+//        // create a new PunkAPI object. Don't pass in a custom handle with
+//        // mocks for API replies. By omitting the handle parameters, we'll
+//        // ensure that the PenkAPI object actually contacts the Punk API
+//        // for the beer information
+//        $punkAPI = new PunkAPI();
+//
+//        // attempt to retrieve the information for the beer with id 5
+//        // (should return a Beer object)
+//        $beer = $punkAPI->single('https://api.punkapi.com/v2/beers/' . strval(5));
+//
+//        // check that we've got a beer object back
+//        $this->assertInstanceOf(
+//            Beer::class,
+//            $beer,
+//            "PunkAPI->single() didn't return a Beer object."
+//        );
+//
+//        // test print the beer object
+//        echo "\nReal beer information returned from the Punk API!\n";
+//        print_r($beer);
+//    }
+
+    /**
+     * Test retrieving the information for a random beer.
+     */
+    public function testGettingARandomBeer()
+    {
+        // read the json for a single beer response from the local file
+        $randomBeerJson = file_get_contents('tests/single_beer_json.json');
+
+        // create a mock and queue a single response
+        $mock = new MockHandler(
+            [
+                new Response(200, [], $randomBeerJson)
+            ]
+        );
+        $handlerStack = HandlerStack::create($mock);
+
+        // create a new Guzzle\Http client, configured to use the custom handler
+        // stack we've just created
+        $client = new Client(
+            [
+                'handler' => $handlerStack
+            ]
+        );
+
+        // create a new PunkAPI object and inject the client with mocks into
+        // the PunkAPI constructor
+        $punkAPI = new PunkAPI($client);
+
+        // attempt to retrieve the information for a random beer
+        // (should return a Beer object)
+        $beer = $punkAPI->random();
+
+        // check that we've got a beer object back
+        $this->assertInstanceOf(
+            Beer::class,
+            $beer,
+            "PunkAPI->random() didn't return a Beer object."
+        );
     }
 
     /**
@@ -267,32 +334,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             "PunkAPI object won't allow an ids value with a valid "
             . "id string to be set. (i.e. an id string containing only "
             . 'the characters in "0123456789 |"');
-    }
-
-    // test getting a random beer
-    public function testGettingARandomBeer() {
-
-        $punkApi = new PunkApi();
-
-        $randomBeer = $punkApi->random();
-
-        $this->assertIsArray($randomBeer, 'The random() method does'
-            . " not return an array.");
-
-        // test print
-        $punkApi->all();
-    }
-
-    // test the all() method for retrieving all beers
-    public function testGettingAllBeers() {
-
-        $punkApi = new PunkApi();
-
-        $beers = $punkApi->all();
-
-        // test that an array of beers have been returned
-        $this->assertIsArray($beers, 'The all() method does not return'
-            . ' an array.');
     }
 
     // more tests here

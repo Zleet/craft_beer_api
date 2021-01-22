@@ -366,12 +366,32 @@ class PunkAPI
      */
     public function random() {
 
-        // under the hood, this method simply calls the method
-        // fetchSingleBeerInfoFromPunkApi() with a parameter of 'random'
-        // instead of an integer beer id
-        $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi('random');
+        // get the beer info
+        $response = $this->client->request(
+            'GET',
+            'https://api.punkapi.com/v2/beers/random'
+        );
 
-        return $jsonResponse;
+        // get the response code
+        $responseStatusCode = $response->getStatusCode();
+
+        // test print the response status code
+        // echo "\nResponse status code:\n" . $responseStatusCode;
+
+        // if we've got a 200 OK response, build a Beer object from the
+        // decoded JSON data in the response body
+        if ($responseStatusCode == 200) {
+            // decode the JSON in the response body
+            $responseBody = $response->getBody();
+            // build a Beer object from the JSON and return it
+            $beerInfo = json_decode($responseBody, 1)[0];
+            $beer = Beer::fromArray($beerInfo);
+            return $beer;
+        }
+
+        // TODO: handle other response types here (e.g. 404 Not Found etc)
+
+        return;
     }
 
     /**
