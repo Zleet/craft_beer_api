@@ -1,6 +1,7 @@
 <?php
 
 use Zleet\PunkAPI\PunkAPI;
+use Zleet\PunkAPI\Beer;
 use GuzzleHttp\Client;
 
 class PunkAPITest extends \PHPUnit\Framework\TestCase
@@ -81,8 +82,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         // check that a Beer object has been returned
         $this->assertInstanceOf(Beer::class, $beer);
-
-        // bookmark (21/1/2021 at 1702)
     }
 
     /**

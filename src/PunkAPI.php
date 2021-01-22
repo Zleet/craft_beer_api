@@ -22,6 +22,11 @@
 namespace Zleet\PunkAPI;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\RequestException;
 
 class PunkAPI
 {
@@ -292,42 +297,27 @@ class PunkAPI
     // get a single beer
     public function single($id) {
 
-//        // used for testing to avoid hitting API endpoint every time
-//        // (comment out when we switch to actually accessing the endpoint)
-//        // $jsonResponse = $this->readSingleBeerInfoFromLocalFile();
-//
-//        // code for actually retrieving the single beer information from
-//        // the endpoint goes here (call another helper function)
-//        // $jsonResponse = $this->fetchSingleBeerInfoFromPunkApi($id);
-//
-//        // we need to return a single beer object rather than json
-//        // Let's create a new Beer object
-//        $beer = new Beer();
-//
-//        // read the info for a single beer object from a json file in the
-//        // tests subfolder
-//        $jsonText = file_get_contents('tests/single_beer_json.json');
-//        $beerInfo = json_decode($jsonText, 1);
-//
-//        // use BeerHydrator::hydrate($beer, $beerInfo) to fill the beer object
-//        // with information
-//        $beer = BeerHydrator::hydrate($beer, $beerInfo);
-//
-//        // return the hydrated beer object
-
         // read the JSON for a single beer response from a local file
         $singleBeerJson = file_get_contents("tests/stubs/200.json");
-        $singleBeerInfo = json_decode($singleBeerJson);
+        $singleBeerInfo = json_decode($singleBeerJson, 1);
 
-        // test print
-        echo "\nsingleBeerInfo:\n";
-        print_r($singleBeerInfo);
+        // set up a Guzzle mock and queue a single response
+        $mock = new MockHandler([
+            new Response(200, [], $singleBeerJson)
+        ]);
 
-        // use a Guzzle mock to send a reply
-        // bookmark (21/1/2021 at 1702)
+        $handlerStack = HandlerStack::create($mock);
+        $client = new Client(['handler' => $handlerStack]);
 
-        // build a Beer object from the Guzzle mock reply
+        // Make a request and it should be intercepted by the mock
+        $response = $client->request('GET', '/');
+        $responseStatusCode = $response->getStatusCode();
+        $responseBody = $response->getBody();
 
+        // use the json returned by Guzzle to build a beer object
+        $beerInfo = json_decode($responseBody, 1)[0];
+
+        $beer = Beer::fromArray($beerInfo);
 
         return $beer;
     }
