@@ -118,7 +118,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         // attempt to retrieve the information for the beer with id 1
         // (should return a Beer object)
-        $beer = $punkAPI->single('https://api.punkapi.com/v2/beers/' . strval(1));
+        $beer = $punkAPI->single(1);
 
         // check that we've got a beer object back
         $this->assertInstanceOf(
@@ -161,12 +161,12 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         // attempt to retrieve the information for the beer with id 99500
         // (should return a Beer object)
-        $beer = $punkAPI->single('https://api.punkapi.com/v2/beers/' . strval(99500));
+        $beer = $punkAPI->single(strval(99500));
     }
 
-    /**
-     * Test getting the information for a single beer using the actual Punk API
-     */
+//    /**
+//     * Test getting the information for a single beer using the actual Punk API
+//     */
 //    public function testGettingSingleBeerInformationUsingActualAPI()
 //    {
 //        // create a new PunkAPI object. Don't pass in a custom handle with
@@ -177,7 +177,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 //
 //        // attempt to retrieve the information for the beer with id 5
 //        // (should return a Beer object)
-//        $beer = $punkAPI->single('https://api.punkapi.com/v2/beers/' . strval(5));
+//        $beer = $punkAPI->single(5);
 //
 //        // check that we've got a beer object back
 //        $this->assertInstanceOf(
@@ -185,10 +185,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 //            $beer,
 //            "PunkAPI->single() didn't return a Beer object."
 //        );
-//
-//        // test print the beer object
-//        echo "\nReal beer information returned from the Punk API!\n";
-//        print_r($beer);
 //    }
 
     /**

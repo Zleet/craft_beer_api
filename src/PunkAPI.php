@@ -332,7 +332,9 @@ class PunkAPI
     public function single($id) {
 
         // get the beer info
-        $response = $this->client->request('GET', $id);
+        $response = $this->client->request(
+            'GET',
+            'https://api.punkapi.com/v2/beers/' . strval($id));
 
         // get the response code
         $responseStatusCode = $response->getStatusCode();
