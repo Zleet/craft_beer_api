@@ -30,6 +30,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class PunkAPI
 {
+    private $client;
     private $abvLowerBound;
     private $abvUpperBound;
     private $ibuLowerBound;
@@ -45,7 +46,27 @@ class PunkAPI
     private $food;
     private $ids;
 
+    /**
+     * PunkAPI constructor.
+     *
+     * @param int    $abvLowerBound
+     * @param int    $abvUpperBound
+     * @param int    $ibuLowerBound
+     * @param int    $ibuUpperBound
+     * @param int    $ebcLowerBound
+     * @param int    $ebcUpperBound
+     * @param string $beer
+     * @param string $yeast
+     * @param string $brewedBefore
+     * @param string $brewedAfter
+     * @param string $hops
+     * @param string $malt
+     * @param string $food
+     * @param string $ids
+     * @param Client $client        a GuzzleHttp\client object
+     */
     public function __construct(
+        Client $client  = null,
         $abvLowerBound  = 0,
         $abvUpperBound  = 100,
         $ibuLowerBound  = 0,
@@ -76,6 +97,18 @@ class PunkAPI
         $this->malt             = $malt;
         $this->food             = $food;
         $this->ids              = $ids;
+
+        // if a GuzzleHttp\Client hasn't been passed into the PunkAPI
+        // constructor, create a Client object that will make real requests
+        // to the Punk API
+        if (is_null($this->client)) {
+            $this->client = new Client(
+                [
+                    'base_url' => 'https://api.punkapi.com/v2/beers/',
+                    'timeout' => '5'
+                ]
+            );
+        }
     }
 
     // ABV can range from 0 to 100
@@ -297,29 +330,29 @@ class PunkAPI
     // get a single beer
     public function single($id) {
 
-        // read the JSON for a single beer response from a local file
-        $singleBeerJson = file_get_contents("tests/stubs/200.json");
-        $singleBeerInfo = json_decode($singleBeerJson, 1);
+        // get the beer info
+        $response = $this->client->request('GET', $id);
 
-        // set up a Guzzle mock and queue a single response
-        $mock = new MockHandler([
-            new Response(200, [], $singleBeerJson)
-        ]);
-
-        $handlerStack = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handlerStack]);
-
-        // Make a request and it should be intercepted by the mock
-        $response = $client->request('GET', '/');
+        // get the response code
         $responseStatusCode = $response->getStatusCode();
-        $responseBody = $response->getBody();
 
-        // use the json returned by Guzzle to build a beer object
-        $beerInfo = json_decode($responseBody, 1)[0];
+        // test print the response status code
+        echo "\nResponse status code:\n" . $responseStatusCode;
 
-        $beer = Beer::fromArray($beerInfo);
+        // if we've got a 200 OK response, build a Beer object from the
+        // decoded JSON data in the response body
+        if ($responseStatusCode == 200) {
+            // decode the JSON in the response body
+            $responseBody = $response->getBody();
+            // build a Beer object from the JSON and return it
+            $beerInfo = json_decode($responseBody, 1)[0];
+            $beer = Beer::fromArray($beerInfo);
+            return $beer;
+        }
 
-        return $beer;
+        // TODO: handle other response codes here
+
+        return;
     }
 
     /**

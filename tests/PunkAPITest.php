@@ -90,8 +90,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
     public function testGetOneBeer()
     {
-        $punkAPI = new PunkAPI();
-
         // read the json for a single beer response from the local file
         $singleBeerJson = file_get_contents('tests/single_beer_json.json');
 
@@ -105,44 +103,25 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         // create a new Guzzle\Http client, configured to use the custom handler
         // stack we've just created
-        $client = new Client(['handler' => $handlerStack]);
-
-        // fetch the information for the beer with ID 1 in object form
-        $response = $client->request(
-            'GET',
-            'https://api.punkapi.com/v2/beers/1 '
+        $client = new Client(
+            [
+                'handler' => $handlerStack
+            ]
         );
 
-        // check that we got a 200 OK response back
-        $this->assertEquals(
-            200,
-            $response->getStatusCode(),
-            '200 OK response has not been received when attempting'
-            . ' to retrieve single beer information.'
-        );
+        // create a new PunkAPI object and inject the client with mocks into
+        // the PunkAPI constructor
+        $punkAPI = new PunkAPI($client);
 
-        // check that the body of the response contains data that can be
-        // parsed as a JSON array
-        $this->assertIsArray(
-            json_decode($response->getBody(),
-                1
-            ),
-            "JSON array data hasn't been returned when attempting to "
-            . "retrieve single beer information."
-        );
+        // attempt to retrieve the information for the beer with id 1
+        // (should return a Beer object)
+        $beer = $punkAPI->single('https://api.punkapi.com/v2/beers/' . strval(1));
 
-        // parse the JSON response as an associative array
-        $singleBeerInfo = json_decode($response->getBody(), 1);
-
-        // build a beer object from the single beer info
-        $beer = Beer::fromArray($singleBeerInfo);
-
-        // check that we've been able to build a beer object from the
-        // information returned in the response
+        // check that we've got a beer object back
         $this->assertInstanceOf(
             Beer::class,
             $beer,
-            "Unable to build a Beer object from the response body."
+            "PunkAPI->single() didn't return a Beer object."
         );
     }
 
