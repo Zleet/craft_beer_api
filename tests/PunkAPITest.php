@@ -88,7 +88,10 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $punkAPI->getBrewedBefore());
     }
 
-    public function testGetOneBeer()
+    /**
+     * Test retrieving the information for a single beer with a valid id
+     */
+    public function testGetOneBeerSuccessfully()
     {
         // read the json for a single beer response from the local file
         $singleBeerJson = file_get_contents('tests/single_beer_json.json');
@@ -123,6 +126,42 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $beer,
             "PunkAPI->single() didn't return a Beer object."
         );
+    }
+
+    /**
+     * Test retrieving the information for a single beer if we submit
+     * an invalid id.
+     */
+    public function testGettingASingleBeerWithAnInvalidId()
+    {
+        // create a mock and queue a single response
+        $mock = new MockHandler(
+            [
+                new Response(404, [], '')
+            ]
+        );
+        $handlerStack = HandlerStack::create($mock);
+
+        // create a new Guzzle\Http client, configured to use the custom handler
+        // stack we've just created
+        $client = new Client(
+            [
+                'handler' => $handlerStack
+            ]
+        );
+
+        // create a new PunkAPI object and inject the client with mocks into
+        // the PunkAPI constructor
+        $punkAPI = new PunkAPI($client);
+
+        // test whether an exception is thrown by PunkAPI->single() when we
+        // attempt to retrieve the single beer information with an invalid
+        // beer id
+        $this->expectException(GuzzleHttp\Exception\ClientException::class);
+
+        // attempt to retrieve the information for the beer with id 99500
+        // (should return a Beer object)
+        $beer = $punkAPI->single('https://api.punkapi.com/v2/beers/' . strval(99500));
     }
 
     /**

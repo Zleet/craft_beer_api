@@ -27,6 +27,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ClientException;
 
 class PunkAPI
 {
@@ -348,6 +349,11 @@ class PunkAPI
             $beerInfo = json_decode($responseBody, 1)[0];
             $beer = Beer::fromArray($beerInfo);
             return $beer;
+        }
+
+        // handle a 404 beer not found response
+        if ($responseStatusCode == 404) {
+            throw new ClientException("404 Beer not found");
         }
 
         // TODO: handle other response codes here
