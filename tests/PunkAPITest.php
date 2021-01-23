@@ -327,9 +327,5 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             . "id string to be set. (i.e. an id string containing only "
             . 'the characters in "0123456789 |"');
     }
-
-    // more tests here
-    // CODE HERE
-
-
+    
 }
