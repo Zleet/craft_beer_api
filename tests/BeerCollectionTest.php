@@ -126,4 +126,127 @@ class BeerCollectionTest extends \PHPUnit\Framework\TestCase
             "BeerCollection->rewind() isn't working."
         );
     }
+
+    /**
+     * Test we can get the current position in the BeerCollection.
+     */
+    public function testWeCanGetTheCurrentPositionInTheBeerCollection()
+    {
+        // rewind to the first position in the BeerCollection
+        $this->collectionOfBeers->rewind();
+
+        // move to position number three (i.e. the fourth position)
+        // in the BeerCollection
+        for ($i = 0; $i < 3; ++$i) {
+            $this->collectionOfBeers->next();
+        }
+
+        // check that we're at position number three
+        $this->assertEquals(
+            3,
+            $this->collectionOfBeers->key(),
+            "BeerCollection->key() doesn't return the current"
+            . " position in the BeerCollection object."
+        );
+    }
+
+    /**
+     * Test that BeerCollection->current() returns a Beer object
+     */
+    public function testWeCanGetABeerObjectFromTheBeerCollectionObject()
+    {
+        $this->assertInstanceOf(
+            Beer::class,
+            $this->collectionOfBeers->current(),
+            "BeerCollection->current() doesn't return a Beer object."
+        );
+    }
+
+    /**
+     * Test that BeerCollection->next() moves us to the next position
+     * in a BeerCollection object
+     */
+    public function testWeCanMoveToTheNextPositionInABeerCollection()
+    {
+        // get the original position in the BeerCollection object
+        $originalPosition = $this->collectionOfBeers->key();
+        // move to the next position in the BeerCollection object
+        $this->collectionOfBeers->next();
+        $currentPosition = $this->collectionOfBeers->key();
+        // check that:
+        // <current position in BeerCollection object>
+        // = <original position in BeerCollection object> + 1
+        $this->assertEquals(
+            $originalPosition + 1,
+            $currentPosition,
+            "BeerCollection->next() doesn't move to the next"
+            . " position in a BeerCollection object."
+        );
+    }
+
+    /**
+     * Test that BeerCollection->valid() returns the correct value for
+     * valid and invalid cursor positions.
+     */
+    public function testValidAndInvalidCursorPositionsInBeerCollection()
+    {
+        // unset cursor position 2 in the BeerCollection object
+        unset($this->collectionOfBeers[2]);
+
+        // set the cursor position to 2
+        $this->collectionOfBeers->rewind();
+        $this->collectionOfBeers->next();
+        $this->collectionOfBeers->next();
+
+        // check that BeerCollection->valid(2) returns false
+        $this->assertEquals(
+            false,
+            $this->collectionOfBeers->valid(),
+            "BeerCollection->valid() doesn't return false for an"
+            . " invalid position."
+        );
+
+        // assign a Beer object to cursor position 5 in the BeerCollection
+        // object
+        $this->collectionOfBeers[5] = $this->beerObject;
+
+        // move to cursor position 5 in the BeerCollection object
+        $this->collectionOfBeers->rewind();
+        for ($i = 0; $i < 5; ++$i) {
+            $this->collectionOfBeers->next();
+        }
+
+        // check that BeerCollection->valid() returns true
+        $this->assertEquals(
+            true,
+            $this->collectionOfBeers->valid(),
+            "BeerCollection->valid() doesn't return true for a"
+            . " valid cursor position."
+        );
+    }
+
+    /**
+     * Test that BeerCollection->offsetExists():
+     * 1. returns true when a Beer exists at provided offset, and
+     * 2. returns false when a Beer doesn't exist at the provided offset
+     */
+    public function testOffsetExistsWorksCorrectly()
+    {
+        // set offset 2 in the BeerCollection object
+        $this->collectionOfBeers[2] = $this->beerObject;
+
+        // check that BeerCollection->offsetExists(2) returns true
+        $this->assertEquals(
+            true,
+            $this->collectionOfBeers->offsetExists(2),
+            "BeerCollection->offsetExists() doesn't return true"
+            . " for a set cursor position."
+        );
+
+        // unset offset 5 in the BeerCollection object
+
+        // check that BeerCollection->offsetExists(5) returns false
+
+
+    }
 }
