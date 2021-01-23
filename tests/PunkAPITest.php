@@ -31,63 +31,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(PunkAPI::class, $punkAPI);
     }
 
-    public function testDefaultPropertiesAreCorrect()
-    {
-        $punkAPI = new PunkAPI();
-
-        // check default ABV upper and lower bounds are correct
-        $this->assertEquals("0", $punkAPI->getAbvLowerBound(),
-            'Default ABV lower bound is not zero!');
-        $this->assertEquals("100", $punkAPI->getAbvUpperBound(),
-            'Default ABV upper bound is not 100!');
-
-        // check default IBU upper and lower bounds are correct
-        $this->assertEquals("0", $punkAPI->getIbuLowerBound(),
-            'Default IBU lower bound is not zero!');
-        $this->assertEquals("100", $punkAPI->getIbuUpperBound(),
-            'Default IBU upper bound is not 100!');
-
-        // check default EBC upper and lower bounds are correct
-        $this->assertEquals("2", $punkAPI->getEbcLowerBound(),
-            'Default EBC lower bound is not 2!');
-        $this->assertEquals("27", $punkAPI->getEbcUpperBound(),
-            'Default EBC upper bound is not 27!');
-
-        // check default beer
-        $this->assertEquals("", $punkAPI->getBeer(),
-            'Default beer is not an empty string.');
-
-        // check default yeast
-        $this->assertEquals("", $punkAPI->getYeast(),
-            'Default yeast is not an empty string.');
-
-        // check default hops
-        $this->assertEquals("", $punkAPI->getHops(),
-            'Default hops is not an empty string.');
-
-        // check default malt
-        $this->assertEquals("", $punkAPI->getMalt(),
-            'Default malt is not an empty string.');
-
-        // check default food
-        $this->assertEquals("", $punkAPI->getFood(),
-            'Default food is not an empty string.');
-
-        // check default ids
-        $this->assertEquals("", $punkAPI->getIds(),
-            'Default IDs is not an empty string.');
-
-        // check brewedAfter
-        $this->assertMatchesRegularExpression(
-            "/[0-9]{2}-[0-9]{4}/",
-            $punkAPI->getBrewedAfter());
-
-        // check brewedBefore
-        $this->assertMatchesRegularExpression(
-            "/[0-9]{2}-[0-9]{4}/",
-            $punkAPI->getBrewedBefore());
-    }
-
     /**
      * Test retrieving the information for a single beer with a valid id
      */
@@ -225,6 +168,51 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $beer,
             "PunkAPI->random() didn't return a Beer object."
         );
+    }
+
+    /**
+     * Test getting all the beers.
+     */
+    public function testGettingAllTheBeers()
+    {
+        // read the JSON for all the beers from a local file
+        $allBeersJson = file_get_contents(
+            'tests/stubs/all_beers_json.json');
+
+        // create a mock and queue a single response
+        $mock = new MockHandler(
+            [
+                new Response(200, [], $allBeersJson)
+            ]
+        );
+        $handlerStack = HandlerStack::create($mock);
+
+        // create a new Guzzle\Http client, configured to use the custom handler
+        // stack we've just created
+        $client = new Client(
+            [
+                'handler' => $handlerStack
+            ]
+        );
+
+        // create a new PunkAPI object and inject the client with mocks into
+        // the PunkAPI constructor
+        $punkAPI = new PunkAPI($client);
+
+        // attempt to retrieve the information for several beers
+        // (in an array of Beer objects)
+        $bunchOfBeers = $punkAPI->all();
+
+        // loop through all the elements in the array $bunchOfBeers and check
+        // that they're all Beer objects
+        foreach ($bunchOfBeers as $beer) {
+            $this->assertInstanceOf(
+                Beer::class,
+                $beer,
+                "In the array returned by PunkAPI->all(), not all"
+                . " elements are Beer objects."
+            );
+        }
     }
 
     /**

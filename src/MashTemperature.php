@@ -25,29 +25,36 @@ class MashTemperature
     /**
      * MashTemperature constructor.
      *
-     * @param Temperature $temperature the amount of heat
-     * @param integer     $duration    how long it will be kept at that
-     *                                 temperature
+     * @param Temperature  $temperature the amount of heat
+     * @param integer|null $duration    how long it will be kept at that
+     *                                  temperature
      */
-    public function __construct(Temperature $temperature, int $duration)
+    public function __construct(Temperature $temperature, $duration)
     {
         $this->temperature = $temperature;
         $this->duration = $this->validateDuration($duration);
     }
 
     /**
-     * Check that duration is an integer and it's also greater than zero
+     * Check that duration is either null or an integer.
+     * If duration is an integer, check that it's zero or greater.
      *
-     * @param int $duration how long to maintain the mash temperature while
-     *                      brewing the beer
+     * @param int|null $duration how long to maintain the mash temperature while
+     *                           brewing the beer
      *
-     * @return int $duration
+     * @return int|null
      */
     private function validateDuration($duration)
     {
-        if ($duration <= 0) {
+        if ((!is_null($duration)) && (!is_integer($duration))) {
             throw new \InvalidArgumentException(
-                "Duration must be greater than zero."
+                "Duration must be either an integer or null."
+            );
+        }
+
+        if ((is_integer($duration)) && ($duration < 0)) {
+            throw new \InvalidArgumentException(
+                "Duration must be zero or greater."
             );
         }
 
@@ -67,7 +74,7 @@ class MashTemperature
     /**
      * Get the duration
      *
-     * @return int
+     * @return int|null
      */
     public function getDuration()
     {

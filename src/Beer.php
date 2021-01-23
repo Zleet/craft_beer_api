@@ -44,31 +44,31 @@ class Beer
     /**
      * Beer constructor.
      *
-     * @param int         $id               unique beer ID number
-     * @param string      $name             the name of the beer
-     * @param string      $tagline          the beer tagline
-     * @param string      $firstBrewed      date when beer was first brewed
-     * @param string      $description      a short description of the beer
-     * @param string      $imageUrl         the url of a photo of the beer
-     * @param float       $abv              alcoholic strength of the beer
-     * @param int         $ibu              beer ibu
-     * @param int         $targetFg         beer target FG
-     * @param int         $targetOg         beer target OG
-     * @param int         $ebc              beer ebc
-     * @param int         $srm              beer srm
-     * @param float       $ph               beer ph
-     * @param int         $attenuationLevel beer attenuation level
-     * @param Volume      $volume           beer volume
-     * @param BoilVolume  $boilVolume       boil volume
-     * @param Method      $method           description of the beer brewing
-     *                                      method
-     * @param Ingredients $ingredients      list of ingredients used to brew
-     *                                      the beer
-     * @param array       $foodPairing      list of foods to enjoy with the
-     *                                      beer
-     * @param string      $brewersTips      tips for brewers
-     * @param string      $contributedBy    contributor who submitted the beer
-     *                                      information
+     * @param int            $id               unique beer ID number
+     * @param string         $name             the name of the beer
+     * @param string         $tagline          the beer tagline
+     * @param string         $firstBrewed      date when beer was first brewed
+     * @param string         $description      a short description of the beer
+     * @param string         $imageUrl         the url of a photo of the beer
+     * @param float          $abv              alcoholic strength of the beer
+     * @param int|float|null $ibu              beer ibu
+     * @param int            $targetFg         beer target FG
+     * @param int            $targetOg         beer target OG
+     * @param int|float|null $ebc              beer ebc
+     * @param int|float|null $srm              beer srm
+     * @param float|null     $ph               beer ph
+     * @param int            $attenuationLevel beer attenuation level
+     * @param Volume         $volume           beer volume
+     * @param BoilVolume     $boilVolume       boil volume
+     * @param Method         $method           description of the beer brewing
+     *                                         method
+     * @param Ingredients    $ingredients      list of ingredients used to brew
+     *                                         the beer
+     * @param array          $foodPairing      list of foods to enjoy with the
+     *                                         beer
+     * @param string         $brewersTips      tips for brewers
+     * @param string         $contributedBy    contributor who submitted the beer
+     *                                         information
      */
     public function __construct(
         int $id,
@@ -78,12 +78,12 @@ class Beer
         string $description,
         string $imageUrl,
         float $abv,
-        int $ibu,
+        $ibu,
         int $targetFg,
         int $targetOg,
-        int $ebc,
-        int $srm,
-        float $ph,
+        $ebc,
+        $srm,
+        $ph,
         int $attenuationLevel,
         Volume $volume,
         BoilVolume $boilVolume,
@@ -100,12 +100,12 @@ class Beer
         $this->description = $description;
         $this->imageUrl = $imageUrl;
         $this->abv = $abv;
-        $this->ibu = $ibu;
+        $this->ibu = $this->validateIbu($ibu);
         $this->targetFg = $targetFg;
         $this->targetOg = $targetOg;
-        $this->ebc = $ebc;
-        $this->srm = $srm;
-        $this->ph = $ph;
+        $this->ebc = $this->validateEbc($ebc);
+        $this->srm = $this->validateSrm($srm);
+        $this->ph = $this->validatePh($ph);
         $this->attenuationLevel = $attenuationLevel;
         $this->volume = $volume;
         $this->boilVolume = $boilVolume;
@@ -114,6 +114,81 @@ class Beer
         $this->foodPairing = $this->validateFoodPairing($foodPairing);
         $this->brewersTips = $brewersTips;
         $this->contributedBy = $contributedBy;
+    }
+
+    /**
+     * Check that ibu is an integer, a float or a null
+     *
+     * @param integer|float|null $ibu
+     *
+     * @return integer|float|null
+     */
+    private function validateIbu($ibu) {
+        if ((!is_integer($ibu)) && (!is_float($ibu))) {
+            if (!is_null($ibu)) {
+                throw new \InvalidArgumentException(
+                    "ibu must be an integer, a float or a null."
+                    . " Instead, it is a " . gettype($ibu)
+                );
+            }
+        }
+        return $ibu;
+    }
+
+    /**
+     * Check that ebc is an integer, a float or a null
+     *
+     * @param integer|float|null $ebc
+     *
+     * @return integer|float|null
+     */
+    private function validateEbc($ebc) {
+        if ((!is_integer($ebc)) && (!is_float($ebc))) {
+            if (!is_null($ebc)) {
+                throw new \InvalidArgumentException(
+                    "ebc must be an integer, a float or a null."
+                    . " Instead, it is a " . gettype($ebc)
+                );
+            }
+        }
+        return $ebc;
+    }
+
+    /**
+     * Check that srm is an integer, a float or a null
+     *
+     * @param integer|float|null $srm
+     *
+     * @return integer|float|null
+     */
+    private function validateSrm($srm) {
+        if ((!is_integer($srm)) && (!is_float($srm))) {
+            if (!is_null($srm)) {
+                throw new \InvalidArgumentException(
+                    "srm must be an integer, a float or a null."
+                    . " Instead, it is a " . gettype($srm)
+                );
+            }
+        }
+        return $srm;
+    }
+
+    /**
+     * Check that ph is either a null or a float
+     *
+     * @param float|null $ph
+     *
+     * @return float|null
+     */
+    private function validatePh($ph) {
+
+        if ((!is_null($ph)) && (!is_float($ph))) {
+            throw new \InvalidArgumentException(
+                "ph must be either a null or a float."
+            );
+        }
+
+        return $ph;
     }
 
     /**
