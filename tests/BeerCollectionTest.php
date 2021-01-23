@@ -244,9 +244,66 @@ class BeerCollectionTest extends \PHPUnit\Framework\TestCase
         );
 
         // unset offset 5 in the BeerCollection object
-
+        unset($this->collectionOfBeers[5]);
         // check that BeerCollection->offsetExists(5) returns false
+        $this->assertEquals(
+            false,
+            $this->collectionOfBeers->offsetExists(5),
+            "BeerCollection->offsetExists() doesn't return false"
+            . " for a cursor position that doesn't exist."
+        );
+    }
 
+    /**
+     * Test that BeerCollection->offsetGet returns a Beer object
+     */
+    public function testThatOffsetGetWorksCorrectly()
+    {
+        // set BeerCollection[7] to be a Beer object
+        $this->collectionOfBeers[7] = $this->beerObject;
+        // check that BeerCollection->offsetGet(7) returns a Beer object
+        $this->assertInstanceOf(
+            Beer::class,
+            $this->collectionOfBeers->offsetGet(7),
+            "BeerCollection->offsetGet() doesn't return a Beer"
+            ." object when the specified offset actually contains a Beer"
+            . " object."
+        );
+    }
 
+    /**
+     * Test that we can store a Beer object in the BeerCollection object
+     * using the offsetSet() method.
+     */
+    public function testThatWeCanStoreABeerObjectUsingOffsetSet()
+    {
+        // store a beer object at position 9 in the BeerCollection object
+        $this->collectionOfBeers->offsetSet(9, $this->beerObject);
+        // check that there's a beer object stored at offset 9 in the
+        // BeerCollection object
+        $this->assertInstanceOf(
+            Beer::class,
+            $this->collectionOfBeers[9],
+            "BeerCollection->offsetSet() doesn't set a Beer object"
+            . " in the BeerCollection object."
+        );
+    }
+
+    /**
+     * Test that we can use BeerCollection->offsetUnset() to remove a Beer
+     * object from the BeerCollection object.
+     */
+    public function testThatWeCanRemoveABeerUsingOffsetUnset()
+    {
+        // unset the Beer object at position 4
+        unset($this->collectionOfBeers[4]);
+        // check that there's no Beer object at cursor position 4
+        // in the BeerCollection object
+        $this->assertEquals(
+            false,
+            $this->collectionOfBeers->offsetExists(4),
+            "BeerCollection->offsetUnset() doesn't remove a Beer"
+            . " object from the BeerCollection object."
+        );
     }
 }
