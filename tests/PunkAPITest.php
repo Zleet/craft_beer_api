@@ -2,6 +2,7 @@
 
 use Zleet\PunkAPI\PunkAPI;
 use Zleet\PunkAPI\Beer;
+use Zleet\PunkAPI\BeerCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -213,6 +214,13 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
                 . " elements are Beer objects."
             );
         }
+
+        // check that a BeerCollection object has been returned
+        $this->assertInstanceOf(
+            BeerCollection::class,
+            $bunchOfBeers,
+            "punkAPI->all() doesn't return a BeerCollection object."
+        );
     }
 
     /**

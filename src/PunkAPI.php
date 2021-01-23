@@ -470,7 +470,11 @@ class PunkAPI
                 $beerObject = Beer::fromArray($singleBeerInfo);
                 $arrayOfBeerObjects[] = $beerObject;
             }
-            return $arrayOfBeerObjects;
+            // use the array of Beer objects to create a new BeerCollection
+            // object
+            $collectionOfBeers = new BeerCollection($arrayOfBeerObjects);
+
+            return $collectionOfBeers;
         }
 
         // TODO: handle other API responses here
