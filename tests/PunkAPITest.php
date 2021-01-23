@@ -108,29 +108,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $beer = $punkAPI->single(strval(99500));
     }
 
-//    /**
-//     * Test getting the information for a single beer using the actual Punk API
-//     */
-//    public function testGettingSingleBeerInformationUsingActualAPI()
-//    {
-//        // create a new PunkAPI object. Don't pass in a custom handle with
-//        // mocks for API replies. By omitting the handle parameters, we'll
-//        // ensure that the PenkAPI object actually contacts the Punk API
-//        // for the beer information
-//        $punkAPI = new PunkAPI();
-//
-//        // attempt to retrieve the information for the beer with id 5
-//        // (should return a Beer object)
-//        $beer = $punkAPI->single(5);
-//
-//        // check that we've got a beer object back
-//        $this->assertInstanceOf(
-//            Beer::class,
-//            $beer,
-//            "PunkAPI->single() didn't return a Beer object."
-//        );
-//    }
-
     /**
      * Test retrieving the information for a random beer.
      */
@@ -283,9 +260,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         return $propertyName;
     }
 
-
-
-
     /**
      * Test setting the ids value using a bad id string. The ids value for a
      * PunkAPI object should be a string that consists only of the characters in
@@ -327,5 +301,49 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             . "id string to be set. (i.e. an id string containing only "
             . 'the characters in "0123456789 |"');
     }
-    
+
+    /**
+     * Test getting the information for a single beer using the actual Punk API
+     */
+    public function testGettingSingleBeerInformationUsingActualAPI()
+    {
+        // create a new PunkAPI object. Don't pass in a custom handle with
+        // mocks for API replies. By omitting the handle parameters, we'll
+        // ensure that the PunkAPI object actually contacts the Punk API
+        // for the beer information
+        $punkAPI = new PunkAPI();
+
+        // attempt to retrieve the information for the beer with id 5
+        // (should return a Beer object)
+        $beer = $punkAPI->single(5);
+
+        // check that we've got a beer object back
+        $this->assertInstanceOf(
+            Beer::class,
+            $beer,
+            "PunkAPI->single() didn't return a Beer object."
+        );
+    }
+
+    /**
+     * Test getting the information for a random beer using the actual
+     * Punk API
+     */
+    public function testGettingARandomBeerUsingTheActualApi()
+    {
+        // create a new PunkAPI object. Don't pass in a client object to
+        // the constructor (we're going to contact the actual Punk API
+        // online to get the random beer information)
+        $punkAPI = new PunkAPI();
+
+        // retrieve the information for a random beer
+        $beer = $punkAPI->random();
+
+        // check that we've got a beer object back
+        $this->assertInstanceOf(
+            Beer::class,
+            $beer,
+            "PunkAPI->random() didn't return a Beer object."
+        );
+    }
 }
