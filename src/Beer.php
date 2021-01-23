@@ -56,7 +56,7 @@ class Beer
      * @param int            $targetOg         beer target OG
      * @param int|float|null $ebc              beer ebc
      * @param int|float|null $srm              beer srm
-     * @param float|null     $ph               beer ph
+     * @param int|float|null $ph               beer ph
      * @param int            $attenuationLevel beer attenuation level
      * @param Volume         $volume           beer volume
      * @param BoilVolume     $boilVolume       boil volume
@@ -174,20 +174,21 @@ class Beer
     }
 
     /**
-     * Check that ph is either a null or a float
+     * Check that ph is an integer, a float or a null
      *
-     * @param float|null $ph
+     * @param integer|float|null $ph
      *
-     * @return float|null
+     * @return integer|float|null
      */
     private function validatePh($ph) {
-
-        if ((!is_null($ph)) && (!is_float($ph))) {
-            throw new \InvalidArgumentException(
-                "ph must be either a null or a float."
-            );
+        if ((!is_integer($ph)) && (!is_float($ph))) {
+            if (!is_null($ph)) {
+                throw new \InvalidArgumentException(
+                    "ph must be an integer, a float or a null."
+                    . " Instead, it is a " . gettype($ph)
+                );
+            }
         }
-
         return $ph;
     }
 
