@@ -24,10 +24,10 @@ class Temperature
     /**
      * Temperature constructor
      *
-     * @param int $value   the amount
-     * @param string $unit the unit the value is measured in
+     * @param int|null $value the amount
+     * @param string   $unit  the unit the value is measured in
      */
-    public function __construct(int $value, string $unit)
+    public function __construct($value, string $unit)
     {
         $this->value = $this->validateValue($value);
         $this->unit = $this->validateUnit($unit);
@@ -36,15 +36,21 @@ class Temperature
     /**
      * Validate the date. If it's invalid, throw an exception.
      *
-     * @param int $value
+     * @param int|null $value
      *
-     * @return int
+     * @return int|null
      */
     private function validateValue($value)
     {
-        if ($value < 0) {
+        if ((!is_integer($value)) && (!is_null($value))) {
             throw new \InvalidArgumentException(
-                "Value must be zero or greater."
+                "Value must be either null or an integer."
+            );
+        }
+
+        if ((is_integer($value)) && ($value < 0)) {
+            throw new \InvalidArgumentException(
+                "Integer value must be zero or greater."
             );
         }
 
