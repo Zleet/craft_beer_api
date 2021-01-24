@@ -331,6 +331,48 @@ class PunkAPI
     }
 
     /**
+     * get a single beer and return the information for it in array format
+     *
+     * @param int $id the id of the beer we're looking up in the Punk API
+     *
+     * @return array
+     */
+    public function singleAsArray($id) {
+
+        // get the beer info
+        $response = $this->client->request(
+            'GET',
+            'https://api.punkapi.com/v2/beers/' . strval($id));
+
+        // get the response code
+        $responseStatusCode = $response->getStatusCode();
+
+        // if we've got a 200 OK response, build a Beer object from the
+        // decoded JSON data in the response body
+        if ($responseStatusCode == 200) {
+            // decode the JSON in the response body
+            $responseBody = $response->getBody();
+            $beerInfo = json_decode($responseBody, 1)[0];
+            return $beerInfo;
+        }
+
+        // handle a 404 beer not found response
+        if ($responseStatusCode == 404) {
+            throw new ClientException("404 Beer not found");
+        }
+
+        // TODO: handle other response codes here
+
+        return;
+    }
+
+
+
+
+
+
+
+    /**
      * Get a random beer.
      */
     public function random() {

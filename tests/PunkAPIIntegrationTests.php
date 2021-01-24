@@ -353,9 +353,7 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
     public function testGettingBeersWithASpecificMaltName()
     {
         $punkApi = new PunkApi;
-
         $punkApi->setMalt("Munich");
-
         $beers = $punkApi->all();
 
         // loop through the beers and check that each beer contains the
@@ -375,12 +373,6 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
         }
     }
 
-
-
-
-
-
-
     /**
      * Method used to pause between API requests.
      *
@@ -392,5 +384,50 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
             . " the Punk API too rapidly...";
         sleep($totalSeconds);
         echo "done!\n";
+    }
+
+
+    /**
+     * Check that the Beer information returned by the Punk API contains all
+     * the correct keys.
+     */
+    public function testBeerInformationContainsAllCorrectKeys()
+    {
+        $punkApi = new PunkAPI;
+        $beerInfo = $punkApi->singleAsArray(1);
+        $beerInfoArrayKeys = array_keys($beerInfo);
+
+        $arrayKeysToCheck = [
+            'id',
+            'name',
+            'tagline',
+            'first_brewed',
+            'description',
+            'image_url',
+            'abv',
+            'ibu',
+            'target_fg',
+            'target_og',
+            'ebc',
+            'srm',
+            'ph',
+            'attenuation_level',
+            'volume',
+            'boil_volume',
+            'method',
+            'ingredients',
+            'food_pairing',
+            'brewers_tips',
+            'contributed_by'
+        ];
+
+        foreach ($beerInfoArrayKeys as $arrayKey) {
+            $this->assertArrayHasKey(
+                $arrayKey,
+                $beerInfo,
+                "The beer array returned by PunkAPI->singleAsArray()"
+                . " doesn't contain the key " . $arrayKey
+            );
+        }
     }
 }
