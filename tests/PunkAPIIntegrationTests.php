@@ -343,9 +343,43 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
             }
             $this->assertTrue(
                 $hopNameHasBeenFound,
-                "Requesting beers by hop name doesn't work properly.");
+                "Hop name not found in beer.");
         }
     }
+
+    /**
+     * Test getting beers with a specific malt name.
+     */
+    public function testGettingBeersWithASpecificMaltName()
+    {
+        $punkApi = new PunkApi;
+
+        $punkApi->setMalt("Munich");
+
+        $beers = $punkApi->all();
+
+        // loop through the beers and check that each beer contains the
+        // specified malt
+        foreach ($beers as $beer) {
+            $malts = $beer->getIngredients()->getMalts();
+            $maltNameHasBeenFound = false;
+            foreach ($malts as $malt) {
+                if (strpos(strtoupper($malt->getName()), 'MUNICH') !== false) {
+                    $maltNameHasBeenFound = true;
+                    break;
+                }
+            }
+            $this->assertTrue(
+                $maltNameHasBeenFound,
+                "Malt name not found in beer.");
+        }
+    }
+
+
+
+
+
+
 
     /**
      * Method used to pause between API requests.
