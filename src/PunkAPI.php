@@ -130,7 +130,7 @@ class PunkAPI
             return;
         }
 
-        $this->ibuLowerbound = $lowerBound;
+        $this->ibuLowerBound = $lowerBound;
     }
 
     public function getIbuLowerBound()
@@ -148,7 +148,7 @@ class PunkAPI
             return;
         }
 
-        $this->ibuUpperbound = $upperBound;
+        $this->ibuUpperBound = $upperBound;
     }
 
     public function getIbuUpperBound()
@@ -167,7 +167,7 @@ class PunkAPI
             return;
         }
 
-        $this->ebcLowerbound = $lowerBound;
+        $this->ebcLowerBound = $lowerBound;
     }
 
     public function getEbcLowerBound()
@@ -185,7 +185,7 @@ class PunkAPI
             return;
         }
 
-        $this->ebcUpperbound = $upperBound;
+        $this->ebcUpperBound = $upperBound;
     }
 
     public function getEbcUpperBound()

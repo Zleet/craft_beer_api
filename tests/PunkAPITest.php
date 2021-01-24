@@ -433,11 +433,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         // get the beers
         $bunchOfBeers = $punkAPI->all();
 
-        // calculate the delta and midpoint of the abv range, for use in
-        // assertEqualsWithDelta, below
-        $abvMidpoint = ($abvMinimum + $abvMaximum) / 2;
-        $delta = ($abvMaximum - $abvMinimum) / 2;
-
         // loop through the beers and, for each beer, check that its abv
         // lies in the range [$abvMinimum, $abvMaximum] inclusive
         foreach ($bunchOfBeers as $beer) {
@@ -455,6 +450,51 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             );
         }
     }
+
+    /**
+     * Test getting a collection of Beers from the actual Punk API
+     * whose IBU lies within a specified range
+     */
+    public function testGettingBeersWithIbuInASpecificRange()
+    {
+        $this->pauseBetweenApiRequests(2);
+
+        $ibuMinimum = 30;
+        $ibuMaximum = 40;
+
+        $punkAPI = new PunkAPI();
+
+        // set IBU lower and upper bounds
+        $punkAPI->setIbuLowerBound($ibuMinimum);
+        $punkAPI->setIbuUpperBound($ibuMaximum);
+
+        // get the beers
+        $bunchOfBeers = $punkAPI->all();
+
+        // loop through the beers and, for each beer, check that its abv
+        // lies in the range [$abvMinimum, $abvMaximum] inclusive
+        foreach ($bunchOfBeers as $beer) {
+            $this->assertGreaterThanOrEqual(
+                $ibuMinimum,
+                $beer->getIbu(),
+                "Beer ibu should be greater than or equal to "
+                . $ibuMinimum . ". Instead, it is " . $beer->getIbu()
+            );
+            $this->assertLessThanOrEqual(
+                $ibuMaximum,
+                $beer->getIbu(),
+                "Beer ibu should be less than or equal to "
+                . $ibuMaximum . ". Instead, it is " . $beer->getIbu()
+            );
+        }
+    }
+
+
+
+
+
+
+
 
     /**
      * Method used to pause between API requests.
