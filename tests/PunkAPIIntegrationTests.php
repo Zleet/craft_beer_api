@@ -254,6 +254,46 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test retrieving beer information for beers in a specific date range.
+     */
+    public function testGettingBeersBrewedWithASpecificDateRange()
+    {
+        // set start and end date
+        $startDate = "05-2010";
+        $endDate = "03-2014";
+
+        // build epoch datetimes from the start and end date
+        $startEpochDatetime = strtotime($startDate);
+        $endEpochDatetime = strtotime($endDate);
+
+        // test print
+        echo "\nStart epoch datetime = " . $startEpochDatetime;
+        echo "\nEnd epoch datetime = " . $endEpochDatetime;
+
+        $punkApi = new PunkAPI();
+
+        // set the start and end date
+        $punkApi->setBrewedAfter($startDate);
+        $punkApi->setBrewedBefore($endDate);
+
+        // get the beers
+        $beers = $punkApi->all();
+
+        // loop through the beers and check that the brew date for each beer
+        // lies within the specified range
+        foreach ($beers as $beer) {
+            echo "\nCurrent first brewed = " . $beer->getFirstBrewed();
+            // get the epoch datetime version of the current beer firstBrewed
+            // BOOKMARK
+
+            // check that the current beer firstbrewed lies between
+            // startEpochDatetime and endEpochDatetime
+
+
+        }
+    }
+
+    /**
      * Method used to pause between API requests.
      *
      * @param int $totalSeconds the number of seconds to pause
