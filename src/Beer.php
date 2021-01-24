@@ -120,6 +120,8 @@ class Beer
      * Check that the imageUrl is either a string or null
      *
      * @param string|null $imageUrl
+     *
+     * @return string|null
      */
     private function validateImageUrl($imageUrl)
     {

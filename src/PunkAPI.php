@@ -76,7 +76,7 @@ class PunkAPI
             $this->client = new Client(
                  [
                      'base_url' => 'https://api.punkapi.com/v2/beers/',
-                    'timeout'   => '5'
+                     'timeout'  => '5'
                  ]
             );
         }
@@ -93,7 +93,7 @@ class PunkAPI
             return;
         }
 
-        $this->AbvLowerbound = $lowerBound;
+        $this->abvLowerBound = $lowerBound;
     }
 
     public function getAbvLowerBound()
@@ -111,7 +111,7 @@ class PunkAPI
             return;
         }
 
-        $this->abvUpperbound = $upperBound;
+        $this->abvUpperBound = $upperBound;
     }
 
     public function getAbvUpperBound()
@@ -366,56 +366,6 @@ class PunkAPI
      */
     public function all() {
 
-//        // build the parameter string, which will go at the end of the url
-//        $params = '';
-//
-//        // we're going to build an array of strings, each one of which is
-//        // is composed of a parameter and a value, joined by an equals sign
-//        // e.g. 'abv-gt=6' etc.
-//        // Later, we're going to implode these along ampersands to build the
-//        // final url
-//        $parameterAndValueStrings = [];
-//
-//        // get all the variables of the current object and test print them
-//        $objectVariables = get_object_vars($this);
-//
-//        // loop through numeric properties and add them to the url parameters
-//        $numericPropertiesAndUrlParams = [
-//            "abvLowerBound" => "abv_gt",
-//            "abvUpperBound" => "abv_lt",
-//            "ibuLowerBound" => "ibu_gt",
-//            "ibuUpperBound" => "ibu_lt",
-//            "ebcLowerBound" => "ebc_gt",
-//            "ebcUpperBound" => "ebc_lt"
-//        ];
-//        foreach ($numericPropertiesAndUrlParams as $propertyName => $urlParam) {
-//            $parameterAndValue = $urlParam . '=';
-//            $parameterAndValue .= $objectVariables[$propertyName];
-//            $parameterAndValueStrings[] = $parameterAndValue;
-//        }
-//
-//        // loop through string properties. Only add a string property to the
-//        // url parameters if it's not an empty string
-//        $stringPropertiesAndUrlParams = [
-//            "beer"  => "beer_name",
-//            "yeast" => "yeast",
-//            "hops"  => "hops",
-//            "malt"  => "malt",
-//            "food"  => "food",
-//            "ids"   => "ids"
-//        ];
-//        foreach ($stringPropertiesAndUrlParams as $propertyName => $urlParam) {
-//            if (strlen($objectVariables[$propertyName]) > 0) {
-//                // get property value and replace spaces with underscores
-//                $propertyValue = $objectVariables[$propertyName];
-//                $propertyValue = str_replace(' ', '_',
-//                    $propertyValue);
-//                $parameterAndValue = $urlParam . '=';
-//                $parameterAndValue .= $propertyValue;
-//                $parameterAndValueStrings[] = $parameterAndValue;
-//            }
-//        }
-
         // Build an array containing all the parameters for querying the
         // Punk API. This will be passed into the API query when we attempt
         // to retrieve a bunch of beers.
@@ -434,11 +384,7 @@ class PunkAPI
             "malt"          => $this->malt,
             "food"          => $this->food,
             "ids"           => $this->ids
-                            ];
-
-        // prepend the url for the Punk API
-        // $url = 'https://api.punkapi.com/v2/beers';
-        // $url .= implode('&', $parameterAndValueStrings);
+        ];
 
         // get the data from the Punk API
         $client = new Client();

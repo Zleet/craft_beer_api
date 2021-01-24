@@ -376,6 +376,87 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test setting the minimum abv in a Punk API object
+     */
+    public function testSettingTheMinimumAbv()
+    {
+        $punkApi = new PunkAPI;
+
+        $randomMinimumAbv = rand(1, 40);
+        $punkApi->setAbvLowerBound($randomMinimumAbv);
+        $this->assertEquals(
+            $randomMinimumAbv,
+            $punkApi->getAbvLowerBound(),
+            "Attempted to set an ABV lower bound of "
+            . $randomMinimumAbv . " in the PunkAPI object. "
+            . "But PunkAPI->getAbvLowerBound() returns "
+            . $punkApi->getAbvLowerBound()
+        );
+    }
+
+    /**
+     * Test setting the maximum abv in a Punk API object
+     */
+    public function testSettingTheMaximumAbv()
+    {
+        $punkApi = new PunkAPI;
+
+        $randomMaximumAbv = rand(60, 100);
+        $punkApi->setAbvUpperBound($randomMaximumAbv);
+        $this->assertEquals(
+            $randomMaximumAbv,
+            $punkApi->getAbvUpperBound(),
+            "Attempted to set an ABV upper bound of "
+            . $randomMaximumAbv . " in the PunkAPI object. "
+            . "But PunkAPI->getAbvUpperBound() returns "
+            . $punkApi->getAbvUpperBound()
+        );
+    }
+
+    /**
+     * Test getting a collection of Beers from the actual Punk API
+     * whose ABV lies within a specified range
+     */
+    public function testGettingBeersWithAbvInASpecificRange()
+    {
+        $this->pauseBetweenApiRequests(2);
+
+        $abvMinimum = 3.0;
+        $abvMaximum = 4.0;
+
+        $punkAPI = new PunkAPI();
+
+        // set ABV lower and upper bounds
+        $punkAPI->setAbvLowerBound($abvMinimum);
+        $punkAPI->setAbvUpperBound($abvMaximum);
+
+        // get the beers
+        $bunchOfBeers = $punkAPI->all();
+
+        // calculate the delta and midpoint of the abv range, for use in
+        // assertEqualsWithDelta, below
+        $abvMidpoint = ($abvMinimum + $abvMaximum) / 2;
+        $delta = ($abvMaximum - $abvMinimum) / 2;
+
+        // loop through the beers and, for each beer, check that its abv
+        // lies in the range [$abvMinimum, $abvMaximum] inclusive
+        foreach ($bunchOfBeers as $beer) {
+            $this->assertGreaterThanOrEqual(
+                $abvMinimum,
+                $beer->getAbv(),
+                "Beer abv should be greater than or equal to "
+                . $abvMinimum . ". Instead, it is " . $beer->getAbv()
+            );
+            $this->assertLessThanOrEqual(
+                $abvMaximum,
+                $beer->getAbv(),
+                "Beer abv should be less than or equal to "
+                . $abvMaximum . ". Instead, it is " . $beer->getAbv()
+            );
+        }
+    }
+
+    /**
      * Method used to pause between API requests.
      *
      * @param int $totalSeconds the number of seconds to pause
