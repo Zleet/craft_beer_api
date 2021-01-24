@@ -9,7 +9,6 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
-
 class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -199,34 +198,34 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Test getting a bunch of beers with the substring 'lager' in their name.
-     */
-    public function testGettingBeersWithASpecificName()
-    {
-        $this->pauseBetweenApiRequests(2);
-
-        $punkAPI = new PunkAPI();
-
-        // set beer name
-        $punkAPI->setBeer('lager');
-
-        // get the beers
-        $bunchOfBeers = $punkAPI->all();
-
-        // loop through the Beer objects and check that each beer name contains
-        // the substring 'lager'
-        foreach ($bunchOfBeers as $beer) {
-            // test print the current beer name
-            echo "\nCurrent beer name:\n" . $beer->getName();
-            $this->assertStringContainsStringIgnoringCase(
-                'lager',
-                $beer->getName(),
-                "Attempting to retrieve beers with the substring"
-                . " 'lager' in their name is unsuccessful."
-            );
-        }
-    }
+//    /**
+//     * Test getting a bunch of beers with the substring 'lager' in their name.
+//     */
+//    public function testGettingBeersWithASpecificName()
+//    {
+//        $this->pauseBetweenApiRequests(2);
+//
+//        $punkAPI = new PunkAPI();
+//
+//        // set beer name
+//        $punkAPI->setBeer('lager');
+//
+//        // get the beers
+//        $bunchOfBeers = $punkAPI->all();
+//
+//        // loop through the Beer objects and check that each beer name contains
+//        // the substring 'lager'
+//        foreach ($bunchOfBeers as $beer) {
+//            // test print the current beer name
+//            echo "\nCurrent beer name:\n" . $beer->getName();
+//            $this->assertStringContainsStringIgnoringCase(
+//                'lager',
+//                $beer->getName(),
+//                "Attempting to retrieve beers with the substring"
+//                . " 'lager' in their name is unsuccessful."
+//            );
+//        }
+//    }
 
     /**
      * Test getting a bunch of beers with a yeast containing "American Ale"
@@ -253,43 +252,98 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
         }
     }
 
+//    /**
+//     * Test retrieving beer information for beers in a specific date range.
+//     */
+//    public function testGettingBeersBrewedWithASpecificDateRange()
+//    {
+//        // set start and end date
+//        $startDate = "05-2010";
+//        $endDate = "03-2014";
+//
+//        // build epoch datetimes from the start and end date
+//        $startEpochDatetime = $this->getEpochDatetimeFromFirstBrewedDateString(
+//            $startDate
+//        );
+//        $endEpochDatetime = $this->getEpochDatetimeFromFirstBrewedDateString(
+//            $endDate
+//        );
+//        echo "\nstart epoch datetime = " . $startEpochDatetime;
+//        echo "\nend epoch datetime = " . $endEpochDatetime;
+//
+//        $punkApi = new PunkAPI();
+//
+//        // set the start and end date
+//        $punkApi->setBrewedAfter($startDate);
+//        $punkApi->setBrewedBefore($endDate);
+//
+//        // get the beers
+//        $beers = $punkApi->all();
+//
+//        // loop through the beers and check that the brew date for each beer
+//        // lies within the specified range
+//        foreach ($beers as $beer) {
+//            // test print
+//            $currentBeerFirstBrewed = $beer->getFirstBrewed();
+//            echo "\nCurrent beer firstBrewed: " . $currentBeerFirstBrewed;
+//            // get the epoch datetime for current beer first brewed
+//            $currentBeerEpochDatetimeFirstBrewed = $this->getEpochDatetimeFromFirstBrewedDateString($currentBeerFirstBrewed);
+//            echo "\nCurrent beer epoch datetime first brewed:\n";
+//            echo $currentBeerEpochDatetimeFirstBrewed;
+//        }
+//    }
+
+
+
     /**
-     * Test retrieving beer information for beers in a specific date range.
+     * From a first brewed date string in the form "04-2012",
+     * get an epoch datetime.
+     *
+     * @param string $firstBrewedDateString the date the beer was first
+     *                                      brewed, in string form
+     *                                      (MM-YYYY)
+     *                                      (e.g. "05-2012")
+     *
+     * @return int
      */
-    public function testGettingBeersBrewedWithASpecificDateRange()
+    private function getEpochDatetimeFromFirstBrewedDateString(
+        $firstBrewedDateString
+    )
     {
-        // set start and end date
-        $startDate = "05-2010";
-        $endDate = "03-2014";
+        $dateObject = date_create_from_format(
+            'm-Y',
+            $firstBrewedDateString
+        );
+        $epochDatetime = date_timestamp_get($dateObject);
 
-        // build epoch datetimes from the start and end date
-        $startEpochDatetime = strtotime($startDate);
-        $endEpochDatetime = strtotime($endDate);
+        return $epochDatetime;
+    }
 
-        // test print
-        echo "\nStart epoch datetime = " . $startEpochDatetime;
-        echo "\nEnd epoch datetime = " . $endEpochDatetime;
+    /**
+     * Test getting beers with a specific hop name.
+     */
+    public function testGettingBeersWithASpecificHopName()
+    {
+        $punkApi = new PunkApi;
 
-        $punkApi = new PunkAPI();
+        $punkApi->setHops("Simcoe");
 
-        // set the start and end date
-        $punkApi->setBrewedAfter($startDate);
-        $punkApi->setBrewedBefore($endDate);
-
-        // get the beers
         $beers = $punkApi->all();
 
-        // loop through the beers and check that the brew date for each beer
-        // lies within the specified range
+        // loop through the beers and check that each beer contains the
+        // specified hop
         foreach ($beers as $beer) {
-            echo "\nCurrent first brewed = " . $beer->getFirstBrewed();
-            // get the epoch datetime version of the current beer firstBrewed
-            // BOOKMARK
-
-            // check that the current beer firstbrewed lies between
-            // startEpochDatetime and endEpochDatetime
-
-
+            $hops = $beer->getIngredients()->getHops();
+            $hopNameHasBeenFound = false;
+            foreach ($hops as $hop) {
+                if (strpos(strtoupper($hop->getName()), 'SIMCOE') !== false) {
+                    $hopNameHasBeenFound = true;
+                    break;
+                }
+            }
+            $this->assertTrue(
+                $hopNameHasBeenFound,
+                "Requesting beers by hop name doesn't work properly.");
         }
     }
 
