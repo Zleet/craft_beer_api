@@ -471,8 +471,8 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         // get the beers
         $bunchOfBeers = $punkAPI->all();
 
-        // loop through the beers and, for each beer, check that its abv
-        // lies in the range [$abvMinimum, $abvMaximum] inclusive
+        // loop through the beers and, for each beer, check that its ibu
+        // lies in the range [$ibuMinimum, $ibuMaximum] inclusive
         foreach ($bunchOfBeers as $beer) {
             $this->assertGreaterThanOrEqual(
                 $ibuMinimum,
@@ -489,6 +489,43 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * Test getting a collection of Beers from the actual Punk API
+     * whose EBC lies within a specified range
+     */
+    public function testGettingBeersWithEbcInASpecificRange()
+    {
+        $this->pauseBetweenApiRequests(2);
+
+        $ebcMinimum = 15;
+        $ebcMaximum = 23;
+
+        $punkAPI = new PunkAPI();
+
+        // set EBC lower and upper bounds
+        $punkAPI->setEbcLowerBound($ebcMinimum);
+        $punkAPI->setEbcUpperBound($ebcMaximum);
+
+        // get the beers
+        $bunchOfBeers = $punkAPI->all();
+
+        // loop through the beers and, for each beer, check that its ebc
+        // lies in the range [$ebcMinimum, $ebcMaximum] inclusive
+        foreach ($bunchOfBeers as $beer) {
+            $this->assertGreaterThanOrEqual(
+                $ebcMinimum,
+                $beer->getEbc(),
+                "Beer ebc should be greater than or equal to "
+                . $ebcMinimum . ". Instead, it is " . $beer->getEbc()
+            );
+            $this->assertLessThanOrEqual(
+                $ebcMaximum,
+                $beer->getEbc(),
+                "Beer ebc should be less than or equal to "
+                . $ebcMaximum . ". Instead, it is " . $beer->getEbc()
+            );
+        }
+    }
 
 
 
