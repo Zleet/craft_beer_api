@@ -49,7 +49,7 @@ class Beer
      * @param string         $tagline          the beer tagline
      * @param string         $firstBrewed      date when beer was first brewed
      * @param string         $description      a short description of the beer
-     * @param string         $imageUrl         the url of a photo of the beer
+     * @param string|null    $imageUrl         the url of a photo of the beer
      * @param float          $abv              alcoholic strength of the beer
      * @param int|float|null $ibu              beer ibu
      * @param int            $targetFg         beer target FG
@@ -76,7 +76,7 @@ class Beer
         string $tagline,
         string $firstBrewed,
         string $description,
-        string $imageUrl,
+        $imageUrl,
         float $abv,
         $ibu,
         int $targetFg,
@@ -98,7 +98,7 @@ class Beer
         $this->tagline = $tagline;
         $this->firstBrewed = $firstBrewed;
         $this->description = $description;
-        $this->imageUrl = $imageUrl;
+        $this->imageUrl = $this->validateImageUrl($imageUrl);
         $this->abv = $abv;
         $this->ibu = $this->validateIbu($ibu);
         $this->targetFg = $targetFg;
@@ -114,6 +114,22 @@ class Beer
         $this->foodPairing = $this->validateFoodPairing($foodPairing);
         $this->brewersTips = $brewersTips;
         $this->contributedBy = $contributedBy;
+    }
+
+    /**
+     * Check that the imageUrl is either a string or null
+     *
+     * @param string|null $imageUrl
+     */
+    private function validateImageUrl($imageUrl)
+    {
+        if ((!is_string($imageUrl)) && (!is_null($imageUrl))) {
+            throw new \InvalidArgumentException(
+                "imageUrl must be either a string or null."
+            );
+        }
+
+        return $imageUrl;
     }
 
     /**

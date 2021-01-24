@@ -309,9 +309,6 @@ class PunkAPI
         // get the response code
         $responseStatusCode = $response->getStatusCode();
 
-        // test print the response status code
-        echo "\nResponse status code:\n" . $responseStatusCode;
-
         // if we've got a 200 OK response, build a Beer object from the
         // decoded JSON data in the response body
         if ($responseStatusCode == 200) {

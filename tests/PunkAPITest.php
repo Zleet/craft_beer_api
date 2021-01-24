@@ -331,6 +331,8 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingARandomBeerUsingTheActualApi()
     {
+        $this->pauseBetweenApiRequests(2);
+
         // create a new PunkAPI object. Don't pass in a client object to
         // the constructor (we're going to contact the actual Punk API
         // online to get the random beer information)
@@ -345,5 +347,44 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $beer,
             "PunkAPI->random() didn't return a Beer object."
         );
+    }
+
+    /**
+     * Test getting all the beers using the actual Punk API
+     */
+    public function testGettingAllTheBeersUsingTheActualApi()
+    {
+        $this->pauseBetweenApiRequests(2);
+
+        $punkAPI = new PunkAPI();
+
+        // attempt to retrieve the information for several beers
+        // (in an array of Beer objects)
+        $bunchOfBeers = $punkAPI->all();
+
+        // loop through all the elements in the array $bunchOfBeers and check
+        // that they're all Beer objects
+        foreach ($bunchOfBeers as $beer) {
+            $this->assertInstanceOf(
+                Beer::class,
+                $beer,
+                "After contacting the actual Punk API, in the"
+                . " array returned by PunkAPI->all(), not all elements"
+                . " are Beer objects."
+            );
+        }
+    }
+
+    /**
+     * Method used to pause between API requests.
+     *
+     * @param int $totalSeconds the number of seconds to pause
+     */
+    private function pauseBetweenApiRequests($totalSeconds)
+    {
+        echo "\nPausing for " . $totalSeconds . " seconds to avoid contacting"
+             ." the Punk API too rapidly...";
+        sleep($totalSeconds);
+        echo "done!\n";
     }
 }
