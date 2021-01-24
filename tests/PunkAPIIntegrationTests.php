@@ -199,7 +199,6 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
         }
     }
 
-
     /**
      * Test getting a bunch of beers with the substring 'lager' in their name.
      */
@@ -218,11 +217,38 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
         // loop through the Beer objects and check that each beer name contains
         // the substring 'lager'
         foreach ($bunchOfBeers as $beer) {
-            $this->assertStringContainsString(
-                'LAGER',
-                strtoupper($beer->getName()),
+            // test print the current beer name
+            echo "\nCurrent beer name:\n" . $beer->getName();
+            $this->assertStringContainsStringIgnoringCase(
+                'lager',
+                $beer->getName(),
                 "Attempting to retrieve beers with the substring"
                 . " 'lager' in their name is unsuccessful."
+            );
+        }
+    }
+
+    /**
+     * Test getting a bunch of beers with a yeast containing "American Ale"
+     * in their yeast name.
+     */
+    public function testGettingBeersWithASpecificYeast()
+    {
+        $punkApi = new PunkAPI();
+
+        $punkApi->setYeast("American_Ale");
+
+        // get the beers
+        $beers = $punkApi->all();
+
+        // loop through the beers and check that the yeast for each beer
+        // contains the substring "American Ale"
+        foreach ($beers as $beer) {
+            $this->assertStringContainsStringIgnoringCase(
+                'American Ale',
+                $beer->getIngredients()->getYeast(),
+                "Beer->getYeast() doesn't return a yeast"
+                . " containing the substring 'American Ale'."
             );
         }
     }
