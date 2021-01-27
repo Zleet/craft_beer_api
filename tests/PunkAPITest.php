@@ -594,15 +594,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setEbcLowerBound("wiff waff");
     }
 
-
-
-
-
-
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // END OF NEW TESTING CODE (27/1/21)
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     /**
      * Test setting the beer name in a Punk API object.
      */
@@ -619,5 +610,25 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             "We can't set and get the beer name in the PunkAPI object,"
             . " using PunkAPI->setBeer() and PunkAPI->getBeer()."
         );
+    }
+
+    /**
+     * Test setting a beer name that is not a string
+     */
+    public function testSettingABeerNameThatIsNotAString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBeer(365);
+    }
+
+    /**
+     * Test setting a beer name that is an empty string.
+     */
+    public function testSettingABeerNameWithAnEmptyString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBeer("");
     }
 }

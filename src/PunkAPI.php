@@ -108,8 +108,7 @@ class PunkAPI
 
         if (($upperBound < 0) || ($upperBound > 100)) {
             throw new \InvalidArgumentException(
-                "The ABV upper bound must be between zero and 100 "
-                . "(inclusive)"
+                "The ABV upper bound must be between zero and 100 (inclusive)."
             );
         }
 
@@ -139,8 +138,7 @@ class PunkAPI
 
         if (($lowerBound < 1) || ($lowerBound > 100)) {
             throw new \InvalidArgumentException(
-                "IBU lower bound must be a value between"
-                . " 1 and 100 (inclusive)."
+                "IBU lower bound must be a value between 1 and 100 (inclusive)."
             );
         }
 
@@ -169,8 +167,7 @@ class PunkAPI
 
         if (($upperBound < 1) || ($upperBound > 100)) {
             throw new \InvalidArgumentException(
-                "IBU upper bound must lie between 1 to 100 "
-                . "(inclusive)."
+                "IBU upper bound must lie between 1 to 100 (inclusive)."
             );
         }
 
@@ -242,10 +239,17 @@ class PunkAPI
     /**
      * @param string $beer
      */
-    public function setBeer(string $beer)
+    public function setBeer($beer)
     {
         if (!is_string($beer)) {
-            return;
+            throw new \InvalidArgumentException(
+                "Beer name must be a string.");
+        }
+
+        if (strlen($beer) === 0) {
+            throw new \InvalidArgumentException(
+                "Beer name must be a non-empty string."
+            );
         }
 
         $this->beer = $beer;
