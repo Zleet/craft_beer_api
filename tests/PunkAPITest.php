@@ -605,6 +605,19 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test setting and retrieving the yeast.
+     */
+    public function testSettingYeast()
+    {
+        $punkApi = new PunkAPI();
+        $punkApi->setYeast("Delicious flavoursome yeast.");
+        $this->assertEquals(
+            'Delicious flavoursome yeast.',
+            $punkApi->getYeast()
+        );
+    }
+
+    /**
      * Test setting a yeast that is not a string
      */
     public function testSettingAYeastThatIsNotAString()
@@ -624,4 +637,91 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setYeast("");
     }
 
+    /**
+     * Test setting and retrieving Brewed Before.
+     */
+    public function testSettingBrewedBefore()
+    {
+        $punkApi = new PunkAPI();
+        $punkApi->setBrewedBefore("11-2012");
+        $this->assertEquals(
+            '11-2012',
+            $punkApi->getBrewedBefore()
+        );
+    }
+
+    /**
+     * Test setting brewed before with a month that isn't in the range 1 to 12
+     * (inclusive)
+     */
+    public function testSettingBrewedBeforeWithInvalidMonth()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBrewedBefore("14-2012");
+    }
+
+    /**
+     * Test setting Brewed Before with an invalid string
+     */
+    public function testSettingBrewedBeforeWithInvalidString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBrewedBefore("bad date");
+    }
+
+    /**
+     * Test setting brewed before with an integer
+     */
+    public function testSettingBrewedBeforeWithAnInteger()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBrewedBefore(89);
+    }
+
+    /**
+     * Test setting and retrieving Brewed After.
+     */
+    public function testSettingBrewedAfter()
+    {
+        $punkApi = new PunkAPI();
+        $punkApi->setBrewedAfter("10-2011");
+        $this->assertEquals(
+            '10-2011',
+            $punkApi->getBrewedAfter()
+        );
+    }
+
+    /**
+     * Test setting brewed after with a month that isn't in the range 1 to 12
+     * (inclusive)
+     */
+    public function testSettingBrewedAfterWithInvalidMonth()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBrewedAfter("14-2012");
+    }
+
+    /**
+     * Test setting Brewed After with an invalid string
+     */
+    public function testSettingBrewedAfterWithInvalidString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBrewedAfter("terrible date");
+    }
+
+    /**
+     * Test setting brewed after with an integer
+     */
+    public function testSettingBrewedAfterWithAnInteger()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setBrewedAfter(89);
+    }
 }

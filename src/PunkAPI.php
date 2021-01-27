@@ -298,6 +298,17 @@ class PunkAPI
     {
         if (preg_match('/[0-9]{2}-[0-9]{4}/', $brewedBefore)) {
             $this->brewedBefore = $brewedBefore;
+        } else {
+            throw new \InvalidArgumentException("Brewed before must be a string in the form DD-YYYY");
+        }
+
+        // check that month is from 1 to 12
+        $dateElements = explode('-', $brewedBefore);
+        $month = $dateElements[0];
+        $month = (int)$month;
+        if (($month < 1) || ($month > 12)) {
+            throw new \InvalidArgumentException(
+                "Month in Brewed Before must be between 1 and 12 (inclusive)");
         }
     }
 
@@ -316,6 +327,17 @@ class PunkAPI
     {
         if (preg_match('/[0-9]{2}-[0-9]{4}/', $brewedAfter)) {
             $this->brewedAfter = $brewedAfter;
+        } else {
+            throw new \InvalidArgumentException("Brewed after must be a string in the form DD-YYYY");
+        }
+
+        // check that month is from 1 to 12
+        $dateElements = explode('-', $brewedAfter);
+        $month = $dateElements[0];
+        $month = (int)$month;
+        if (($month < 1) || ($month > 12)) {
+            throw new \InvalidArgumentException(
+                "Month in Brewed After must be between 1 and 12 (inclusive)");
         }
     }
 
