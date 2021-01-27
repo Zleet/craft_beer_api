@@ -378,9 +378,15 @@ class PunkAPI
      */
     public function setMalt($malt)
     {
-        if (is_string($malt)) {
-            $this->malt = $malt;
+        if (!is_string($malt)) {
+            throw new \InvalidArgumentException("Malt must be a string.");
         }
+
+        if (strlen($malt) === 0) {
+            throw new \InvalidArgumentException("Malt must be a non-empty string.");
+        }
+
+        $this->malt = $malt;
     }
 
     /**
