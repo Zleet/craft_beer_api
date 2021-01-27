@@ -6,3 +6,4 @@
 composer.phar
 notes.txt
 "regular expression notes.txt"
+.phpunit.result.cache
