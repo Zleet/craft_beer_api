@@ -492,11 +492,107 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setIbuUpperBound("garbage in, garbage out");
     }
 
+    /**
+     * Test setting the minimum EBC and getting the same value back.
+     * EBC can range from 2 to 27 (inclusive).
+     */
+    public function testSettingTheMinimumEbcAndGettingTheSameValueBack()
+    {
+        $punkApi = new PunkAPI();
 
+        $randomEbc = rand(2, 27);
+        $punkApi->setEbcLowerBound($randomEbc);
+        $this->assertEquals(
+            $randomEbc,
+            $punkApi->getEbcLowerBound(),
+            "Attempted to set an EBC lower bound of "
+            . $randomEbc . " in the PunkAPI object. "
+            . "But PunkAPI->getEbcLowerBound() returns "
+            . $punkApi->getEbcLowerBound()
+        );
+    }
 
+    /**
+     * Test setting a minimum EBC that is too low (less than 2)
+     */
+    public function testSettingAMinimumEbcThatIsTooLow()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setEbcLowerBound(1);
+    }
 
+    /**
+     * Test setting a minimum EBC that is too high (greater than 27)
+     */
+    public function testSettingAMinimumEbcThatIsTooHigh()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setEbcLowerBound(28);
+    }
 
+    /**
+     * Test setting a minimum EBC with a value that is neither an integer
+     * nor a float.
+     */
+    public function testSettingAMinimumEbcThatIsNotAnIntegerOrAFloat()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setEbcLowerBound("beep boop");
+    }
 
+    /**
+     * Test setting the maximum EBC and getting the same value back.
+     * EBC can range from 2 to 27 (inclusive).
+     */
+    public function testSettingTheMaximumEbcAndGettingTheSameValueBack()
+    {
+        $punkApi = new PunkAPI();
+
+        $randomEbc = rand(2, 27);
+        $punkApi->setEbcUpperBound($randomEbc);
+        $this->assertEquals(
+            $randomEbc,
+            $punkApi->getEbcUpperBound(),
+            "Attempted to set an EBC upper bound of "
+            . $randomEbc . " in the PunkAPI object. "
+            . "But PunkAPI->getEbcUpperBound() returns "
+            . $punkApi->getEbcUpperBound()
+        );
+    }
+
+    /**
+     * Test setting a maximum EBC that is too low (less than 2)
+     */
+    public function testSettingAMaximumEbcThatIsTooLow()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setEbcUpperBound(1);
+    }
+
+    /**
+     * Test setting a maximum EBC that is too high (greater than 27)
+     */
+    public function testSettingAMaximumEbcThatIsTooHigh()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setEbcUpperBound(28);
+    }
+
+    /**
+     * Test setting a maximum EBC with a value that is neither an integer
+     * nor a float.
+     */
+    public function testSettingAMaximumEbcThatIsNotAnIntegerOrAFloat()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setEbcLowerBound("wiff waff");
+    }
 
 
 

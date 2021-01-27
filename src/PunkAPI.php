@@ -185,19 +185,21 @@ class PunkAPI
         return $this->ibuUpperBound;
     }
 
-    // The EBC scale ranges from 2 to 27
-
     /**
+     * Set the minimum EBC. The EBC scale ranges from 2 to 27 (inclusive)
+     *
      * @param $lowerBound
      */
     public function setEbcLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
-            return;
+            throw new \InvalidArgumentException(
+                "Minimum EBC must be either an integer or a float.");
         }
 
         if (($lowerBound < 2) || ($lowerBound > 27)) {
-            return;
+            throw new \InvalidArgumentException(
+                "Minimum EBC must be between 2 and 27 (inclusive).");
         }
 
         $this->ebcLowerBound = $lowerBound;
@@ -217,11 +219,13 @@ class PunkAPI
     public function setEbcUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
-            return;
+            throw new \InvalidArgumentException(
+                "Maximum EBC must be either an integer or a float.");
         }
 
-        if (($upperBound > 27) || ($upperBound < 2)) {
-            return;
+        if (($upperBound < 2) || ($upperBound > 27)) {
+            throw new \InvalidArgumentException(
+                "Maximum EBC must be between 2 and 27 (inclusive).");
         }
 
         $this->ebcUpperBound = $upperBound;
