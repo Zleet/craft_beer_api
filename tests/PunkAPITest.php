@@ -175,8 +175,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             $this->assertInstanceOf(
                 Beer::class,
                 $beer,
-                "In the array returned by PunkAPI->all(), not all"
-                . " elements are Beer objects."
+                "In the array returned by PunkAPI->all(), not all elements are Beer objects."
             );
         }
 
@@ -265,8 +264,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         // check that the bad value for id was not set and it is actually still
         // the default value (i.e. an empty string)
         $this->assertEquals('', $punkApi->getIds(),
-            'PunkAPI object allows setting of ID property with '
-            . 'invalid characters (i.e. characters not in "0123456789 |").');
+            'PunkAPI object allows setting of ID property with invalid characters (i.e. characters not in "0123456789 |").');
     }
 
     /**
@@ -285,9 +283,8 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
 
         // check that the good value for id was set
         $this->assertEquals('34|3|45|23|3', $punkApi->getIds(),
-            "PunkAPI object won't allow an ids value with a valid "
-            . "id string to be set. (i.e. an id string containing only "
-            . 'the characters in "0123456789 |"');
+            "PunkAPI object won't allow an ids value with a valid id string to be set. (i.e. an id string containing only the characters in '0123456789 |'"
+        );
     }
 
     /**
@@ -303,10 +300,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             $randomMinimumAbv,
             $punkApi->getAbvLowerBound(),
-            "Attempted to set an ABV lower bound of "
-            . $randomMinimumAbv . " in the PunkAPI object. "
-            . "But PunkAPI->getAbvLowerBound() returns "
-            . $punkApi->getAbvLowerBound()
+            "Attempted to set an ABV lower bound of " . $randomMinimumAbv . " in the PunkAPI object. But PunkAPI->getAbvLowerBound() returns " . $punkApi->getAbvLowerBound()
         );
     }
 
@@ -353,11 +347,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setAbvUpperBound($randomMaximumAbv);
         $this->assertEquals(
             $randomMaximumAbv,
-            $punkApi->getAbvUpperBound(),
-            "Attempted to set an ABV upper bound of "
-            . $randomMaximumAbv . " in the PunkAPI object. "
-            . "But PunkAPI->getAbvUpperBound() returns "
-            . $punkApi->getAbvUpperBound()
+            $punkApi->getAbvUpperBound()
         );
     }
 
@@ -403,11 +393,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setIbuLowerBound($randomIbu);
         $this->assertEquals(
             $randomIbu,
-            $punkApi->getIbuLowerBound(),
-            "Attempted to set an IBU lower bound of "
-            . $randomIbu . " in the PunkAPI object. "
-            . "But PunkAPI->getIbuLowerBound() returns "
-            . $punkApi->getIbuLowerBound()
+            $punkApi->getIbuLowerBound()
         );
     }
 
@@ -454,11 +440,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setIbuUpperBound($randomIbu);
         $this->assertEquals(
             $randomIbu,
-            $punkApi->getIbuUpperBound(),
-            "Attempted to set an IBU upper bound of "
-            . $randomIbu . " in the PunkAPI object. "
-            . "But PunkAPI->getIbuUpperBound() returns "
-            . $punkApi->getIbuUpperBound()
+            $punkApi->getIbuUpperBound()
         );
     }
 
@@ -504,11 +486,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setEbcLowerBound($randomEbc);
         $this->assertEquals(
             $randomEbc,
-            $punkApi->getEbcLowerBound(),
-            "Attempted to set an EBC lower bound of "
-            . $randomEbc . " in the PunkAPI object. "
-            . "But PunkAPI->getEbcLowerBound() returns "
-            . $punkApi->getEbcLowerBound()
+            $punkApi->getEbcLowerBound()
         );
     }
 
@@ -555,11 +533,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setEbcUpperBound($randomEbc);
         $this->assertEquals(
             $randomEbc,
-            $punkApi->getEbcUpperBound(),
-            "Attempted to set an EBC upper bound of "
-            . $randomEbc . " in the PunkAPI object. "
-            . "But PunkAPI->getEbcUpperBound() returns "
-            . $punkApi->getEbcUpperBound()
+            $punkApi->getEbcUpperBound()
         );
     }
 
@@ -606,9 +580,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         // check that the beer name has been set in the PunkAPI object
         $this->assertEquals(
             "Zleet's tasty hoppy pilsner",
-            $punkApi->getBeer(),
-            "We can't set and get the beer name in the PunkAPI object,"
-            . " using PunkAPI->setBeer() and PunkAPI->getBeer()."
+            $punkApi->getBeer()
         );
     }
 
