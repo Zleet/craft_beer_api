@@ -50,35 +50,17 @@ class PunkAPI
     /**
      * PunkAPI constructor.
      *
-     * @param int    $abvLowerBound
-     * @param int    $abvUpperBound
-     * @param int    $ibuLowerBound
-     * @param int    $ibuUpperBound
-     * @param int    $ebcLowerBound
-     * @param int    $ebcUpperBound
-     * @param string $beer
-     * @param string $yeast
-     * @param string $brewedBefore
-     * @param string $brewedAfter
-     * @param string $hops
-     * @param string $malt
-     * @param string $food
-     * @param string $ids
-     * @param Client $client        a GuzzleHttp\client object
+     * @param Client|null $client
      */
-    public function __construct(
-        Client $client  = null
-    ) {
-        // if a GuzzleHttp\Client hasn't been passed into the PunkAPI
-        // constructor, create a Client object that will make real requests
-        // to the Punk API
+    public function __construct(Client $client = null)
+    {
+        $this->client = $client;
+
         if (is_null($this->client)) {
-            $this->client = new Client(
-                 [
-                     'base_url' => 'https://api.punkapi.com/v2/beers/',
-                     'timeout'  => '5'
-                 ]
-            );
+            $this->client = new Client([
+                'base_url' => 'https://api.punkapi.com/v2/beers/',
+                'timeout' => '5'
+            ]);
         }
     }
 
@@ -299,7 +281,8 @@ class PunkAPI
     }
 
     // get a single beer
-    public function single($id) {
+    public function single($id)
+    {
 
         // get the beer info
         $response = $this->client->request(
@@ -337,7 +320,8 @@ class PunkAPI
      *
      * @return array
      */
-    public function singleAsArray($id) {
+    public function singleAsArray($id)
+    {
 
         // get the beer info
         $response = $this->client->request(
@@ -367,15 +351,11 @@ class PunkAPI
     }
 
 
-
-
-
-
-
     /**
      * Get a random beer.
      */
-    public function random() {
+    public function random()
+    {
 
         // get the beer info
         $response = $this->client->request(
@@ -406,26 +386,27 @@ class PunkAPI
      * Get all the beers, using parameters set in the properties of the
      * PunkAPI object
      */
-    public function all() {
+    public function all()
+    {
 
         // Build an array containing all the parameters for querying the
         // Punk API. This will be passed into the API query when we attempt
         // to retrieve a bunch of beers.
         $paramsAndValues = [
-            "abv_gt"        => $this->abvLowerBound,
-            "abv_lt"        => $this->abvUpperBound,
-            "ibu_gt"        => $this->ibuLowerBound,
-            "ibu_lt"        => $this->ibuUpperBound,
-            "ebc_gt"        => $this->ebcLowerBound,
-            "ebc_lt"        => $this->ebcUpperBound,
-            "beer_name"     => $this->beer,
-            "yeast"         => $this->yeast,
+            "abv_gt" => $this->abvLowerBound,
+            "abv_lt" => $this->abvUpperBound,
+            "ibu_gt" => $this->ibuLowerBound,
+            "ibu_lt" => $this->ibuUpperBound,
+            "ebc_gt" => $this->ebcLowerBound,
+            "ebc_lt" => $this->ebcUpperBound,
+            "beer_name" => $this->beer,
+            "yeast" => $this->yeast,
             "brewed_before" => $this->brewedBefore,
-            "brewed_after"  => $this->brewedAfter,
-            "hops"          => $this->hops,
-            "malt"          => $this->malt,
-            "food"          => $this->food,
-            "ids"           => $this->ids
+            "brewed_after" => $this->brewedAfter,
+            "hops" => $this->hops,
+            "malt" => $this->malt,
+            "food" => $this->food,
+            "ids" => $this->ids
         ];
 
         // get the data from the Punk API
@@ -451,7 +432,7 @@ class PunkAPI
             // echo "\n\nbeersInfo:\n:";
             // print_r($beersInfo);
             $arrayOfBeerObjects = [];
-            foreach($beersInfo as $singleBeerInfo) {
+            foreach ($beersInfo as $singleBeerInfo) {
                 $beerObject = Beer::fromArray($singleBeerInfo);
                 $arrayOfBeerObjects[] = $beerObject;
             }
@@ -472,7 +453,8 @@ class PunkAPI
      * time we want to test. It reads a sample JSON API response from a local
      * file, decodes it and returns it as an associative array.
      */
-    private function readSingleBeerInfoFromLocalFile() {
+    private function readSingleBeerInfoFromLocalFile()
+    {
 
         // get all the elements in the current directory
         $dirElements = explode('/', __DIR__);
@@ -501,7 +483,8 @@ class PunkAPI
      * Helper function to fetch the information for a single beer using the
      * Punk API
      */
-    private function fetchSingleBeerInfoFromPunkApi($id) {
+    private function fetchSingleBeerInfoFromPunkApi($id)
+    {
 
         $client = new Client();
 
