@@ -724,4 +724,39 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
         $punkApi->setBrewedAfter(89);
     }
+
+    /**
+     * Test setting and retrieving the hops
+     */
+    public function testSettingTheHops()
+    {
+        $punkApi = new PunkAPI();
+        $punkApi->setHops("Very strong hops.");
+        $this->assertEquals(
+            "Very strong hops.",
+            $punkApi->getHops()
+        );
+
+    }
+
+    /**
+     * Test setting the hops with an empty string
+     */
+    public function testSettingHopsWithAnEmptyString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setHops("");
+    }
+
+    /**
+     * Test setting the hops with a non-string
+     */
+    public function testSettingHopsWithANonString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setHops(1234);
+    }
+
 }

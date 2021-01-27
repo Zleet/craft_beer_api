@@ -354,9 +354,15 @@ class PunkAPI
      */
     public function setHops($hops)
     {
-        if (is_string($hops)) {
-            $this->hops = $hops;
+        if (!is_string($hops)) {
+            throw new \InvalidArgumentException("Hops must be a string.");
         }
+
+        if (strlen($hops) === 0) {
+            throw new \InvalidArgumentException("Hops must be a non-empty string.");
+        }
+
+        $this->hops = $hops;
     }
 
     /**
