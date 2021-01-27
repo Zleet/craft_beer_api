@@ -82,25 +82,39 @@ class PunkAPI
         }
     }
 
-    // ABV can range from 0 to 100
+    /**
+     * Set the ABV lower bound. (ABV can range from 0 to 100)
+     *
+     * @param int $lowerBound
+     */
     public function setAbvLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
-            return;
+            throw new \InvalidArgumentException(
+                "The ABV lower bound must be an integer or a float."
+            );
         }
 
         if ($lowerBound < 0) {
-            return;
+            throw new \InvalidArgumentException(
+                "The ABV lower bound must be zero or greater."
+            );
         }
 
         $this->abvLowerBound = $lowerBound;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAbvLowerBound()
     {
         return $this->abvLowerBound;
     }
 
+    /**
+     * @param $upperBound
+     */
     public function setAbvUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
@@ -114,12 +128,19 @@ class PunkAPI
         $this->abvUpperBound = $upperBound;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAbvUpperBound()
     {
         return $this->abvUpperBound;
     }
 
     // The IBU scale ranges from 1 to 100
+
+    /**
+     * @param $lowerBound
+     */
     public function setIbuLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
@@ -133,11 +154,17 @@ class PunkAPI
         $this->ibuLowerBound = $lowerBound;
     }
 
+    /**
+     * @return mixed
+     */
     public function getIbuLowerBound()
     {
         return $this->ibuLowerBound;
     }
 
+    /**
+     * @param $upperBound
+     */
     public function setIbuUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
@@ -151,12 +178,19 @@ class PunkAPI
         $this->ibuUpperBound = $upperBound;
     }
 
+    /**
+     * @return mixed
+     */
     public function getIbuUpperBound()
     {
         return $this->ibuUpperBound;
     }
 
     // The EBC scale ranges from 2 to 27
+
+    /**
+     * @param $lowerBound
+     */
     public function setEbcLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
@@ -170,11 +204,17 @@ class PunkAPI
         $this->ebcLowerBound = $lowerBound;
     }
 
+    /**
+     * @return mixed
+     */
     public function getEbcLowerBound()
     {
         return $this->ebcLowerBound;
     }
 
+    /**
+     * @param $upperBound
+     */
     public function setEbcUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
@@ -188,11 +228,17 @@ class PunkAPI
         $this->ebcUpperBound = $upperBound;
     }
 
+    /**
+     * @return mixed
+     */
     public function getEbcUpperBound()
     {
         return $this->ebcUpperBound;
     }
 
+    /**
+     * @param string $beer
+     */
     public function setBeer(string $beer)
     {
         if (!is_string($beer)) {
@@ -202,11 +248,17 @@ class PunkAPI
         $this->beer = $beer;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBeer()
     {
         return $this->beer;
     }
 
+    /**
+     * @param string $yeast
+     */
     public function setYeast(string $yeast)
     {
         if (!is_string($yeast)) {
@@ -216,11 +268,17 @@ class PunkAPI
         $this->yeast = $yeast;
     }
 
+    /**
+     * @return mixed
+     */
     public function getYeast()
     {
         return $this->yeast;
     }
 
+    /**
+     * @param string $brewedBefore
+     */
     public function setBrewedBefore(string $brewedBefore)
     {
         if (preg_match('/[0-9]{2}-[0-9]{4}/', $brewedBefore)) {
@@ -228,11 +286,17 @@ class PunkAPI
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getBrewedBefore()
     {
         return $this->brewedBefore;
     }
 
+    /**
+     * @param $brewedAfter
+     */
     public function setBrewedAfter($brewedAfter)
     {
         if (preg_match('/[0-9]{2}-[0-9]{4}/', $brewedAfter)) {
@@ -240,11 +304,17 @@ class PunkAPI
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getBrewedAfter()
     {
         return $this->brewedAfter;
     }
 
+    /**
+     * @param $hops
+     */
     public function setHops($hops)
     {
         if (is_string($hops)) {
@@ -252,11 +322,17 @@ class PunkAPI
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getHops()
     {
         return $this->hops;
     }
 
+    /**
+     * @param $malt
+     */
     public function setMalt($malt)
     {
         if (is_string($malt)) {
@@ -264,11 +340,17 @@ class PunkAPI
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getMalt()
     {
         return $this->malt;
     }
 
+    /**
+     * @param $food
+     */
     public function setFood($food)
     {
         if (is_string($food)) {
@@ -276,11 +358,17 @@ class PunkAPI
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getFood()
     {
         return $this->food;
     }
 
+    /**
+     * @param $ids
+     */
     public function setIds($ids)
     {
         // why is this regex not working???
@@ -293,12 +381,21 @@ class PunkAPI
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getIds()
     {
         return $this->ids;
     }
 
     // get a single beer
+
+    /**
+     * @param $id
+     * @return void|Beer
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function single($id) {
 
         // get the beer info
