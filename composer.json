@@ -18,5 +18,8 @@
       "psr-4": {
         "Zleet\\PunkAPI\\": "src/"
       }
-    }
+    },
+  "require": {
+    "ext-json": "*"
+  }
 }

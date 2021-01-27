@@ -22,6 +22,7 @@
 namespace Zleet\PunkAPI;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
@@ -31,7 +32,7 @@ use GuzzleHttp\Exception\ClientException;
 
 class PunkAPI
 {
-    private $client;
+    private $client = null;
     private $abvLowerBound;
     private $abvUpperBound;
     private $ibuLowerBound;
@@ -54,11 +55,11 @@ class PunkAPI
      */
     public function __construct(Client $client = null)
     {
-        $this->client = $client;
+        //$this->client = $client;
 
         if (is_null($this->client)) {
             $this->client = new Client([
-                'base_url' => 'https://api.punkapi.com/v2/beers/',
+                'base_uri' => 'https://api.punkapi.com/v2/beers/',
                 'timeout' => '5'
             ]);
         }
@@ -280,37 +281,26 @@ class PunkAPI
         return $this->ids;
     }
 
-    // get a single beer
-    public function single($id)
+
+    /**
+     * @param $id
+     * @return Beer
+     * @throws GuzzleException
+     */
+    public function single($id): Beer
     {
+        $response = $this->client->get(strval($id));
 
-        // get the beer info
-        $response = $this->client->request(
-            'GET',
-            'https://api.punkapi.com/v2/beers/' . strval($id));
-
-        // get the response code
-        $responseStatusCode = $response->getStatusCode();
-
-        // if we've got a 200 OK response, build a Beer object from the
-        // decoded JSON data in the response body
-        if ($responseStatusCode == 200) {
-            // decode the JSON in the response body
-            $responseBody = $response->getBody();
-            // build a Beer object from the JSON and return it
-            $beerInfo = json_decode($responseBody, 1)[0];
-            $beer = Beer::fromArray($beerInfo);
-            return $beer;
+        switch ($response->getStatusCode()) {
+            case 200:
+                $responseBody = $response->getBody();
+                $beerInfo = json_decode($responseBody, 1)[0];
+                return Beer::fromArray($beerInfo);
+            case 400:
+                throw new ClientException("404 Beer not found");
+            default:
+                throw new ClientException("There was an error");
         }
-
-        // handle a 404 beer not found response
-        if ($responseStatusCode == 404) {
-            throw new ClientException("404 Beer not found");
-        }
-
-        // TODO: handle other response codes here
-
-        return;
     }
 
     /**
