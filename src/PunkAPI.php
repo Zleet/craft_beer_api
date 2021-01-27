@@ -266,10 +266,18 @@ class PunkAPI
     /**
      * @param string $yeast
      */
-    public function setYeast(string $yeast)
+    public function setYeast($yeast)
     {
         if (!is_string($yeast)) {
-            return;
+            throw new \InvalidArgumentException(
+                "Yeast must be a string."
+            );
+        }
+
+        if (strlen($yeast) === 0) {
+            throw new \InvalidArgumentException(
+                "Yeast must be a non-empty string."
+            );
         }
 
         $this->yeast = $yeast;

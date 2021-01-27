@@ -603,4 +603,25 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
         $punkApi->setBeer("");
     }
+
+    /**
+     * Test setting a yeast that is not a string
+     */
+    public function testSettingAYeastThatIsNotAString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setYeast(365);
+    }
+
+    /**
+     * Test setting a yeast that is an empty string.
+     */
+    public function testSettingAYeastWithAnEmptyString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setYeast("");
+    }
+
 }
