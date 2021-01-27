@@ -297,6 +297,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     {
         $punkApi = new PunkAPI;
 
+        // test setting a minimum ABV and getting the same value back
         $randomMinimumAbv = rand(1, 40);
         $punkApi->setAbvLowerBound($randomMinimumAbv);
         $this->assertEquals(
@@ -307,6 +308,14 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             . "But PunkAPI->getAbvLowerBound() returns "
             . $punkApi->getAbvLowerBound()
         );
+
+        // test setting an ABV that is too low (less than zero)
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setAbvLowerBound(-5);
+
+        // test setting an ABV that is too high (greater than 100)
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setAbvLowerBound(107);
     }
 
     /**
@@ -316,6 +325,7 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     {
         $punkApi = new PunkAPI;
 
+        // test setting a maximum ABV and getting the same value back
         $randomMaximumAbv = rand(60, 100);
         $punkApi->setAbvUpperBound($randomMaximumAbv);
         $this->assertEquals(
@@ -326,6 +336,14 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             . "But PunkAPI->getAbvUpperBound() returns "
             . $punkApi->getAbvUpperBound()
         );
+
+        // test setting a maximum ABV that is too low (less than zero)
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setAbvUpperBound(-5);
+
+        // test setting a maximum ABV that is too high (greater than 100)
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setAbvUpperBound(107);
     }
 
     /**

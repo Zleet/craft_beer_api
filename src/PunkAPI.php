@@ -27,7 +27,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\RequestException;
+//use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 
 class PunkAPI
@@ -55,8 +55,6 @@ class PunkAPI
      */
     public function __construct(Client $client = null)
     {
-        //$this->client = $client;
-
         if (is_null($this->client)) {
             $this->client = new Client([
                 'base_uri' => 'https://api.punkapi.com/v2/beers/',
@@ -78,9 +76,10 @@ class PunkAPI
             );
         }
 
-        if ($lowerBound < 0) {
+        if (($lowerBound < 0) || ($lowerBound > 100)) {
             throw new \InvalidArgumentException(
-                "The ABV lower bound must be zero or greater."
+                "The ABV lower bound must be between zero and 100 "
+                . "(inclusive)"
             );
         }
 
@@ -101,11 +100,16 @@ class PunkAPI
     public function setAbvUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
-            return;
+            throw new \InvalidArgumentException(
+                "The ABV upper bound must be an integer or a float."
+            );
         }
 
-        if ($upperBound > 100) {
-            return;
+        if (($upperBound < 0) || ($upperBound > 100)) {
+            throw new \InvalidArgumentException(
+                "The ABV upper bound must be between zero and 100 "
+                . "(inclusive)"
+            );
         }
 
         $this->abvUpperBound = $upperBound;
@@ -593,7 +597,4 @@ class PunkAPI
         // found in the string $whiteList
         return 1;
     }
-
-    //
-
 }
