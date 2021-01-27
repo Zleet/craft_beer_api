@@ -42,11 +42,14 @@ class Temperature
      */
     private function validateValue($value)
     {
-        if ((!is_integer($value)) && (!is_null($value))) {
+        if ((!is_numeric($value)) && (!is_null($value))) {
             throw new \InvalidArgumentException(
                 "Value must be either null or an integer."
+                . " Instead, " . $value . " is a " . gettype($value)
             );
         }
+
+        $value = (int)$value;
 
         if ((is_integer($value)) && ($value < 0)) {
             throw new \InvalidArgumentException(
