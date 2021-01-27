@@ -29,6 +29,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 //use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
+use http\Exception\InvalidArgumentException;
 
 class PunkAPI
 {
@@ -123,19 +124,24 @@ class PunkAPI
         return $this->abvUpperBound;
     }
 
-    // The IBU scale ranges from 1 to 100
-
     /**
+     * Set the IBU lower bound. (IBU can range from 1 to 100).
+     *
      * @param $lowerBound
      */
     public function setIbuLowerBound($lowerBound)
     {
         if ((!is_int($lowerBound)) && (!is_float($lowerBound))) {
-            return;
+            throw new \InvalidArgumentException(
+                "IBU lower bound must be either an integer or a float."
+            );
         }
 
-        if ($lowerBound < 1) {
-            return;
+        if (($lowerBound < 1) || ($lowerBound > 100)) {
+            throw new \InvalidArgumentException(
+                "IBU lower bound must be a value between"
+                . " 1 and 100 (inclusive)."
+            );
         }
 
         $this->ibuLowerBound = $lowerBound;
@@ -150,16 +156,22 @@ class PunkAPI
     }
 
     /**
+     * Set the maximum IBU (which can range from 1 to 100 inclusive).
      * @param $upperBound
      */
     public function setIbuUpperBound($upperBound)
     {
         if ((!is_int($upperBound)) && (!is_float($upperBound))) {
-            return;
+            throw new \InvalidArgumentException(
+                "IBU upper bound must be either an integer or a float."
+            );
         }
 
-        if ($upperBound > 100) {
-            return;
+        if (($upperBound < 1) || ($upperBound > 100)) {
+            throw new \InvalidArgumentException(
+                "IBU upper bound must lie between 1 to 100 "
+                . "(inclusive)."
+            );
         }
 
         $this->ibuUpperBound = $upperBound;

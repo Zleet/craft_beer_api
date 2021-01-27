@@ -293,9 +293,9 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     /**
      * Test setting the minimum abv in a Punk API object
      */
-    public function testSettingTheMinimumAbv()
+    public function testSettingTheMinimumAbvAndGettingTheSameValueBack()
     {
-        $punkApi = new PunkAPI;
+        $punkApi = new PunkAPI();
 
         // test setting a minimum ABV and getting the same value back
         $randomMinimumAbv = rand(1, 40);
@@ -308,22 +308,45 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             . "But PunkAPI->getAbvLowerBound() returns "
             . $punkApi->getAbvLowerBound()
         );
+    }
 
-        // test setting an ABV that is too low (less than zero)
+    /**
+     * Test setting a minimum ABV that is too low (i.e. less than zero).
+     */
+    public function testSettingAMinimumAbvThatIsTooLow()
+    {
+        $punkApi = new PunkAPI();
         $this->expectException(InvalidArgumentException::class);
         $punkApi->setAbvLowerBound(-5);
+    }
 
-        // test setting an ABV that is too high (greater than 100)
+    /**
+     * Test setting a minimum ABV that is too high (i.e. greater than 100).
+     */
+    public function testSettingAMinimumAbvThatIsTooHigh()
+    {
+        $punkApi = new PunkAPI();
         $this->expectException(InvalidArgumentException::class);
         $punkApi->setAbvLowerBound(107);
     }
 
     /**
-     * Test setting the maximum abv in a Punk API object
+     * Test setting a minimum ABV that is not an integer or a float
+     */
+    public function testSettingAMinimumAbvThatIsNotIntegerOrFloat()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setAbvLowerBound("garbage");
+    }
+
+    /**
+     * Test setting the maximum abv in a Punk API object and getting the same
+     * value back.
      */
     public function testSettingTheMaximumAbv()
     {
-        $punkApi = new PunkAPI;
+        $punkApi = new PunkAPI();
 
         // test setting a maximum ABV and getting the same value back
         $randomMaximumAbv = rand(60, 100);
@@ -336,15 +359,153 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
             . "But PunkAPI->getAbvUpperBound() returns "
             . $punkApi->getAbvUpperBound()
         );
+    }
 
-        // test setting a maximum ABV that is too low (less than zero)
+    /**
+     * Test setting a maximum ABV that is too low (less than zero)
+     */
+    public function testSettingAMaximumAbvThatIsTooLow()
+    {
+        $punkApi = new PunkAPI();
         $this->expectException(InvalidArgumentException::class);
         $punkApi->setAbvUpperBound(-5);
+    }
 
-        // test setting a maximum ABV that is too high (greater than 100)
+    /**
+     * Test setting a maximum ABV that is too large (greater than 100).
+     */
+    public function testSettingAMaximumAbvThatIsTooHigh()
+    {
+        $punkApi = new PunkAPI();
         $this->expectException(InvalidArgumentException::class);
         $punkApi->setAbvUpperBound(107);
     }
+
+    /**
+     * Test setting a maximum ABV that is not an integer or a float.
+     */
+    public function testSettingAMaximumAbvThatIsNotAnIntegerOrAFloat()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setAbvUpperBound("nonsense");
+    }
+
+    /**
+     * Test setting the minimum IBU. IBU can range from 1 to 100 (inclusive).
+     */
+    public function testSettingMinimumIbuAndGettingSameValueBack()
+    {
+        $punkApi = new PunkAPI();
+
+        // test setting a minimum IBU and getting the same value back
+        $randomIbu = rand(60, 100);
+        $punkApi->setIbuLowerBound($randomIbu);
+        $this->assertEquals(
+            $randomIbu,
+            $punkApi->getIbuLowerBound(),
+            "Attempted to set an IBU lower bound of "
+            . $randomIbu . " in the PunkAPI object. "
+            . "But PunkAPI->getIbuLowerBound() returns "
+            . $punkApi->getIbuLowerBound()
+        );
+    }
+
+    /**
+     * Test setting a minimum IBU that is too low (i.e. less than 1).
+     */
+    public function testSettingAMinimumIbuThatIsTooLow()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setIbuLowerBound(0);
+    }
+
+    /**
+     * Test setting a minimum IBU that is too high (i.e. above 100).
+     */
+    public function testSettingAMinimumIbuThatIsTooHigh()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setIbuLowerBound(102);
+    }
+
+    /**
+     * Test setting a minimum IBU that is not an integer or a float.
+     */
+    public function testSettingAMinimumIbuThatIsNotAnIntegerOrAFloat()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setIbuLowerBound("rubbish");
+    }
+
+    /**
+     * Test setting the maximum IBU and getting the same value back.
+     * (IBU can range from 1 to 100.)
+     */
+    public function testSettingTheMaximumIbuAndGettingTheSameValueBack()
+    {
+        $punkApi = new PunkAPI();
+
+        // test setting a maximum IBU and getting the same value back
+        $randomIbu = rand(1, 100);
+        $punkApi->setIbuUpperBound($randomIbu);
+        $this->assertEquals(
+            $randomIbu,
+            $punkApi->getIbuUpperBound(),
+            "Attempted to set an IBU upper bound of "
+            . $randomIbu . " in the PunkAPI object. "
+            . "But PunkAPI->getIbuUpperBound() returns "
+            . $punkApi->getIbuUpperBound()
+        );
+    }
+
+    /**
+     * Test setting a maximum IBU that is too low (less than 1)
+     */
+    public function testSettingAMaximumIbuThatIsTooLow()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setIbuUpperBound(0);
+    }
+
+    /**
+     * Test setting a maximum IBU that is too high (greater than 100)
+     */
+    public function testSettingAMaximumIbuThatIsTooHigh()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setIbuUpperBound(102);
+    }
+
+    /**
+     * Test setting a maximum IBU that is neither an integer nor a float.
+     */
+    public function testSettingAMaximumIbuThatIsNotAnIntegerOrAFloat()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setIbuUpperBound("garbage in, garbage out");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // END OF NEW TESTING CODE (27/1/21)
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     /**
      * Test setting the beer name in a Punk API object.
