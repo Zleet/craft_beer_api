@@ -207,22 +207,28 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
 //
 //        $punkAPI = new PunkAPI();
 //
+//        $beerSearchSubstring = "pilsner";
+//
 //        // set beer name
-//        $punkAPI->setBeer('lager');
+//        $punkAPI->setBeer($beerSearchSubstring);
 //
 //        // get the beers
 //        $bunchOfBeers = $punkAPI->all();
 //
+//        // test print all the beer names
+//        foreach ($bunchOfBeers as $beer) {
+//            echo "\nCurrent beer name = " . $beer->getName();
+//        }
 //        // loop through the Beer objects and check that each beer name contains
 //        // the substring 'lager'
 //        foreach ($bunchOfBeers as $beer) {
 //            // test print the current beer name
 //            echo "\nCurrent beer name:\n" . $beer->getName();
 //            $this->assertStringContainsStringIgnoringCase(
-//                'lager',
+//                $beerSearchSubstring,
 //                $beer->getName(),
 //                "Attempting to retrieve beers with the substring"
-//                . " 'lager' in their name is unsuccessful."
+//                . $beerSearchSubstring . " in their name is unsuccessful."
 //            );
 //        }
 //    }
@@ -252,64 +258,76 @@ class PunkAPIIntegrationTests extends \PHPUnit\Framework\TestCase
         }
     }
 
-//    /**
-//     * Test retrieving beer information for beers in a specific date range.
-//     */
-//    public function testGettingBeersBrewedWithASpecificDateRange()
-//    {
-//        // set start and end date
-//        $startDate = "05-2010";
-//        $endDate = "03-2014";
-//
-//        // build epoch datetimes from the start and end date
-//        $startEpochDatetime = $this->getEpochDatetimeFromFirstBrewedDateString(
-//            $startDate
-//        );
-//        $endEpochDatetime = $this->getEpochDatetimeFromFirstBrewedDateString(
-//            $endDate
-//        );
-//        echo "\nstart epoch datetime = " . $startEpochDatetime;
-//        echo "\nend epoch datetime = " . $endEpochDatetime;
-//
-//        $punkApi = new PunkAPI();
-//
-//        // set the start and end date
-//        $punkApi->setBrewedAfter($startDate);
-//        $punkApi->setBrewedBefore($endDate);
-//
-//        // get the beers
-//        $beers = $punkApi->all();
-//
-//        // loop through the beers and check that the brew date for each beer
-//        // lies within the specified range
-//        foreach ($beers as $beer) {
-//            // test print
-//            $currentBeerFirstBrewed = $beer->getFirstBrewed();
-//            echo "\nCurrent beer firstBrewed: " . $currentBeerFirstBrewed;
-//            // get the epoch datetime for current beer first brewed
-//            $currentBeerEpochDatetimeFirstBrewed = $this->getEpochDatetimeFromFirstBrewedDateString($currentBeerFirstBrewed);
-//            echo "\nCurrent beer epoch datetime first brewed:\n";
-//            echo $currentBeerEpochDatetimeFirstBrewed;
-//        }
-//    }
+    /**
+     * Test retrieving beer information for beers in a specific date range.
+     */
+    public function testGettingBeersBrewedWithASpecificDateRange()
+    {
+        // set start and end date
+        $startDate = "05-2010";
+        $endDate = "03-2014";
 
+        // build epoch datetimes from the start and end date
+        $startEpochDatetime = $this->getEpochDatetimeFromFirstBrewedDateString(
+            $startDate
+        );
+        $endEpochDatetime = $this->getEpochDatetimeFromFirstBrewedDateString(
+            $endDate
+        );
 
+        $punkApi = new PunkAPI();
+
+        // set the start and end date
+        $punkApi->setBrewedAfter($startDate);
+        $punkApi->setBrewedBefore($endDate);
+
+        // get the beers
+        $beers = $punkApi->all();
+        // loop through the beers and check that the brew date for each beer
+        // lies within the specified range
+        foreach ($beers as $beer) {
+            $currentBeerFirstBrewed = $beer->getFirstBrewed();
+            // get the epoch datetime for current beer first brewed
+            $currentBeerEpochDatetimeFirstBrewed = $this->getEpochDatetimeFromFirstBrewedDateString($currentBeerFirstBrewed);
+            // test beer was brewed on or after start date
+            $this->assertGreaterThanOrEqual(
+                $startEpochDatetime,
+                $currentBeerEpochDatetimeFirstBrewed,
+                "Current beer should have been brewed on or after "
+                . $startDate . ". Instead, it was brewed on "
+                . $beer->getFirstBrewed()
+            );
+            // test beer was brewed before (or on) end date
+            $this->assertLessThanOrEqual(
+                $endEpochDatetime,
+                $currentBeerEpochDatetimeFirstBrewed,
+                "Current beer should have been brewed before (or on) "
+                . $endDate . ". Instead, it was brewed on "
+                . $beer->getFirstBrewed()
+            );
+        }
+    }
 
     /**
-     * From a first brewed date string in the form "04-2012",
+     * From a first brewed date string in the form "04-2012" or "04/2012",
      * get an epoch datetime.
      *
      * @param string $firstBrewedDateString the date the beer was first
      *                                      brewed, in string form
-     *                                      (MM-YYYY)
-     *                                      (e.g. "05-2012")
+     *                                      (MM/YYYY or MM-YYYY)
+     *                                      (e.g. "05-2012" or "05/2012")
      *
      * @return int
      */
     private function getEpochDatetimeFromFirstBrewedDateString(
         $firstBrewedDateString
-    )
-    {
+    ) {
+        // convert date string in the form MM/YYYY to MM-YYYY
+        $firstBrewedDateString = str_replace(
+            '/',
+            '-',
+            $firstBrewedDateString
+        );
         $dateObject = date_create_from_format(
             'm-Y',
             $firstBrewedDateString
