@@ -402,9 +402,15 @@ class PunkAPI
      */
     public function setFood($food)
     {
-        if (is_string($food)) {
-            $this->food = $food;
+        if (!is_string($food)) {
+            throw new \InvalidArgumentException("Food must be a string.");
         }
+
+        if (strlen($food) === 0) {
+            throw new \InvalidArgumentException("Food must be a non-empty string.");
+        }
+
+        $this->food = $food;
     }
 
     /**

@@ -792,4 +792,40 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setMalt(1234);
     }
 
+    /**
+     * Test setting and retrieving the food
+     */
+    public function testSettingTheFood()
+    {
+        $punkApi = new PunkAPI();
+        $punkApi->setFood("Tasty grub.");
+        $this->assertEquals(
+            "Tasty grub.",
+            $punkApi->getFood()
+        );
+    }
+
+    /**
+     * Test setting the food with an empty string
+     */
+    public function testSettingFoodWithAnEmptyString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setFood("");
+    }
+
+    /**
+     * Test setting the food with a non-string
+     */
+    public function testSettingFoodWithANonString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setFood(1234);
+    }
+
+
+
+
 }
