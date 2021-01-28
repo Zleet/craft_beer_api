@@ -453,14 +453,23 @@ class PunkAPI
 
         switch ($response->getStatusCode()) {
             case 200:
-                $responseBody = $response->getBody();
-                $beerInfo = json_decode($responseBody, 1)[0];
-                return Beer::fromArray($beerInfo);
+                return $this->buildBeerObjectFromResponseBody($response->getBody());
             case 400:
                 throw new ClientException("404 Beer not found");
             default:
                 throw new ClientException("There was an error");
         }
+    }
+
+    /**
+     * Helper method. Builds a Beer object from the response body returned after
+     * a successful API call.
+     */
+    private function buildBeerObjectFromResponseBody($responseBody)
+    {
+        $beerInfo = json_decode($responseBody, 1)[0];
+
+        return Beer::fromArray($beerInfo);
     }
 
     /**
@@ -506,7 +515,6 @@ class PunkAPI
      */
     public function random()
     {
-
         // get the beer info
         $response = $this->client->request(
             'GET',
@@ -519,12 +527,9 @@ class PunkAPI
         // if we've got a 200 OK response, build a Beer object from the
         // decoded JSON data in the response body
         if ($responseStatusCode == 200) {
-            // decode the JSON in the response body
-            $responseBody = $response->getBody();
-            // build a Beer object from the JSON and return it
-            $beerInfo = json_decode($responseBody, 1)[0];
-            $beer = Beer::fromArray($beerInfo);
-            return $beer;
+            // build a Beer object from the JSON in the response body and return
+            // it
+            return $this->buildBeerObjectFromResponseBody($response->getBody());
         }
 
         // TODO: handle other response types here (e.g. 404 Not Found etc)
@@ -578,9 +583,6 @@ class PunkAPI
         // 3. return an array containing all the Beer objects
         if ($responseStatusCode == 200) {
             $beersInfo = json_decode($response->getBody(), 1);
-            // test print
-            // echo "\n\nbeersInfo:\n:";
-            // print_r($beersInfo);
             $arrayOfBeerObjects = [];
             foreach ($beersInfo as $singleBeerInfo) {
                 $beerObject = Beer::fromArray($singleBeerInfo);
