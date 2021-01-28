@@ -759,4 +759,37 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setHops(1234);
     }
 
+    /**
+     * Test setting and retrieving the malt
+     */
+    public function testSettingTheMalt()
+    {
+        $punkApi = new PunkAPI();
+        $punkApi->setMalt("Delicious malt.");
+        $this->assertEquals(
+            "Delicious malt.",
+            $punkApi->getMalt()
+        );
+    }
+
+    /**
+     * Test setting the malt with an empty string
+     */
+    public function testSettingMaltWithAnEmptyString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setMalt("");
+    }
+
+    /**
+     * Test setting the malt with a non-string
+     */
+    public function testSettingMaltWithANonString()
+    {
+        $punkApi = new PunkAPI();
+        $this->expectException(InvalidArgumentException::class);
+        $punkApi->setMalt(1234);
+    }
+
 }
