@@ -248,46 +248,6 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test setting the ids value using a bad id string. The ids value for a
-     * PunkAPI object should be a string that consists only of the characters in
-     * '0123456789| '.
-     */
-    public function testSettingABadId()
-    {
-        // create a new PunkAPI object with default properties
-        $punkApi = new PunkAPI();
-
-        // attempt to set the id property with a string containing bad
-        // characters
-        $punkApi->setIds('34r|3g|dsgsdg|45|23g|bb3|g');
-
-        // check that the bad value for id was not set and it is actually still
-        // the default value (i.e. an empty string)
-        $this->assertEquals('', $punkApi->getIds(),
-            'PunkAPI object allows setting of ID property with invalid characters (i.e. characters not in "0123456789 |").');
-    }
-
-    /**
-     * Test setting the ids value using a good id string. The ids value for a
-     * PunkAPI object should be a string that consists only of the characters in
-     * '0123456789| '.
-     */
-    public function testSettingAGoodId()
-    {
-        // create a new PunkAPI object with default properties
-        $punkApi = new PunkAPI();
-
-        // attempt to set the id property with a string containing all good
-        // characters
-        $punkApi->setIds('34|3|45|23|3');
-
-        // check that the good value for id was set
-        $this->assertEquals('34|3|45|23|3', $punkApi->getIds(),
-            "PunkAPI object won't allow an ids value with a valid id string to be set. (i.e. an id string containing only the characters in '0123456789 |'"
-        );
-    }
-
-    /**
      * Test setting the minimum abv in a Punk API object
      */
     public function testSettingTheMinimumAbvAndGettingTheSameValueBack()
@@ -825,7 +785,52 @@ class PunkAPITest extends \PHPUnit\Framework\TestCase
         $punkApi->setFood(1234);
     }
 
+    /**
+     * Test setting and retrieving the ids
+     */
+    public function testSettingTheIds()
+    {
+        $punkApi = new PunkAPI();
+        $punkApi->setIds("1|34|87|43");
+        $this->assertEquals(
+            "1|34|87|43",
+            $punkApi->getIds()
+        );
+    }
 
+    /**
+     * Test setting the ids value using a bad id string. The ids value for a
+     * PunkAPI object should be a string that consists only of the characters in
+     * '0123456789| '.
+     */
+    public function testSettingABadId()
+    {
+        // create a new PunkAPI object with default properties
+        $punkApi = new PunkAPI();
 
+        $this->expectException(InvalidArgumentException::class);
+
+        // attempt to set the id property with a string containing bad
+        // characters
+        $punkApi->setIds('34r|3g|dsgsdg|45|23g|bb3|g');
+    }
+
+    /**
+     * Test setting the ids value using a good id string. The ids value for a
+     * PunkAPI object should be a string that consists only of the characters in
+     * '0123456789| '.
+     */
+    public function testSettingAGoodId()
+    {
+        // create a new PunkAPI object with default properties
+        $punkApi = new PunkAPI();
+
+        // attempt to set the id property with a string containing all good
+        // characters
+        $punkApi->setIds('34|3|45|23|3');
+
+        // check that the good value for id was set
+        $this->assertEquals('34|3|45|23|3', $punkApi->getIds());
+    }
 
 }

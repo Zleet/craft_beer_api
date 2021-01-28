@@ -426,8 +426,11 @@ class PunkAPI
      */
     public function setIds($ids)
     {
-        if ($this->containsOnlyWhitelistCharacters($ids, '0123456789 |')) {
+        if ($this->containsOnlyWhitelistCharacters($ids, '0123456789|')) {
             $this->ids = $ids;
+        } else {
+            throw new \InvalidArgumentException(
+                "Id string must contain only characters from '0123456789|'");
         }
     }
 
@@ -649,7 +652,7 @@ class PunkAPI
 
     /**
      * Check that $testString consists solely of characters that can be found in
-     * the string $whitelist. If this is so, return 1, otherwise return 0.
+     * the string $whitelist. If this is so, return true, otherwise return false.
      */
     private function containsOnlyWhitelistCharacters($testString, $whitelist)
     {
@@ -657,12 +660,12 @@ class PunkAPI
         for ($i = 0; $i < $totalCharacters; ++$i) {
             $currentCharacter = substr($testString, $i, 1);
             if (strpos('_' . $whitelist, $currentCharacter) === false) {
-                return 0;
+                return false;
             }
         }
 
         // if we've fallen through, all of the characters in $testString can be
         // found in the string $whiteList
-        return 1;
+        return true;
     }
 }
